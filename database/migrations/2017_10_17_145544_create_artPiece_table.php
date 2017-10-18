@@ -13,7 +13,7 @@ class CreateArtPieceTable extends Migration
      */
     public function up()
     {
-        Schema::create('artPiece', function (Blueprint $table) {
+        Schema::create('artPieces', function (Blueprint $table) {
             $table->increments('id');
 	    $table->timestamps();
 	    $table->text('name');
@@ -32,6 +32,6 @@ class CreateArtPieceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artPiece');
+        Schema::dropIfExists('artPieces');
     }
 }

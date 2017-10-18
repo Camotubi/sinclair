@@ -20,7 +20,7 @@ class CreateRestorationsTable extends Migration
 	    $table->text('description');
 	    $table->integer('restorer');
 	    $table->integer('artPieceId')->unsigned();
-	    $table->foreign('artPieceId')->references('id')->on('artPiece');	
+	    $table->foreign('artPieceId')->references('id')->on('artPieces');	
         });
     }
 

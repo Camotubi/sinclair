@@ -13,7 +13,7 @@ class CreateRestorerTable extends Migration
      */
     public function up()
     {
-        Schema::create('restorer', function (Blueprint $table) {
+        Schema::create('restorers', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ class CreateRestorerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('restorer');
+        Schema::dropIfExists('restorers');
     }
 }
