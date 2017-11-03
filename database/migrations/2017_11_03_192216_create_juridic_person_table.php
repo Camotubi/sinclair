@@ -16,6 +16,10 @@ class CreateJuridicPersonTable extends Migration
         Schema::create('juridic_person', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->text('name');
+            $table->text('address');
+            $table->text('phone');
+            $table->string('email');
         });
     }
 

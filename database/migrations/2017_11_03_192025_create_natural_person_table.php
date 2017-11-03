@@ -16,6 +16,14 @@ class CreateNaturalPersonTable extends Migration
         Schema::create('natural_person', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+            $table->text('name');
+      	    $table->text('lastname');
+      	    $table->text('identification');
+      	    $table->date('birthDate');
+      	    $table->text('address');
+      	    $table->text('phone');
+      	    $table->string('email');
+            $table->string('per_type');
         });
     }
 
