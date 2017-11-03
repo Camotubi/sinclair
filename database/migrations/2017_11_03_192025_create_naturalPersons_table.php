@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJuridicPersonTable extends Migration
+class CreateNaturalPersonsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateJuridicPersonTable extends Migration
      */
     public function up()
     {
-        Schema::create('juridic_person', function (Blueprint $table) {
+        Schema::create('naturalPerson', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->text('name');
-            $table->text('address');
-            $table->text('phone');
-            $table->string('email');
+      	    $table->text('lastname');
+      	    $table->text('identification');
+      	    $table->date('birthDate');
+      	    $table->text('address');
+      	    $table->text('phone');
+      	    $table->string('email');
+            $table->string('per_type');
         });
     }
 
@@ -30,6 +34,6 @@ class CreateJuridicPersonTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('juridic_person');
+        Schema::dropIfExists('naturalPerson');
     }
 }
