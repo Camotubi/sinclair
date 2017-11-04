@@ -34,7 +34,7 @@
 			</div>
 		</footer>
 
-	<script src="js\jquery-3.2.1.min.js"></script>
-	<script src="js\bootstrap.min.js"></script>
+	<script src="/js/frontend/jquery-3.2.1.min.js"></script>
+	<script src="/js/frontend/bootstrap.min.js"></script>
 </body>
 </html>
