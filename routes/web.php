@@ -14,6 +14,11 @@
 Route::get('/', function () {
     return view('frontend.index');
 });
+
+Route::get('/dashboard','DashboardController@index');
+
+
+
 Route::get('/index', function () {
     return view('frontend.index');
 });
