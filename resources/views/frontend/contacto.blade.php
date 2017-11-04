@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('frontend.layouts.main')
 
 @section('title')
   Contacto
@@ -17,5 +17,5 @@
   </section>
 </div>
 
-</div>	
+</div>
 @endsection
