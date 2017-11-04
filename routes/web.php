@@ -37,7 +37,9 @@ Route::get('/cita', function () {
     return view('frontend.cita');
 });
 
-Route::resources([
+/*Lo quite porque esta causando errores
+ * Route::resources([
     '' => 'PhotoController',
     'posts' => 'PostController'
 ]);
+ */
