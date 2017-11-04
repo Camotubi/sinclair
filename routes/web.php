@@ -17,8 +17,6 @@ Route::get('/', function () {
 
 Route::get('/dashboard','DashboardController@index');
 
-
-
 Route::get('/index', function () {
     return view('frontend.index');
 });
@@ -38,3 +36,8 @@ Route::get('/contacto', function () {
 Route::get('/cita', function () {
     return view('frontend.cita');
 });
+
+Route::resources([
+    '' => 'PhotoController',
+    'posts' => 'PostController'
+]);

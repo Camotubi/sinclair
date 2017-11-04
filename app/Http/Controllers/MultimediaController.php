@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class Publication extends Controller
+class MultimediaController extends Controller
 {
     /**
      * Display a listing of the resource.
