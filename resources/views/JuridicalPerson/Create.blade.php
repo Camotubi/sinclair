@@ -8,16 +8,10 @@
 <div>
   <section>
     <article>
-      <h3>Registro de Persona</h3>
+      <h3>Registro de Persona Juridica</h3>
       <form class="" action="index.html" method="post">
-        <label for="id">Número de identificación:</label>
-        <input type="number" name="" value=""><br>
         <label for="name">Nombre:</label>
         <input type="text" name="" value=""><br>
-        <label for="lastname">Apellido:</label>
-        <input type="text" name="" value=""><br>
-        <label for="birthdate">Fecha de Nacimiento:</label>
-        <input type="date" name="" value=""><br>
         <label for="address">Direccion:</label>
         <input type="text" name="" value=""><br>
         <label for="phone_number">Numero Telefonico:</label>
