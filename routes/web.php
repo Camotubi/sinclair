@@ -47,4 +47,3 @@ Route::resources([
     'rent' => 'RentController',
     'restorations' => 'RestorationsController',
 ]);
- */
