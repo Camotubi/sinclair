@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('frontend.main')
 
 @section('title')
   Inicio
@@ -15,15 +15,15 @@
 
     <div class="carousel-inner" role="listbox">
       <div class="item active">
-        <img src="img/Slide-1.png" width="100%" height="50%">
+        <img src="/img/Slide-1.png" width="100%" height="50%">
       </div>
 
       <div class="item">
-        <img src="img/Slide-2.jpg" width="100%">
+        <img src="/img/Slide-2.jpg" width="100%">
       </div>
 
       <div class="item">
-        <img src="img/Slide-3.png" width="100%" height="200px">
+        <img src="/img/Slide-3.png" width="100%" height="200px">
       </div>
     </div>
   </div>

@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('frontend.main')
 
 @section('title')
   Galeria
@@ -8,7 +8,18 @@
 <div class="row">
   <div class="col-md-3">
     <a href="#" class="thumbnail">
-      <img src="../img/thumbnail.jpg">
+      <img src="/img/thumbnail.jpg">
+      <div class="caption">
+        <h3>Titulo de la Imágen</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse ut un
+          de, excepturi ipsum molestiae, quia atque sunt officiis ab delectus totam adipisci vel doloremque ea odit itaque vero iusto placeat.</p>
+      </div>
+    </a>
+  </div>
+
+  <div class="col-md-3">
+    <a href="#" class="thumbnail">
+      <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse ut unde, excepturi ipsum molestiae, quia atque sunt officiis ab delectus totam adipisci vel doloremque ea odit itaque vero iusto placeat.</p>
@@ -18,7 +29,7 @@
 
   <div class="col-md-3">
     <a href="#" class="thumbnail">
-      <img src="../img/thumbnail.jpg">
+      <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse ut unde, excepturi ipsum molestiae, quia atque sunt officiis ab delectus totam adipisci vel doloremque ea odit itaque vero iusto placeat.</p>
@@ -28,17 +39,7 @@
 
   <div class="col-md-3">
     <a href="#" class="thumbnail">
-      <img src="../img/thumbnail.jpg">
-      <div class="caption">
-        <h3>Titulo de la Imágen</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse ut unde, excepturi ipsum molestiae, quia atque sunt officiis ab delectus totam adipisci vel doloremque ea odit itaque vero iusto placeat.</p>
-      </div>
-    </a>
-  </div>
-
-  <div class="col-md-3">
-    <a href="#" class="thumbnail">
-      <img src="../img/thumbnail.jpg">
+      <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse ut unde, excepturi ipsum molestiae, quia atque sunt officiis ab delectus totam adipisci vel doloremque ea odit itaque vero iusto placeat.</p>
@@ -50,7 +51,7 @@
 <div class="row">
   <div class="col-md-3">
     <a href="#" class="thumbnail">
-      <img src="../img/thumbnail.jpg">
+      <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse ut unde, excepturi ipsum molestiae, quia atque sunt officiis ab delectus totam adipisci vel doloremque ea odit itaque vero iusto placeat.</p>
@@ -60,7 +61,7 @@
 
   <div class="col-md-3">
     <a href="#" class="thumbnail">
-      <img src="../img/thumbnail.jpg">
+      <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse ut unde, excepturi ipsum molestiae, quia atque sunt officiis ab delectus totam adipisci vel doloremque ea odit itaque vero iusto placeat.</p>
@@ -70,7 +71,7 @@
 
   <div class="col-md-3">
     <a href="#" class="thumbnail">
-      <img src="../img/thumbnail.jpg">
+      <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse ut unde, excepturi ipsum molestiae, quia atque sunt officiis ab delectus totam adipisci vel doloremque ea odit itaque vero iusto placeat.</p>
@@ -80,7 +81,7 @@
 
   <div class="col-md-3">
     <a href="#" class="thumbnail">
-      <img src="../img/thumbnail.jpg">
+      <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse ut unde, excepturi ipsum molestiae, quia atque sunt officiis ab delectus totam adipisci vel doloremque ea odit itaque vero iusto placeat.</p>
@@ -89,5 +90,5 @@
   </div>
 </div>
 
-</div>	
+</div>
 @endsection
