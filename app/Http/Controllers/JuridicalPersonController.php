@@ -13,7 +13,7 @@ class JuridicalPersonController extends Controller
      */
     public function index()
     {
-        //
+        return view('juridicalPerson.index');
     }
 
     /**
@@ -23,7 +23,7 @@ class JuridicalPersonController extends Controller
      */
     public function create()
     {
-        //
+        return view('juridicalPerson.create');
     }
 
     /**
@@ -34,7 +34,7 @@ class JuridicalPersonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return view('juridicalPerson.store');
     }
 
     /**
@@ -45,7 +45,7 @@ class JuridicalPersonController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('juridicalPerson.show');
     }
 
     /**
