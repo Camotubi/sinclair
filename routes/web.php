@@ -29,3 +29,7 @@ Route::get('/galeria', function () {
 Route::get('/contacto', function () {
     return view('frontend.contacto');
 });
+
+Route::get('/cita', function () {
+    return view('frontend.cita');
+});
