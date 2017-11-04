@@ -19,6 +19,23 @@ class DatabaseSeeder extends Seeder
 	    'era'=>str_random(10),
 	    'criticalAnalisis' =>str_random(50),
         ]);
+
+        DB::table('juridicalPersons')->insert([
+            'name' => str_random(10),
+            'address' => str_random(10),
+	    'phone' => str_random(10),
+	    'email' =>str_random(10),
+        ]);
+
+        DB::table('naturalPersons')->insert([
+            'name' => str_random(10),
+            'lastname' => str_random(10),
+	    'identification' => str_random(10),
+	    'address' =>str_random(10),
+	    'phone'=>str_random(10),
+	    'email' =>str_random(50),
+      'per_type' =>str_random(10),
+        ]);
 }
- 
+
 }
