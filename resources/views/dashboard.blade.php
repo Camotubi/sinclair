@@ -1,2 +1,4 @@
 @extends('layouts.app')
-@include('components.artPieceTable')
+@section('content')
+	@include('components.artPieceTable')
+@endsection
