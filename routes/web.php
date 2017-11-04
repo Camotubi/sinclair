@@ -38,6 +38,12 @@ Route::get('/cita', function () {
 });
 
 Route::resources([
-    '' => 'PhotoController',
-    'posts' => 'PostController'
+    'artPiece' => 'ArtPieceController',
+    'dashBoard' => 'DashboardController',
+    'furniture' => 'FurnitureController',
+    'juridicalPerson' => 'JuridicalPersonController',
+    'naturalPerson' => 'NaturalPersonController',
+    'publication' => 'PublicationController',
+    'rent' => 'RentController',
+    'restorations' => 'RestorationsController',
 ]);
