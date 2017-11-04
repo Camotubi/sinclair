@@ -37,7 +37,6 @@ Route::get('/cita', function () {
     return view('frontend.cita');
 });
 
-<<<<<<< HEAD
 Route::resources([
     'artPiece' => 'ArtPieceController',
     'dashBoard' => 'DashboardController',
@@ -47,11 +46,5 @@ Route::resources([
     'publication' => 'PublicationController',
     'rent' => 'RentController',
     'restorations' => 'RestorationsController',
-=======
-/*Lo quite porque esta causando errores
- * Route::resources([
-    '' => 'PhotoController',
-    'posts' => 'PostController'
->>>>>>> 003946796f66ad8f74c77b10e78e145269e533d6
 ]);
  */
