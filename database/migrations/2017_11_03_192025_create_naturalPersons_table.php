@@ -13,7 +13,7 @@ class CreateNaturalPersonsTable extends Migration
      */
     public function up()
     {
-        Schema::create('naturalPerson', function (Blueprint $table) {
+        Schema::create('naturalPersons', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->text('name');
@@ -34,6 +34,7 @@ class CreateNaturalPersonsTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('naturalPersons');
         Schema::dropIfExists('naturalPerson');
     }
 }
