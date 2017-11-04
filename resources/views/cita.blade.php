@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('frontend.main')
 
 @section('title')
   Visitar Museo

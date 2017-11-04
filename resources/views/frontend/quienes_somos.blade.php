@@ -1,4 +1,4 @@
-@extends('layouts.main')
+@extends('frontend.main')
 
 @section('title')
   Quienes Somos
@@ -16,5 +16,5 @@
     </article>
   </section>
 </div>
-</div>	
+</div>
 @endsection

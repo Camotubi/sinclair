@@ -1,0 +1,53 @@
+body 	{	background-color: #dbdbdb}
+body>div{	background-color: #ededed}
+
+header 	{	padding-left: 0px;
+			padding-right: 0px;
+			background-color: #94959a;
+		}
+
+.barra 	{	list-style: none;
+			padding: 0em;
+			display: flex;
+			background-color: #545454;
+
+		}
+.barra>li {	flex: auto;
+			text-align: center;
+			font-size: 20px;
+			font-family: Agency FB;
+			font-weight: bold;
+			border-right: 1px solid;
+			border-color: #000000}
+
+.barra li:last-child
+		  {	border-right: none;}
+
+.barra li a {color: #FFF;
+			 text-decoration: none;
+			 line-height: 3;
+			 display: block;
+			}
+
+.barra li a:hover {background-color: #303030; height: }
+
+.slideshow 	{	padding-left: 1em;
+				padding-right: 1em;
+			}
+hr 	{	color: black;
+		border: 0.5px solid;
+	}
+
+footer 	{	background-color: #303030;
+			font-family: Century Gothic;
+			position: bottom fixed;
+		}
+
+footer a{	color: #FFF;
+		}
+footer h6{	color: #FFF;
+		}
+footer .glyphicon
+		{	color: #FFF;
+		}
+
