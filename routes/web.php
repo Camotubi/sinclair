@@ -37,13 +37,19 @@ Route::get('/cita', function () {
     return view('frontend.cita');
 });
 
+<<<<<<< HEAD
 Route::get('/test', function () {
     return view('query');
 });
 Route::get('/testAxios','QueriesController@test');
-/*Lo quite porque esta causando errores
- * Route::resources([
-    '' => 'PhotoController',
-    'posts' => 'PostController'
+Route::resources([
+    'artPiece' => 'ArtPieceController',
+    'dashBoard' => 'DashboardController',
+    'furniture' => 'FurnitureController',
+    'juridicalPerson' => 'JuridicalPersonController',
+    'naturalPerson' => 'NaturalPersonController',
+    'publication' => 'PublicationController',
+    'rent' => 'RentController',
+    'restorations' => 'RestorationsController',
+>>>>>>> c6ea15ab72b86e7543ce2c11494c494d44826095
 ]);
- */

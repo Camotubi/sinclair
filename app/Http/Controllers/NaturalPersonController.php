@@ -13,7 +13,7 @@ class NaturalPersonController extends Controller
      */
     public function index()
     {
-        //
+        return view('naturalPerson.index');
     }
 
     /**
@@ -23,7 +23,7 @@ class NaturalPersonController extends Controller
      */
     public function create()
     {
-        //
+        return view('naturalPerson.create');
     }
 
     /**
@@ -34,7 +34,7 @@ class NaturalPersonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return view('naturalPerson.store');
     }
 
     /**
@@ -45,7 +45,7 @@ class NaturalPersonController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('naturalPerson.show');
     }
 
     /**
