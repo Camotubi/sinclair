@@ -41,9 +41,13 @@ Route::get('/test', function () {
     return view('query');
 });
 Route::get('/testAxios','QueriesController@test');
-/*Lo quite porque esta causando errores
- * Route::resources([
-    '' => 'PhotoController',
-    'posts' => 'PostController'
+Route::resources([
+    'artPiece' => 'ArtPieceController',
+    'dashBoard' => 'DashboardController',
+    'furniture' => 'FurnitureController',
+    'juridicalPerson' => 'JuridicalPersonController',
+    'naturalPerson' => 'NaturalPersonController',
+    'publication' => 'PublicationController',
+    'rent' => 'RentController',
+    'restorations' => 'RestorationsController',
 ]);
- */

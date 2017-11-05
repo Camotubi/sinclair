@@ -12,13 +12,14 @@ class NaturalPersonsTableSeeder extends Seeder
     public function run()
     {
       DB::table('naturalPersons')->insert([
-          'name' => str_random(10),
-          'lastname' => str_random(10),
-    'identification' => str_random(10),
-    'address' =>str_random(10),
-    'phone'=>str_random(10),
-    'email' =>str_random(50),
-    'per_type' =>str_random(10),
+          'name' => str_random(50),
+          'lastname' => str_random(50),
+    'identification' => str_random(50),
+    'birthDate' => '2009-01-01',
+    'address' =>str_random(100),
+    'phone'=>str_random(50),
+    'email' =>str_random(191),
+    'per_type' =>str_random(191),
       ]);
         //
     }

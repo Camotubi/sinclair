@@ -13,7 +13,7 @@ class artPieceController extends Controller
      */
     public function index()
     {
-        //
+        return view('artPiece.index');
     }
 
     /**
@@ -23,7 +23,7 @@ class artPieceController extends Controller
      */
     public function create()
     {
-        //
+        return view('artPiece.create');
     }
 
     /**
@@ -34,7 +34,7 @@ class artPieceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return view('artPiece.store');
     }
 
     /**
@@ -45,7 +45,7 @@ class artPieceController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('artPiece.show');
     }
 
     /**
