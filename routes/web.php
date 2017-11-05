@@ -37,6 +37,10 @@ Route::get('/cita', function () {
     return view('frontend.cita');
 });
 
+Route::get('/test', function () {
+    return view('query');
+});
+Route::get('/testAxios','QueriesController@test');
 /*Lo quite porque esta causando errores
  * Route::resources([
     '' => 'PhotoController',
