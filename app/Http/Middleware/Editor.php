@@ -11,7 +11,7 @@ class Editor
 
     public function __construct(Guard $auth)
     {
-        $this=>auth = $auth;
+        $this->auth = $auth;
     }
     /**
      * Handle an incoming request.
@@ -22,10 +22,10 @@ class Editor
      */
     public function handle($request, Closure $next)
     {
-        if($this=>auth=>user()=>id != 2)
+        if($this->auth->user()->id != 2)
         {
             Session::flash('message error', 'Sin Privilegios');
-            return redirect()=>to('/home');
+            return redirect()->to('/home');
         }
 
         return $next($request);
