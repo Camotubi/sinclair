@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\NaturalPerson;
 
 class NaturalPersonController extends Controller
 {
@@ -40,7 +41,16 @@ class NaturalPersonController extends Controller
      */
     public function store(Request $request)
     {
-        return view('naturalPerson.store');
+      $naturalPerson = new NaturalPerson;
+      $naturalPerson->name = $request->input ('name');
+      $naturalPerson->lastname = $request->input ('lastname');
+      $naturalPerson->identification = $request->input ('identification');
+      $naturalPerson->birthDate = $request->input ('birthDate');
+      $naturalPerson->address = $request->input ('address');
+      $naturalPerson->phone = $request->input ('phone');
+      $naturalPerson->email = $request->input ('email');
+      $naturalPerson->per_type = $request->input ('per_type');
+      $naturalPerson->save();
     }
 
     /**

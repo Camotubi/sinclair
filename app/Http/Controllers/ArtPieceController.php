@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\ArtPiece;
 
-class artPieceController extends Controller
+class ArtPieceController extends Controller
 {
     public function __construct()
     {
@@ -41,7 +42,14 @@ class artPieceController extends Controller
      */
     public function store(Request $request)
     {
-        return view('artPiece.store');
+        $artPiece = new ArtPiece;
+        $artPiece->name = $request->input ('name');
+        $artPiece->currentLocation = $request->input ('currentLocation');
+        $artPiece->style = $request->input ('style');
+        $artPiece->era = $request->input ('era');
+        $artPiece->technique = $request->input ('technique');
+        $artPiece->criticalAnalisis = $request->input ('criticalAnalisis');
+        $artPiece->save();
     }
 
     /**

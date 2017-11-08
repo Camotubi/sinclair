@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\JuridicalPerson;
 
 class JuridicalPersonController extends Controller
 {
@@ -40,7 +41,12 @@ class JuridicalPersonController extends Controller
      */
     public function store(Request $request)
     {
-        return view('juridicalPerson.store');
+      $juridicalPerson = new JuridicalPerson;
+      $juridicalPerson->name = $request->input ('name');
+      $juridicalPerson->address = $request->input ('address');
+      $juridicalPerson->phone = $request->input ('phone');
+      $juridicalPerson->email = $request->input ('email');
+      $juridicalPerson->save();
     }
 
     /**
