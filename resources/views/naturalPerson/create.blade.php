@@ -9,21 +9,24 @@
   <section>
     <article>
       <h3>Registro de Persona</h3>
-      <form class="" action="index.html" method="post">
-        <label for="id">Número de identificación:</label>
-        <input type="number" name="" value=""><br>
+      <form class="" action="naturalPerson" method="post">
+        {{ csrf_field() }}
         <label for="name">Nombre:</label>
-        <input type="text" name="" value=""><br>
+        <input type="text" name="name" value=""><br>
         <label for="lastname">Apellido:</label>
-        <input type="text" name="" value=""><br>
+        <input type="text" name="lastname" value=""><br>
+        <label for="identification">Cedula:</label>
+        <input type="text" name="identification" value=""><br>
         <label for="birthdate">Fecha de Nacimiento:</label>
-        <input type="date" name="" value=""><br>
-        <label for="address">Direccion:</label>
-        <input type="text" name="" value=""><br>
-        <label for="phone_number">Numero Telefonico:</label>
-        <input type="text" name="" value=""><br>
+        <input type="date" name="birthdate" value=""><br>
+        <label for="address">Dirección:</label>
+        <input type="text" name="address" value=""><br>
+        <label for="phone">Número Telefónico:</label>
+        <input type="text" name="phone" value=""><br>
         <label for="email">Email:</label>
-        <input type="email" name="" value=""><br>
+        <input type="email" name="email" value=""><br>
+        <label for="per_type"></label>
+        <input type="text" name="per_type" value="">
         <button type="submit" name="register">Registrar</button>
       </form>
     </article>
