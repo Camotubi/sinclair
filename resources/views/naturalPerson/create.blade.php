@@ -9,7 +9,7 @@
   <section>
     <article>
       <h3>Registro de Persona</h3>
-      <form class="" action="naturalPerson" method="post">
+      <form class="" action="/naturalPerson" method="post">
         {{ csrf_field() }}
         <label for="name">Nombre:</label>
         <input type="text" name="name" value=""><br>

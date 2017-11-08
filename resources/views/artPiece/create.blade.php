@@ -9,7 +9,7 @@
   <section>
     <article>
       <h3>Registro de obra de arte</h3>
-      <form class=""  action= "artPiece" method="post">
+      <form class=""  action= "/artPiece" method="post">
         {{ csrf_field() }}
         <label for="name">Nombre:</label>
         <input type="text" name="name" value=""><br>
