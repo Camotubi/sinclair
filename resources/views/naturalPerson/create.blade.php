@@ -17,8 +17,8 @@
         <input type="text" name="lastname" value=""><br>
         <label for="identification">Cedula:</label>
         <input type="text" name="identification" value=""><br>
-        <label for="birthdate">Fecha de Nacimiento:</label>
-        <input type="date" name="birthdate" value=""><br>
+        <label for="birthDate">Fecha de Nacimiento:</label>
+        <input type="date" name="birthDate" value=""><br>
         <label for="address">Dirección:</label>
         <input type="text" name="address" value=""><br>
         <label for="phone">Número Telefónico:</label>
