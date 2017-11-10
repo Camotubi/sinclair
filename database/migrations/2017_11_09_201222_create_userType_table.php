@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRentTable extends Migration
+class CreateUserTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateRentTable extends Migration
      */
     public function up()
     {
-        Schema::create('rent', function (Blueprint $table) {
+        Schema::create('userType', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
+	    $table->string('name');
+	    $table->text('description');
         });
     }
 
@@ -26,6 +28,6 @@ class CreateRentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rent');
+        Schema::dropIfExists('userType');
     }
 }

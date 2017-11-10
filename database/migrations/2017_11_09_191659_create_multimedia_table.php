@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRestorationsTable extends Migration
+class CreateMultimediaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateRestorationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('restorations', function (Blueprint $table) {
+        Schema::create('multimedia', function (Blueprint $table) {
             $table->increments('id');
-	    $table->timestamps();
-	    $table->date('restored_at');
+            $table->timestamps();
+	    $table->boolean('sinclairMemorability');
+	    $table->date('creationDate');
 	    $table->text('description');
-	    $table->integer('restorer');
-	    $table->integer('artPieceId')->unsigned();
-	    $table->foreign('artPieceId')->references('id')->on('artPieces');	
+	    $table->text('fileLocation');
         });
     }
 
@@ -31,6 +30,6 @@ class CreateRestorationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('restorations');
+        Schema::dropIfExists('multimedia');
     }
 }

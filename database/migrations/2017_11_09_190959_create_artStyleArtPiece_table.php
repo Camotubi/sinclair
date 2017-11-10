@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuantityOfTrafficTable extends Migration
+class CreateArtStyleArtPieceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateQuantityOfTrafficTable extends Migration
      */
     public function up()
     {
-        Schema::create('quantityOfTraffic', function (Blueprint $table) {
+        Schema::create('artStyleArtPiece', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->integer('num_clic');
+	    $table->integer('artPieceId')->unsigned()->nullable();
+	    $table->foreign('artPieceId')->reference('id')->on('artPiece');
+	    $table->integer('artStyleId')->unsigned()->nullable();
+	    $table->foreign('artStyleId')->reference('id');
         });
     }
 
@@ -27,6 +30,6 @@ class CreateQuantityOfTrafficTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quantityOfTraffic');
+        Schema::dropIfExists('artStyleArtPiece');
     }
 }

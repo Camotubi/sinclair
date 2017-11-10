@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVisitorsTable extends Migration
+class AddUserTableColumnsFirstNameLastName extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class CreateVisitorsTable extends Migration
      */
     public function up()
     {
-        Schema::create('visitors', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
+        Schema::table('users', function (Blueprint $table) {
+		$table->string('firstName');
+		$table->string('lastName');
         });
     }
 
@@ -26,6 +26,10 @@ class CreateVisitorsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('visitors');
+        
+        Schema::table('users', function (Blueprint $table) {
+		$table->dropColumn('firstName');
+		$table->dropColumn('lastName');
+        });
     }
 }
