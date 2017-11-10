@@ -19,9 +19,9 @@ class CreateLegalEntityFurnitureRestorationTable extends Migration
 	    $table->date('restorationDate');
 	    $table->text('description')->nullable();
 	    $table->integer('furnitureId')->unsigned();
-	    $table->foreign('furnitureId')->reference('id')->on('furniture');
+	    $table->foreign('furnitureId')->references('id')->on('furniture');
 	    $table->integer('legalEntityId')->unsigned();
-	    $table->foreign('legalEntityId')->reference('id')->on('legalEntity');
+	    $table->foreign('legalEntityId')->references('id')->on('legalEntity');
 
         });
     }

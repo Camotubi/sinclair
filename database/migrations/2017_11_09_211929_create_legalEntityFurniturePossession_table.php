@@ -18,9 +18,9 @@ class CreateLegalEntityFurniturePossessionTable extends Migration
             $table->timestamps();	    
 	    $table->date('possessionDate');
 	    $table->integer('furnitureId')->unsigned();
-	    $table->foreign('furnitureId')->reference('id')->on('furniture');
+	    $table->foreign('furnitureId')->references('id')->on('furniture');
 	    $table->integer('legalEntityId')->unsigned();
-	    $table->foreign('legalEntityId')->reference('id')->on('legalEntity');
+	    $table->foreign('legalEntityId')->references('id')->on('legalEntity');
 
         });
     }

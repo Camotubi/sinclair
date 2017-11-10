@@ -17,9 +17,9 @@ class CreateMultimediaArtPieceTable extends Migration
             $table->increments('id');
             $table->timestamps();
 	    $table->integer('multimediaId')->unsigned()->nullable();
-	    $table->foreign('multimediaId')->reference('id')->on('multimedia');
+	    $table->foreign('multimediaId')->references('id')->on('multimedia');
 	    $table->integer('artPieceId')->unsigned()->nullable();
-	    $table->foreign('artPieceId')->reference('id')->on('artPiece');
+	    $table->foreign('artPieceId')->references('id')->on('artPiece');
         });
     }
 

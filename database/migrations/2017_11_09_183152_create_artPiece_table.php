@@ -18,7 +18,7 @@ class CreateArtPieceTable extends Migration
             $table->timestamps();
 	    $table->string('name');
 	    $table->string('technique')->nullable();
-	    $table->string('currentLocation')-nullable();
+	    $table->string('currentLocation')->nullable();
 	    $table->date('creationDate')->nullable();
 	    $table->text('criticalAnalisis')->nullable();
 	    $table->integer('quantityOfTraffic')->default(0);

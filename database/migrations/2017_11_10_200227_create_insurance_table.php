@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLegalEntityArtPieceRestorationTable extends Migration
+class CreateInsuranceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,19 @@ class CreateLegalEntityArtPieceRestorationTable extends Migration
      */
     public function up()
     {
-        Schema::create('legalEntityArtPieceRestoration', function (Blueprint $table) {
+        Schema::create('insurance', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-
-	    $table->date('restorationDate');
+	    $table->string('name');
+	    $table->date('effectiveDate');
+	    $table->date('terminationDate');
+	    $table->decimal('cost',8,2);
 	    $table->text('description')->nullable();
 	    $table->integer('artPieceId')->unsigned();
 	    $table->foreign('artPieceId')->references('id')->on('artPiece');
-	    $table->integer('legalEntityId')->unsigned();
-	    $table->foreign('legalEntityId')->references('id')->on('legalEntity');
+	    $table->integer('insuranceCarrierId')->unsigned();
+	    $table->foreign('insuranceCarrierId')->references('id')->on('insuranceCarrier');
+
         });
     }
 
@@ -33,6 +36,6 @@ class CreateLegalEntityArtPieceRestorationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('legalEntityArtPieceRestoration');
+        Schema::dropIfExists('insurance');
     }
 }

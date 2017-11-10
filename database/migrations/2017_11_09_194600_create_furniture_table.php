@@ -18,7 +18,7 @@ class CreateFurnitureTable extends Migration
             $table->timestamps();
 	    $table->string('name');
 	    $table->integer('furnitureTypeId')->unsigned()->nullable();
-	    $table->foreign('furnitureTypeId')->reference('id')->on('furnitureType');
+	    $table->foreign('furnitureTypeId')->references('id')->on('furnitureType');
         });
     }
 

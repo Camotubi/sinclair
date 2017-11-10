@@ -18,9 +18,9 @@ class CreateLegalEntityArtPiecePossessionTable extends Migration
             $table->timestamps();
 	    $table->date('possessionDate');
 	    $table->integer('artPieceId')->unsigned();
-	    $table->foreign('artPieceId')->reference('id')->on('artPiece');
+	    $table->foreign('artPieceId')->references('id')->on('artPiece');
 	    $table->integer('legalEntityId')->unsigned();
-	    $table->foreign('legalEntityId')->reference('id')->on('legalEntity');
+	    $table->foreign('legalEntityId')->references('id')->on('legalEntity');
         });
     }
 
