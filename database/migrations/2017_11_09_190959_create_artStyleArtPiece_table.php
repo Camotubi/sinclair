@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFurnitureTable extends Migration
+class CreateArtStyleArtPieceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,13 @@ class CreateFurnitureTable extends Migration
      */
     public function up()
     {
-        Schema::create('furniture', function (Blueprint $table) {
+        Schema::create('artStyleArtPiece', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
-            $table->text('description');
+	    $table->integer('artPieceId')->unsigned()->nullable();
+	    $table->foreign('artPieceId')->references('id')->on('artPiece');
+	    $table->integer('artStyleId')->unsigned()->nullable();
+	    $table->foreign('artStyleId')->references('id')->on('artStyle');
         });
     }
 
@@ -27,6 +30,6 @@ class CreateFurnitureTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('furniture');
+        Schema::dropIfExists('artStyleArtPiece');
     }
 }

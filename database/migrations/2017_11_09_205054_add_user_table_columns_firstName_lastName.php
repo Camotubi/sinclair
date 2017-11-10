@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuantityOfTrafficTable extends Migration
+class AddUserTableColumnsFirstNameLastName extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateQuantityOfTrafficTable extends Migration
      */
     public function up()
     {
-        Schema::create('quantityOfTraffic', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-            $table->integer('num_clic');
+        Schema::table('users', function (Blueprint $table) {
+		$table->string('firstName');
+		$table->string('lastName');
         });
     }
 
@@ -27,6 +26,10 @@ class CreateQuantityOfTrafficTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('quantityOfTraffic');
+        
+        Schema::table('users', function (Blueprint $table) {
+		$table->dropColumn('firstName');
+		$table->dropColumn('lastName');
+        });
     }
 }
