@@ -26,4 +26,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function types()
+    {
+	return $this->belongsToMany('App\UserType','usersUserType','userId','userTypeId');
+    }
+
+    public function isAdmin()
+    {
+	return	$this->types()->where('userType.id',config('app.adminId'))->exists();
+	
+    }
 }
