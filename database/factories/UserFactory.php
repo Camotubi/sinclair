@@ -26,13 +26,5 @@ $factory->define(App\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\UserType::class, function (Faker $faker) {
-    static $password;
-
-    return [
-        'name' => $faker->name,
-	'description' => $faker->sentence,
-    ];
-});
 
 
