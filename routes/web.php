@@ -50,4 +50,6 @@ Route::resources([
     'publication' => 'PublicationController',
     'rent' => 'RentController',
     'restorations' => 'RestorationsController',
+    'user' => 'UserController'
 ]);
+
