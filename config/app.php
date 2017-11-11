@@ -228,4 +228,8 @@ return [
 
     ],
 
+    'userType' => [
+	    'adminId' => 0,
+    ],
+
 ];
