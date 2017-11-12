@@ -50,7 +50,9 @@ class LegalEntityController extends Controller
       $legalEntity->address = $request->input ('address');
       $legalEntity->ruc = $request->input ('ruc');
       $legalEntity->identificationNumber = $request->input ('identificationNumber');
-      $legalEntity->philanthropy = $request->input ('philanthropy');
+      if ( $request->input ('philanthropy') ) {
+        $artPiece->philanthropy = true;
+      }
       $legalEntity->save();
   }
 
