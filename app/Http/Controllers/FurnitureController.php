@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Furniture;
 
 class FurnitureController extends Controller
 {
@@ -19,7 +20,7 @@ class FurnitureController extends Controller
      */
     public function index()
     {
-        //
+        return view('furniture.index');
     }
 
     /**
@@ -29,7 +30,7 @@ class FurnitureController extends Controller
      */
     public function create()
     {
-        //
+        return view('furniture.create');
     }
 
     /**
@@ -40,7 +41,11 @@ class FurnitureController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $furniture = new Furniture;
+        $furniture->name = $request-> input('name');
+        $furniture->furnitureTypeId = $request-> input('furnitureTypeId');
+        $furniture->donatorId = $request-> input('donatorId');
+        $furniture->save();
     }
 
     /**

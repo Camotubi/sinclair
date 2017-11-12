@@ -8,8 +8,8 @@
 <div>
   <section>
     <article>
-      <h3>Registro de Persona Juridica</h3>
-      <form class="" action="/juridicalPerson" method="post">
+      <h3>Registro de entidad legal</h3>
+      <form class=""  action= "/legalEntity" method="post">
         {{ csrf_field() }}
         <label for="name">Nombre:</label>
         <input type="text" name="name" value=""><br>
@@ -19,6 +19,12 @@
         <input type="text" name="phone" value=""><br>
         <label for="email">Email:</label>
         <input type="email" name="email" value=""><br>
+        <label for="ruc">RUC:</label>
+        <input type="text" name="ruc" value=""><br>
+        <label for="identificationNumber">Numero de Identificación:</label>
+        <input type="number" name="identificationNumber" value=""><br>
+        <label for="philanthropy">Filantropía:</label>
+        <input type="number" name="philanthropy" value=""><br>
         <button type="submit" name="register">Registrar</button>
       </form>
     </article>

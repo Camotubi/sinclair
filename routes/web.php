@@ -49,11 +49,8 @@ Route::resources([
     'artPiece' => 'ArtPieceController',
     'dashBoard' => 'DashboardController',
     'furniture' => 'FurnitureController',
-    'juridicalPerson' => 'JuridicalPersonController',
-    'naturalPerson' => 'NaturalPersonController',
+    'legalEntity' => 'LegalEntityController',
     'publication' => 'PublicationController',
     'rent' => 'RentController',
-    'restorations' => 'RestorationsController',
     'user' => 'UserController'
 ]);
-
