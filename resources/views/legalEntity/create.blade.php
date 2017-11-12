@@ -24,7 +24,7 @@
         <label for="identificationNumber">Numero de Identificación:</label>
         <input type="number" name="identificationNumber" value=""><br>
         <label for="philanthropy">Filantropía:</label>
-        <input type="number" name="philanthropy" value=""><br>
+        <input type="checkbox" name="philanthropy" value="true">
         <button type="submit" name="register">Registrar</button>
       </form>
     </article>

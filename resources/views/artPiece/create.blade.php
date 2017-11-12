@@ -19,10 +19,19 @@
         <input type="text" name="style" value=""><br>
         <label for="technique">Técnica:</label>
         <input type="text" name="technique" value=""><br>
+        <label for="creationDate">Fecha de creación:</label>
+        <input type="date" name="creationDate" value=""><br>
         <label for="currentLocation">Localización actual:</label>
         <input type="text" name="currentLocation" value=""><br>
         <label for="criticalAnalisis">Analisis Crítico:</label>
         <input type="text" name="criticalAnalisis" value=""><br>
+        <label for="donatorId">Donador:</label>
+        <select class="" name="donatorId">
+          <option value="1">Ruben</option>
+          <option value="2">Ramon</option>
+        </select>
+        <label for="genaratePublication">Generar Publicación:</label>
+        <input type="checkbox" name="genaratePublication" value="true">
         <button type="submit" name="register">Registrar</button>
       </form>
     </article>

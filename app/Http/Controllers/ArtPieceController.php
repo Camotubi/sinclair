@@ -51,6 +51,10 @@ class ArtPieceController extends Controller
         $artPiece->era = $request->input ('era');
         $artPiece->technique = $request->input ('technique');
         $artPiece->criticalAnalisis = $request->input ('criticalAnalisis');
+        $artPiece->creationDate = $request->input ('creationDate');
+        if ( $request->input ('generatePublication') ) {
+          $artPiece->generatePublication = true;
+        }
         $artPiece->save();
     }
 
