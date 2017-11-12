@@ -22,7 +22,7 @@ class ArtPiece extends Model
 
 	public function insurance()
 	{
-		return $this->belongsToMany('App\InsuranceCarrier');
+		return $this->hasMany('App\Insurance', 'artPieceId', 'id');
 	}
 
 	public function multimedia()
@@ -42,7 +42,7 @@ class ArtPiece extends Model
 
 	public function rent()
 	{
-	  return $this->belongsToMany('App\LegalEntity');
+	  return $this->hasMany('App\Rent', 'artPieceId', 'id');
 	}
 
 	public function donator()
