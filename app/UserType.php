@@ -12,7 +12,7 @@ class UserType extends Model
 	public function users()
 	{
 
-	return $this->belongsToMany('App\User','usersUserType','userId','userTypeId');
+	return $this->belongsToMany('App\User');
 
 	}
 

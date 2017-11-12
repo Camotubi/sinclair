@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visitor extends Model
 {
-	protected $table = "visitors";
+	protected $table = "visitor";
+
+	public function visitor()
+	{
+	  return $this->hasMany('App\Visit', 'visitorId', 'id');
+	}
 }
