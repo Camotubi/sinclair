@@ -11,28 +11,54 @@
       <h3>Registro de obra de arte</h3>
       <form class=""  action= "/artPiece" method="post">
         {{ csrf_field() }}
-        <label for="name">Nombre:</label>
-        <input type="text" name="name" value=""><br>
-        <label for="era">Era:</label>
-        <input type="text" name="era" value=""><br>
-        <label for="style">Estilo:</label>
-        <input type="text" name="style" value=""><br>
-        <label for="technique">Técnica:</label>
-        <input type="text" name="technique" value=""><br>
-        <label for="creationDate">Fecha de creación:</label>
-        <input type="date" name="creationDate" value=""><br>
-        <label for="currentLocation">Localización actual:</label>
-        <input type="text" name="currentLocation" value=""><br>
-        <label for="criticalAnalisis">Analisis Crítico:</label>
-        <input type="text" name="criticalAnalisis" value=""><br>
-        <label for="donatorId">Donador:</label>
-        <select class="" name="donatorId">
-          <option value="1">Ruben</option>
-          <option value="2">Ramon</option>
-        </select>
-        <label for="genaratePublication">Generar Publicación:</label>
-        <input type="checkbox" name="genaratePublication" value="true">
-        <button type="submit" name="register">Registrar</button>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="name">Nombre:</label>
+            <input class="form-control" type="text" name="name" value="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="era">Era:</label>
+            <input class="form-control" type="text" name="era" value="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="style">Estilo:</label>
+            <input class="form-control" type="text" name="style" value="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="technique">Técnica:</label>
+            <input class="form-control" type="text" name="technique" value="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="creationDate">Fecha de creación:</label>
+            <input class="form-control" type="date" name="creationDate" value="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="currentLocation">Localización actual:</label>
+            <input class="form-control" type="text" name="currentLocation" value="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="criticalAnalisis">Analisis Crítico:</label>
+            <textarea class="form-control" name="criticalAnalisis" rows="8"
+            cols="80"></textarea>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="donatorId">Donador:</label>
+            <select class="form-control" name="donatorId">
+              <option value="1">Ruben</option>
+              <option value="2">Ramon</option>
+            </select>
+          </div>
+          <div class ="form-check">
+  					<label class="form-check-label">
+  						<input class="form-check-input" name="genaratePublication" type="checkbox" value="true">
+              Generar Publicación
+  					</label>
+            </div>
+            <div class="form-group col-md-6">
+              <input class="form-control" type="file" name="file" accept="*">
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary" name="register" value="Registrar">
       </form>
     </article>
   </section>

@@ -11,20 +11,27 @@
       <h3>Registro de Mueble</h3>
       <form class="" action="/furniture" method="post">
         {{ csrf_field() }}
-        <label for="name">Nombre:</label>
-        <input type="text" name="name" value=""><br>
-        <label for="furnitureTypeId">Tipo de mueble:</label>
-        <select class="" name="furnitureTypeId">
-          <option value="1">Sillon</option>
-          <option value="2">Mesa</option>
-        </select>
-        <br>
-        <label for="donatorId">Donador:</label>
-        <select class="" name="donatorId">
-          <option value="1">Ruben</option>
-          <option value="2">Ramon</option>
-        </select>
-        <button type="submit" name="register">Registrar</button>
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="name">Nombre:</label>
+            <input class="form-control" type="text" name="name" value="">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="furnitureTypeId">Tipo de mueble:</label>
+            <select class="form-control" class="" name="furnitureTypeId">
+              <option value="1">Sillon</option>
+              <option value="2">Mesa</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="donatorId">Donador:</label>
+            <select class="form-control" name="donatorId">
+              <option value="1">Ruben</option>
+              <option value="2">Ramon</option>
+            </select>
+          </div>
+        </div>
+        <input type="submit" name="register" class="btn btn-primary" value="Registrar">
       </form>
     </article>
   </section>
