@@ -24,7 +24,12 @@ class ArtPieceUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+          'name' => 'required',
+          'currentLocation' => 'required',
+          'style' => 'required',
+          'era' => 'required',
+          'technique' => 'required',
+          'criticalAnalisis' => 'required',
         ];
     }
 }

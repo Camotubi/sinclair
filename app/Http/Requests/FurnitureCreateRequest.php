@@ -24,7 +24,9 @@ class FurnitureCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'Required',
+            'furnitureTypeId' => 'Required',
+            'donatorId' => 'Required',
         ];
     }
 }
