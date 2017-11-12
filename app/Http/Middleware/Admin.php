@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 use Illuminate\Contracts\Auth\Guard;
 use Closure;
 use Session;
-
+use Auth;
 class Admin
 {
     protected $auth;
@@ -13,21 +13,28 @@ class Admin
     {
         $this->auth = $auth;
     }
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return mixed
-     */
     public function handle($request, Closure $next)
     {
-        if($this->auth->user()->id != 1)
-        {
-           Session::flash('message-error','Sin privilegios');
-           return redirect()->to('/home');
-        }
+	    if(Auth::check())
+	    {
+		
+		    if(Auth::user()->isAdmin())
+		    {
+			
+			return $next($request);
+		    }
+		    else
+		    {
+			
+			   return redirect()->to('/dashboard');
+		    }
+	    }
+	    else
+	    {
 
-        return $next($request);
+
+		   return redirect()->to('/login');
+	    }
+	    
     }
 }

@@ -40,6 +40,10 @@ Route::get('/cita', function () {
 Route::get('/test', function () {
     return view('query');
 });
+Route::get('/login',function() {
+	return view('auth.login');
+});
+Route::post('/login','Auth\LoginController@authenticate');
 Route::get('/testAxios','QueriesController@test');
 Route::resources([
     'artPiece' => 'ArtPieceController',
