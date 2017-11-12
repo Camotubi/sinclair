@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\RentCreateRequest;
+use App\Http\Requests\RentUpdateRequest;
 
 class RentController extends Controller
 {
@@ -38,7 +40,7 @@ class RentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(RentCreateRequest $request)
     {
         //
     }
@@ -72,7 +74,7 @@ class RentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RentUpdateRequest $request, $id)
     {
         //
     }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\PublicationCreateRequest;
+use App\Http\Requests\PublicationUpdateRequest;
 
 class PublicationController extends Controller
 {
@@ -38,7 +40,7 @@ class PublicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PublicationCreateRequest $request)
     {
         //
     }
@@ -72,7 +74,7 @@ class PublicationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PublicationUpdateRequest $request, $id)
     {
         //
     }

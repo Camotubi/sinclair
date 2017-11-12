@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ArtPieceCreateRequest;
+use App\Http\Requests\ArtPieceUpdateRequest;
 use App\ArtPiece;
 
 class ArtPieceController extends Controller
@@ -40,7 +42,7 @@ class ArtPieceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArtPieceCreateRequest $request)
     {
         $artPiece = new ArtPiece;
         $artPiece->name = $request->input ('name');
@@ -81,7 +83,7 @@ class ArtPieceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArtPieceUpdateRequest $request, $id)
     {
         //
     }
