@@ -26,11 +26,12 @@ Route::get('/quienes_somos', function () {
 Route::get('/alfredo', function () {
     return view('frontend.alfredo');
 });
-Route::get('/galeria', function () {
-    return view('frontend.galeria');
-});
+
+Route::get('/f/artPiece/index', 'ArtPieceController@frontIndex');
+
+Route::get('/f/artPiece/show', 'ArtPieceController@frontShow');
+
 Route::get('/contacto', function () {
-    return view('frontend.contacto');
 });
 
 Route::get('/cita', function () {
