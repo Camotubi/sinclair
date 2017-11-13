@@ -52,5 +52,14 @@ Route::resources([
     'legalEntity' => 'LegalEntityController',
     'publication' => 'PublicationController',
     'rent' => 'RentController',
-    'user' => 'UserController'
+    'multimedia' => 'MultimediaController',
+    'user' => 'UserController',
+    'artStyle' => 'ArtStyleController',
+    'condecoration' => 'CondecorationController',
+    'exhibition' => 'ExhibitionController',
+    'insuranceCarrier' => 'InsuranceCarrierController',
+    'insurance' => 'InsuranceController',
+    'sinclairPerson' => 'SinclairPersonController',
+    'visit' => 'VisitController',
+    'visitor' => 'VisitorController'
 ]);
