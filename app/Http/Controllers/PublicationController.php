@@ -45,12 +45,12 @@ class PublicationController extends Controller
      */
     public function store(PublicationCreateRequest $request)
     {
-	    $publication = new Publication;
-	    $publication->title = $request-> input('title');
-	    $publication->body = $request-> input('body');
-	    $publication->user()->attach(User::where('users.id',
-		    $request->input ('userId'))->first());
-	    $apublication->save();
+      $publication = new Publication;
+      $publication->title = $request-> input('title');
+      $publication->body = $request-> input('body');
+      $apublication->save();
+      $publication->user()->attach(User::where('users.id',
+      $request->input ('userId'))->first());
     }
 
     /**

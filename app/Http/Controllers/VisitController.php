@@ -43,11 +43,11 @@ class VisitController extends Controller
    */
   public function store(Request $request)
   {
-	  $visit = new Visit;
-	  $visit->visitor()->attach(Visitor::where('visitor.id',
-		  $request->input ('visitorId'))->first());
-	  $visit->date = $request-> input('date');
-	  $visit->save();
+      $visit = new Visit;
+      $visit->date = $request-> input('date');
+      $visit->save();
+      $visit->visitor()->attach(Visitor::where('visitor.id',
+      $request->input ('visitorId'))->first());
   }
 
   /**
