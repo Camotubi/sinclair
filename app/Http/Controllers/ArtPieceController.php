@@ -7,14 +7,15 @@ use App\Http\Requests\ArtPieceCreateRequest;
 use App\Http\Requests\ArtPieceUpdateRequest;
 use App\ArtPiece;
 use App\LegalEntity;
+use Illuminate\Support\Facades\DB;
 
 class ArtPieceController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-        $this->middleware('editor'['only' => ['store','edit']]);
+        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+        $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+        $this->middleware('editor', ['only' => ['store','edit']]);
     }
 
     /**
@@ -24,7 +25,8 @@ class ArtPieceController extends Controller
      */
     public function index()
     {
-        return view('artPiece.index');
+	$artPieces = DB::table('artPiece')->paginate(10);
+        return view('artPiece.index',['artPieces'=> $artPieces]);
     }
 
     /**
@@ -104,5 +106,21 @@ class ArtPieceController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function apiPaginate($amount)
+    {
+
+	$artPieces = DB::table('artPiece')->paginate($amount);
+	return $artPieces;
+    }
+    public function frontIndex()
+    {
+      return view('frontend.artPiece.Index');
+    }
+
+    public function frontShow()
+    {
+      return view('frontend.artPiece.show');
     }
 }

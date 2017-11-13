@@ -12,9 +12,9 @@ class FurnitureController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-        $this->middleware('editor'['only' => ['store','edit']]);
+        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+        $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+        $this->middleware('editor', ['only' => ['store','edit']]);
     }
     /**
      * Display a listing of the resource.
