@@ -13,7 +13,7 @@
 	<div class="container">
 		<header>
 			<a href="/index">
-				<img src="img/logo_FMASinclairB.jpg" alt="NO SE ENCONTRÓ LA IMÁGEN." height="150px">
+				<img src="/img/logo_FMASinclairB.jpg" alt="NO SE ENCONTRÓ LA IMÁGEN." height="150px">
 			</a>
 		</header>
 
@@ -22,7 +22,7 @@
 				<li><a href="/index">INICIO</a></li>
 				<li><a href="/quienes_somos">¿QUIÉNES SOMOS?</a></li>
 				<li><a href="/alfredo">ALFREDO SINCLAIR B.</a></li>
-				<li><a href="/galeria">GALERIA</a></li>
+				<li><a href="/f/artPiece/index">GALERIA</a></li>
 				<li><a href="/cita">VISITAR MUSEO</a></li>
 				<li><a href="/contacto">CONTACTO</a></li>
 			</ul>
