@@ -7,7 +7,7 @@
 @section('content')
 <div class="row">
   <div class="col-md-3">
-    <a href="#" class="thumbnail">
+    <a href="/f/artPiece/show" class="thumbnail">
       <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
@@ -18,7 +18,7 @@
   </div>
 
   <div class="col-md-3">
-    <a href="#" class="thumbnail">
+    <a href="/f/artPiece/show" class="thumbnail">
       <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
@@ -28,7 +28,7 @@
   </div>
 
   <div class="col-md-3">
-    <a href="#" class="thumbnail">
+    <a href="/f/artPiece/show" class="thumbnail">
       <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
@@ -38,7 +38,7 @@
   </div>
 
   <div class="col-md-3">
-    <a href="#" class="thumbnail">
+    <a href="/f/artPiece/show" class="thumbnail">
       <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
@@ -50,7 +50,7 @@
 
 <div class="row">
   <div class="col-md-3">
-    <a href="#" class="thumbnail">
+    <a href="/f/artPiece/show" class="thumbnail">
       <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
@@ -60,7 +60,7 @@
   </div>
 
   <div class="col-md-3">
-    <a href="#" class="thumbnail">
+    <a href="/f/artPiece/show" class="thumbnail">
       <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
@@ -70,7 +70,7 @@
   </div>
 
   <div class="col-md-3">
-    <a href="#" class="thumbnail">
+    <a href="/f/artPiece/show" class="thumbnail">
       <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
@@ -80,7 +80,7 @@
   </div>
 
   <div class="col-md-3">
-    <a href="#" class="thumbnail">
+    <a href="/f/artPiece/show" class="thumbnail">
       <img src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>Titulo de la Imágen</h3>
