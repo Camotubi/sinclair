@@ -4,11 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Insurance;
-use App\ArtPiece;
-use App\InsuranceCarrier;
+use App\Tag;
 
-class InsuranceController extends Controller
+class TagController extends Controller
 {
   public function __construct()
   {
@@ -23,7 +21,7 @@ class InsuranceController extends Controller
    */
   public function index()
   {
-      return view('insurance.index');
+      return view('tag.index');
   }
 
   /**
@@ -33,7 +31,7 @@ class InsuranceController extends Controller
    */
   public function create()
   {
-      return view('insurance.create');
+      return view('tag.create');
   }
 
   /**
@@ -44,16 +42,9 @@ class InsuranceController extends Controller
    */
   public function store(Request $request)
   {
-    $insurance = new Insurance;
-    $insurance->name = $request-> input('name');
-    $insurance->artPiece()->attach(ArtPiece::where('artPiece.id',
-    $request->input ('artPieceId'))->first());
-    $insurance->insuranceCarrier()->attach(InsuranceCarrier::where('insuranceCarrier.id',
-    $request->input ('insuranceCarrierId'))->first());
-    $insurance->cost = $request-> input('cost');
-    $insurance->effectiveDate = $request-> input('effectiveDate');
-    $insurance->terminationDate = $request-> input('terminationDate');
-    $insurance->save();
+      $tag = new Tag;
+      $tag->name = $request-> input('name');
+      $tag->save();
   }
 
   /**
@@ -64,7 +55,7 @@ class InsuranceController extends Controller
    */
   public function show($id)
   {
-      return view('insurance.show');
+      return view('tag.show');
   }
 
   /**

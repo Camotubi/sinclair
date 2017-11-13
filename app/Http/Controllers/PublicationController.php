@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PublicationCreateRequest;
 use App\Http\Requests\PublicationUpdateRequest;
 
+use App\Publication;
+use App\User;
+
 class PublicationController extends Controller
 {
     public function __construct()
@@ -21,7 +24,7 @@ class PublicationController extends Controller
      */
     public function index()
     {
-        //
+        return view('publication.index');
     }
 
     /**
@@ -31,7 +34,7 @@ class PublicationController extends Controller
      */
     public function create()
     {
-        //
+        return view('publication.create');
     }
 
     /**
@@ -42,7 +45,12 @@ class PublicationController extends Controller
      */
     public function store(PublicationCreateRequest $request)
     {
-        //
+      $publication = new Publication;
+      $publication->title = $request-> input('title');
+      $publication->body = $request-> input('body');
+      $publication->user()->attach(User::where('users.id',
+      $request->input ('userId'))->first());
+      $apublication->save();
     }
 
     /**
@@ -53,7 +61,7 @@ class PublicationController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('publication.show');
     }
 
     /**

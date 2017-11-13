@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Insurance;
-use App\ArtPiece;
-use App\InsuranceCarrier;
+use App\Visit;
+use App\Visitor;
 
-class InsuranceController extends Controller
+class VisitController extends Controller
 {
   public function __construct()
   {
@@ -23,7 +22,7 @@ class InsuranceController extends Controller
    */
   public function index()
   {
-      return view('insurance.index');
+      return view('visit.index');
   }
 
   /**
@@ -33,7 +32,7 @@ class InsuranceController extends Controller
    */
   public function create()
   {
-      return view('insurance.create');
+      return view('visit.create');
   }
 
   /**
@@ -44,16 +43,11 @@ class InsuranceController extends Controller
    */
   public function store(Request $request)
   {
-    $insurance = new Insurance;
-    $insurance->name = $request-> input('name');
-    $insurance->artPiece()->attach(ArtPiece::where('artPiece.id',
-    $request->input ('artPieceId'))->first());
-    $insurance->insuranceCarrier()->attach(InsuranceCarrier::where('insuranceCarrier.id',
-    $request->input ('insuranceCarrierId'))->first());
-    $insurance->cost = $request-> input('cost');
-    $insurance->effectiveDate = $request-> input('effectiveDate');
-    $insurance->terminationDate = $request-> input('terminationDate');
-    $insurance->save();
+      $visit = new Visit;
+      $visit->visitor()->attach(Visitor::where('visitor.id',
+      $request->input ('visitorId'))->first());
+      $visit->date = $request-> input('date');
+      $visit->save();
   }
 
   /**
@@ -64,7 +58,7 @@ class InsuranceController extends Controller
    */
   public function show($id)
   {
-      return view('insurance.show');
+    return view('visit.show');
   }
 
   /**

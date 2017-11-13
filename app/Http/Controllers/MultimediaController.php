@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MultimediaCreateRequest;
 use App\Http\Requests\MultimediaUpdateRequest;
 
+use App\Multimedia;
+use App\MultimediaType;
+
 class MultimediaController extends Controller
 {
     public function __construct()
@@ -21,7 +24,7 @@ class MultimediaController extends Controller
      */
     public function index()
     {
-        //
+        return view('multimedia.index');
     }
 
     /**
@@ -31,7 +34,7 @@ class MultimediaController extends Controller
      */
     public function create()
     {
-        //
+        return view('multimedia.create');
     }
 
     /**
@@ -42,7 +45,16 @@ class MultimediaController extends Controller
      */
     public function store(MultimediaCreateRequest $request)
     {
-        //
+      $multimedia = new Multimedia;
+      if ( $request->input ('sinclairMemorability') ) {
+        $multimedia->sinclairMemorability = true;
+      }
+      $multimedia->creationDate = $request->input ('creationDate');
+      $multimedia->description = $request->input ('description');
+      $multimedia->fileLocation = $request->input ('fileLocation');
+      $multimedia->types()->attach(MultimediaType::where('MultimediaType.id',
+      $request->input ('multimediaTypeId'))->first());
+      $multimedia->save();
     }
 
     /**
@@ -53,7 +65,7 @@ class MultimediaController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('multimedia.show');
     }
 
     /**

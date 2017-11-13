@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Insurance;
-use App\ArtPiece;
-use App\InsuranceCarrier;
+use App\Condecoration;
+use App\LegalEntity;
 
-class InsuranceController extends Controller
+class CondecorationController extends Controller
 {
   public function __construct()
   {
@@ -23,7 +22,7 @@ class InsuranceController extends Controller
    */
   public function index()
   {
-      return view('insurance.index');
+      return view('condecoration.index');
   }
 
   /**
@@ -33,7 +32,7 @@ class InsuranceController extends Controller
    */
   public function create()
   {
-      return view('insurance.create');
+      return view('condecoration.create');
   }
 
   /**
@@ -44,16 +43,13 @@ class InsuranceController extends Controller
    */
   public function store(Request $request)
   {
-    $insurance = new Insurance;
-    $insurance->name = $request-> input('name');
-    $insurance->artPiece()->attach(ArtPiece::where('artPiece.id',
-    $request->input ('artPieceId'))->first());
-    $insurance->insuranceCarrier()->attach(InsuranceCarrier::where('insuranceCarrier.id',
-    $request->input ('insuranceCarrierId'))->first());
-    $insurance->cost = $request-> input('cost');
-    $insurance->effectiveDate = $request-> input('effectiveDate');
-    $insurance->terminationDate = $request-> input('terminationDate');
-    $insurance->save();
+      $condecoration = new Condecoration;
+      $condecoration->name = $request-> input('name');
+      $condecoration->date = $request-> input('date');
+      $condecoration->desription = $request-> input('description');
+      $condecoration->condecorator()->attach(LegalEntity::where('legalEntity.id',
+      $request->input ('condecoratorId'))->first());
+      $condecoration->save();
   }
 
   /**
@@ -64,7 +60,7 @@ class InsuranceController extends Controller
    */
   public function show($id)
   {
-      return view('insurance.show');
+      return view('condecoration.show');
   }
 
   /**

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\FurnitureCreateRequest;
 use App\Http\Requests\FurnitureUpdateRequest;
 use App\Furniture;
+use App\LegalEntity;
 
 class FurnitureController extends Controller
 {
@@ -46,7 +47,8 @@ class FurnitureController extends Controller
         $furniture = new Furniture;
         $furniture->name = $request-> input('name');
         $furniture->furnitureTypeId = $request-> input('furnitureTypeId');
-        $furniture->donatorId = $request-> input('donatorId');
+        $furniture->donator()->attach(LegalEntity::where('legalEntity.id',
+        $request->input ('donatorId'))->first());
         $furniture->save();
     }
 
@@ -58,7 +60,7 @@ class FurnitureController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('furniture.show');
     }
 
     /**
