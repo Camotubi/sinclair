@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-  Registro de obra de arte
+  Registro de Entidad Legal
 @endsection
 
 @section('content')

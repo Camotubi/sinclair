@@ -43,20 +43,17 @@
           </div>
           <div class="form-group col-md-4">
             <label for="donatorId">Donador:</label>
-            <select class="form-control" name="donatorId">
-              <option value="1">Ruben</option>
-              <option value="2">Ramon</option>
-            </select>
+            <input class="form-control" type="text" name="donatorId" value="">
           </div>
           <div class ="form-check">
   					<label class="form-check-label">
-  						<input class="form-check-input" name="genaratePublication" type="checkbox" value="true">
               Generar Publicación
+  						<input class="form-check-input" name="genaratePublication" type="checkbox" value="true">
   					</label>
-            </div>
-            <div class="form-group col-md-6">
-              <input class="form-control" type="file" name="file" accept="*">
-            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <input class="form-control" type="file" name="file" accept="*">
+          </div>
         </div>
         <input type="submit" class="btn btn-primary" name="register" value="Registrar">
       </form>

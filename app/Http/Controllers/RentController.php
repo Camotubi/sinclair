@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RentCreateRequest;
 use App\Http\Requests\RentUpdateRequest;
 
+use App\Rent;
+use App\ArtPiece;
+use App\LegalEntity;
+
 class RentController extends Controller
 {
     public function __construct()
@@ -21,7 +25,7 @@ class RentController extends Controller
      */
     public function index()
     {
-        //
+        return view('rent.index');
     }
 
     /**
@@ -31,7 +35,7 @@ class RentController extends Controller
      */
     public function create()
     {
-        //
+        return view('rent.create');
     }
 
     /**
@@ -42,7 +46,15 @@ class RentController extends Controller
      */
     public function store(RentCreateRequest $request)
     {
-        //
+      $rent = new Rent;
+      $rent->artPiece()->attach(ArtPiece::where('artPiece.id',
+      $request->input ('artPieceId'))->first());
+      $rent->legalEntity()->attach(LegalEntity::where('legalEntity.id',
+      $request->input ('legalEntityId'))->first());
+      $rent->moneyQuantity = $request-> input('moneyQuantity');
+      $rent->effectiveDate = $request-> input('effectiveDate');
+      $rent->terminationDate = $request-> input('terminationDate');
+      $rent->save();
     }
 
     /**
@@ -53,7 +65,7 @@ class RentController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('rent.show');
     }
 
     /**

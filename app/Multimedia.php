@@ -16,6 +16,6 @@ class Multimedia extends Model
 
   public function type()
   {
-    return $this->belongsTo('App\MultimediaType');
+    return $this->belongsTo('App\MultimediaType', 'multimediaTypeId');
   }
 }

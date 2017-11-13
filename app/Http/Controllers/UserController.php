@@ -105,10 +105,10 @@ class UserController extends Controller
     }
     public function findUsername($username)
     {
-	return User::where('name',$username)->exists() ? 'true' : 'false';		
+	return User::where('name',$username)->exists() ? 'true' : 'false';
     }
     public function findEmail($email)
     {
-	return User::where('email',$email)->exists() ? 'true' : 'false';		
+	return User::where('email',$email)->exists() ? 'true' : 'false';
     }
 }

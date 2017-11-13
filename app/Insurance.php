@@ -10,11 +10,11 @@ class Insurance extends Model
 
     public function insuranceCarrier()
     {
-      return $this->belongsTo('App\InsuranceCarrier');
+      return $this->belongsTo('App\InsuranceCarrier', 'insuranceCarrierId');
     }
 
     public function artPiece()
     {
-      return $this->belongsTo('App\ArtPiece');
+      return $this->belongsTo('App\ArtPiece', 'artPieceId');
     }
 }

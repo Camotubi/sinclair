@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ArtPieceCreateRequest;
 use App\Http\Requests\ArtPieceUpdateRequest;
 use App\ArtPiece;
+use App\LegalEntity;
 use Illuminate\Support\Facades\DB;
+
 class ArtPieceController extends Controller
 {
     public function __construct()
@@ -56,6 +58,8 @@ class ArtPieceController extends Controller
         if ( $request->input ('generatePublication') ) {
           $artPiece->generatePublication = true;
         }
+        $artPiece->donator()->attach(LegalEntity::where('legalEntity.id',
+        $request->input ('donatorId'))->first());
         $artPiece->save();
     }
 

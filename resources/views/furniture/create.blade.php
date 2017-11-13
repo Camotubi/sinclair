@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-  Registro de obra de arte
+  Registro de Mueble
 @endsection
 
 @section('content')
@@ -18,17 +18,11 @@
           </div>
           <div class="form-group col-md-4">
             <label for="furnitureTypeId">Tipo de mueble:</label>
-            <select class="form-control" class="" name="furnitureTypeId">
-              <option value="1">Sillon</option>
-              <option value="2">Mesa</option>
-            </select>
+            <input class="form-control" type="text" name="furnitureTypeId" value="">
           </div>
           <div class="form-group col-md-4">
             <label for="donatorId">Donador:</label>
-            <select class="form-control" name="donatorId">
-              <option value="1">Ruben</option>
-              <option value="2">Ramon</option>
-            </select>
+            <input class="form-control" type="text" name="donatorId" value="">
           </div>
         </div>
         <input type="submit" name="register" class="btn btn-primary" value="Registrar">
