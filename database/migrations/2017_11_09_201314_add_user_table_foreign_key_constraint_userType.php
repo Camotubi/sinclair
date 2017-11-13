@@ -6,17 +6,17 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddUserTableForeignKeyConstraintUserType extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::table('users', function (Blueprint $table) {
-		$table->integer('userTypeId')->unsigned();
-		$table->foreign('userTypeId')->references('id')->on('userType');
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::table('users', function (Blueprint $table) {
+			$table->integer('userTypeId')->unsigned();
+			$table->foreign('userTypeId')->references('id')->on('userType');
+	});
     }
 
     /**
@@ -26,10 +26,10 @@ class AddUserTableForeignKeyConstraintUserType extends Migration
      */
     public function down()
     {
-        
-        Schema::table('users', function (Blueprint $table) {
-		$table->dropForeign('users_userTypeId_foreign');
-		$table->dropColumn('userTypeId');
-        });
+
+	    Schema::table('users', function (Blueprint $table) {
+		    $table->dropForeign('users_userTypeId_foreign');
+		    $table->dropColumn('userTypeId');
+	});
     }
 }

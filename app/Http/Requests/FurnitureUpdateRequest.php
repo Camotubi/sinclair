@@ -6,14 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class FurnitureUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return true;
     }
 
     /**
@@ -23,10 +23,10 @@ class FurnitureUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'Required',
-            'furnitureTypeId' => 'Required',
-            'donatorId' => 'Required',
-        ];
+	    return [
+		    'name' => 'Required',
+		    'furnitureTypeId' => 'Required',
+		    'donatorId' => 'Required',
+	    ];
     }
 }

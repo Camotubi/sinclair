@@ -8,11 +8,11 @@ use App\Visitor;
 
 class VisitorController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth');
-      $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-      $this->middleware('editor'['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth');
+		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor'['only' => ['store','edit']]);
   }
   /**
    * Display a listing of the resource.
@@ -21,7 +21,7 @@ class VisitorController extends Controller
    */
   public function index()
   {
-      return view('visitor.index');
+	  return view('visitor.index');
   }
 
   /**
@@ -31,7 +31,7 @@ class VisitorController extends Controller
    */
   public function create()
   {
-      return view('visitor.create');
+	  return view('visitor.create');
   }
 
   /**
@@ -42,11 +42,11 @@ class VisitorController extends Controller
    */
   public function store(Request $request)
   {
-      $visitor = new Visitor;
-      $visitor->firstname = $request-> input('firstname');
-      $visitor->lastname = $request-> input('lastname');
-      $visitor->nin = $request-> input('nin');
-      $visitor->save();
+	  $visitor = new Visitor;
+	  $visitor->firstname = $request-> input('firstname');
+	  $visitor->lastname = $request-> input('lastname');
+	  $visitor->nin = $request-> input('nin');
+	  $visitor->save();
   }
 
   /**
@@ -57,7 +57,7 @@ class VisitorController extends Controller
    */
   public function show($id)
   {
-      return view('visitor.show');
+	  return view('visitor.show');
   }
 
   /**
@@ -68,7 +68,7 @@ class VisitorController extends Controller
    */
   public function edit($id)
   {
-      //
+	  //
   }
 
   /**
@@ -80,7 +80,7 @@ class VisitorController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+	  //
   }
 
   /**
@@ -91,6 +91,6 @@ class VisitorController extends Controller
    */
   public function destroy($id)
   {
-      //
+	  //
   }
 }

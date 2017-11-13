@@ -6,20 +6,20 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateVisitTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('visit', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-	    $table->date('date')->nullable();
-	    $table->integer('visitorId')->unsigned();
-	    $table->foreign('visitorId')->references('id')->on('visitor');
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('visit', function (Blueprint $table) {
+			$table->increments('id');
+			$table->timestamps();
+			$table->date('date')->nullable();
+			$table->integer('visitorId')->unsigned();
+			$table->foreign('visitorId')->references('id')->on('visitor');
+	});
     }
 
     /**
@@ -29,6 +29,6 @@ class CreateVisitTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('visit');
+	    Schema::dropIfExists('visit');
     }
 }

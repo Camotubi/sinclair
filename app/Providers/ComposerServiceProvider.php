@@ -7,16 +7,16 @@ use Illuminate\Support\ServiceProvider;
 use Auth;
 class ComposerServiceProvider extends ServiceProvider
 {
-    /**
-     * Register bindings in the container.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        // Using class based composers...
-	view()->composer('*', function($view){
-	  $view->with('user', Auth::user());
+	/**
+	 * Register bindings in the container.
+	 *
+	 * @return void
+	 */
+	public function boot()
+	{
+		// Using class based composers...
+		view()->composer('*', function($view){
+			$view->with('user', Auth::user());
 	});	
     }
 
@@ -27,6 +27,6 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+	    //
     }
 }

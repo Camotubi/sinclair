@@ -10,11 +10,11 @@ use App\LegalEntity;
 
 class FurnitureController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-        $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-        $this->middleware('editor', ['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor', ['only' => ['store','edit']]);
     }
     /**
      * Display a listing of the resource.
@@ -23,7 +23,7 @@ class FurnitureController extends Controller
      */
     public function index()
     {
-        return view('furniture.index');
+	    return view('furniture.index');
     }
 
     /**
@@ -33,7 +33,7 @@ class FurnitureController extends Controller
      */
     public function create()
     {
-        return view('furniture.create');
+	    return view('furniture.create');
     }
 
     /**
@@ -44,12 +44,12 @@ class FurnitureController extends Controller
      */
     public function store(FurnitureCreateRequest $request)
     {
-        $furniture = new Furniture;
-        $furniture->name = $request-> input('name');
-        $furniture->furnitureTypeId = $request-> input('furnitureTypeId');
-        $furniture->donator()->attach(LegalEntity::where('legalEntity.id',
-        $request->input ('donatorId'))->first());
-        $furniture->save();
+	    $furniture = new Furniture;
+	    $furniture->name = $request-> input('name');
+	    $furniture->furnitureTypeId = $request-> input('furnitureTypeId');
+	    $furniture->donator()->attach(LegalEntity::where('legalEntity.id',
+		    $request->input ('donatorId'))->first());
+	    $furniture->save();
     }
 
     /**
@@ -60,7 +60,7 @@ class FurnitureController extends Controller
      */
     public function show($id)
     {
-        return view('furniture.show');
+	    return view('furniture.show');
     }
 
     /**
@@ -71,7 +71,7 @@ class FurnitureController extends Controller
      */
     public function edit($id)
     {
-        //
+	    //
     }
 
     /**
@@ -83,7 +83,7 @@ class FurnitureController extends Controller
      */
     public function update(FurnitureUpdateRequest $request, $id)
     {
-        //
+	    //
     }
 
     /**
@@ -94,6 +94,6 @@ class FurnitureController extends Controller
      */
     public function destroy($id)
     {
-        //
+	    //
     }
 }

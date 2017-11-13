@@ -7,11 +7,11 @@ use App\User;
 use App\UserType;
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
 	public function __construct()
 	{
 		//$this->middleware('admin')->only(['create','store']);
@@ -19,7 +19,7 @@ class UserController extends Controller
 	}
     public function index()
     {
-        //
+	    //
     }
 
     /**
@@ -30,7 +30,7 @@ class UserController extends Controller
     public function create()
     {
 
-        return (view('user.create'));
+	    return (view('user.create'));
     }
 
     /**
@@ -50,12 +50,12 @@ class UserController extends Controller
 	    $user->save();
 	    if($request->input('adminType'))
 	    {
-		$user->types()->attach(UserType::where('userType.id',config('app.userType.adminId'))->first());
+		    $user->types()->attach(UserType::where('userType.id',config('app.userType.adminId'))->first());
 	    }
 	    if($request->input('editorType'))
 	    {
 
-		$user->types()->attach(UserType::where('userType.id',config('app.userType.editorId'))->first());
+		    $user->types()->attach(UserType::where('userType.id',config('app.userType.editorId'))->first());
 	    }
 	    return('aiuda');
     }
@@ -68,7 +68,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+	    //
     }
 
     /**
@@ -79,7 +79,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+	    //
     }
 
     /**
@@ -91,7 +91,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+	    //
     }
 
     /**
@@ -102,14 +102,14 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+	    //
     }
     public function findUsername($username)
     {
-	return User::where('name',$username)->exists() ? 'true' : 'false';
+	    return User::where('name',$username)->exists() ? 'true' : 'false';
     }
     public function findEmail($email)
     {
-	return User::where('email',$email)->exists() ? 'true' : 'false';
+	    return User::where('email',$email)->exists() ? 'true' : 'false';
     }
 }

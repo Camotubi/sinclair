@@ -8,11 +8,11 @@ use App\ArtStyle;
 
 class ArtStyleController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth');
-      $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-      $this->middleware('editor'['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth');
+		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor'['only' => ['store','edit']]);
   }
   /**
    * Display a listing of the resource.
@@ -21,7 +21,7 @@ class ArtStyleController extends Controller
    */
   public function index()
   {
-      return view('artStyle.index');
+	  return view('artStyle.index');
   }
 
   /**
@@ -31,7 +31,7 @@ class ArtStyleController extends Controller
    */
   public function create()
   {
-      return view('artStyle.create');
+	  return view('artStyle.create');
   }
 
   /**
@@ -42,10 +42,10 @@ class ArtStyleController extends Controller
    */
   public function store(Request $request)
   {
-      $artStyle = new ArtStyle;
-      $artStyle->name = $request-> input('name');
-      $artStyle->description = $request-> input('description');
-      $artStyle->save();
+	  $artStyle = new ArtStyle;
+	  $artStyle->name = $request-> input('name');
+	  $artStyle->description = $request-> input('description');
+	  $artStyle->save();
   }
 
   /**
@@ -56,7 +56,7 @@ class ArtStyleController extends Controller
    */
   public function show($id)
   {
-      return view('artStyle.show');
+	  return view('artStyle.show');
   }
 
   /**
@@ -67,7 +67,7 @@ class ArtStyleController extends Controller
    */
   public function edit($id)
   {
-      //
+	  //
   }
 
   /**
@@ -79,7 +79,7 @@ class ArtStyleController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+	  //
   }
 
   /**
@@ -90,6 +90,6 @@ class ArtStyleController extends Controller
    */
   public function destroy($id)
   {
-      //
+	  //
   }
 }

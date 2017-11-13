@@ -9,11 +9,11 @@ use App\Visitor;
 
 class VisitController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth');
-      $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-      $this->middleware('editor'['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth');
+		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor'['only' => ['store','edit']]);
   }
   /**
    * Display a listing of the resource.
@@ -22,7 +22,7 @@ class VisitController extends Controller
    */
   public function index()
   {
-      return view('visit.index');
+	  return view('visit.index');
   }
 
   /**
@@ -32,7 +32,7 @@ class VisitController extends Controller
    */
   public function create()
   {
-      return view('visit.create');
+	  return view('visit.create');
   }
 
   /**
@@ -43,11 +43,11 @@ class VisitController extends Controller
    */
   public function store(Request $request)
   {
-      $visit = new Visit;
-      $visit->visitor()->attach(Visitor::where('visitor.id',
-      $request->input ('visitorId'))->first());
-      $visit->date = $request-> input('date');
-      $visit->save();
+	  $visit = new Visit;
+	  $visit->visitor()->attach(Visitor::where('visitor.id',
+		  $request->input ('visitorId'))->first());
+	  $visit->date = $request-> input('date');
+	  $visit->save();
   }
 
   /**
@@ -58,7 +58,7 @@ class VisitController extends Controller
    */
   public function show($id)
   {
-    return view('visit.show');
+	  return view('visit.show');
   }
 
   /**
@@ -69,7 +69,7 @@ class VisitController extends Controller
    */
   public function edit($id)
   {
-      //
+	  //
   }
 
   /**
@@ -81,7 +81,7 @@ class VisitController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+	  //
   }
 
   /**
@@ -92,6 +92,6 @@ class VisitController extends Controller
    */
   public function destroy($id)
   {
-      //
+	  //
   }
 }

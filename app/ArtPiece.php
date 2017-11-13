@@ -11,13 +11,13 @@ class ArtPiece extends Model
 	public function exhhibitions()
 	{
 		return $this->belongsToMany('App\Exhibition', 'artPieceExhibition',
-		'artPieceId', 'exhibitionId');
+			'artPieceId', 'exhibitionId');
 	}
 
 	public function artStyle()
 	{
 		return $this->belongsToMany('App\ArtStyle', 'artStyleArtPiece', 'artPieceId',
-		'artStyleId');
+			'artStyleId');
 	}
 
 	public function insurance()
@@ -32,17 +32,17 @@ class ArtPiece extends Model
 
 	public function legalEntityPossession()
 	{
-	  return $this->belongsToMany('App\LegalEntity');
+		return $this->belongsToMany('App\LegalEntity');
 	}
 
 	public function legalEntityRestoration()
 	{
-	  return $this->belongsToMany('App\LegalEntity');
+		return $this->belongsToMany('App\LegalEntity');
 	}
 
 	public function rents()
 	{
-	  return $this->hasMany('App\Rent', 'artPieceId', 'id');
+		return $this->hasMany('App\Rent', 'artPieceId', 'id');
 	}
 
 	public function donator()

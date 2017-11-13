@@ -6,22 +6,22 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateLegalEntityArtPiecePossessionTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('legalEntityArtPiecePossession', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-	    $table->date('possessionDate');
-	    $table->integer('artPieceId')->unsigned();
-	    $table->foreign('artPieceId')->references('id')->on('artPiece');
-	    $table->integer('legalEntityId')->unsigned();
-	    $table->foreign('legalEntityId')->references('id')->on('legalEntity');
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('legalEntityArtPiecePossession', function (Blueprint $table) {
+			$table->increments('id');
+			$table->timestamps();
+			$table->date('possessionDate');
+			$table->integer('artPieceId')->unsigned();
+			$table->foreign('artPieceId')->references('id')->on('artPiece');
+			$table->integer('legalEntityId')->unsigned();
+			$table->foreign('legalEntityId')->references('id')->on('legalEntity');
+	});
     }
 
     /**
@@ -31,6 +31,6 @@ class CreateLegalEntityArtPiecePossessionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('legalEntityArtPiecePossession');
+	    Schema::dropIfExists('legalEntityArtPiecePossession');
     }
 }

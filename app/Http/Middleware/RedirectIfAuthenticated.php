@@ -8,21 +8,21 @@ use Illuminate\Contracts\Auth\Guard;
 
 class RedirectIfAuthenticated
 {
-    /**
-    * The Guard implementation.
-    *
-    * @var Guard
-    */
-   protected $auth;
-   /**
-    * Create a new filter instance.
-    *
-    * @param  Guard  $auth
-    * @return void
-    */
-   public function __construct(Guard $auth)
-   {
-       $this->auth = $auth;
+	/**
+	 * The Guard implementation.
+	 *
+	 * @var Guard
+	 */
+	protected $auth;
+	/**
+	 * Create a new filter instance.
+	 *
+	 * @param  Guard  $auth
+	 * @return void
+	 */
+	public function __construct(Guard $auth)
+	{
+		$this->auth = $auth;
    }
     /**
      * Handle an incoming request.
@@ -34,10 +34,10 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check()) {
-            return redirect('/home');
-        }
+	    if (Auth::guard($guard)->check()) {
+		    return redirect('/home');
+	}
 
-        return $next($request);
+	return $next($request);
     }
 }

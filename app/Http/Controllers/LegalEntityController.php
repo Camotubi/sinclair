@@ -10,11 +10,11 @@ use App\LegalEntity;
 
 class LegalEntityController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-      $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-      $this->middleware('editor', ['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor', ['only' => ['store','edit']]);
   }
 
   /**
@@ -24,7 +24,7 @@ class LegalEntityController extends Controller
    */
   public function index()
   {
-      return view('legalEntity.index');
+	  return view('legalEntity.index');
   }
 
   /**
@@ -34,7 +34,7 @@ class LegalEntityController extends Controller
    */
   public function create()
   {
-      return view('legalEntity.create');
+	  return view('legalEntity.create');
   }
 
   /**
@@ -45,15 +45,15 @@ class LegalEntityController extends Controller
    */
   public function store(LegalEntityCreateRequest $request)
   {
-      $legalEntity = new LegalEntity;
-      $legalEntity->name = $request->input ('name');
-      $legalEntity->email = $request->input ('email');
-      $legalEntity->phone = $request->input ('phone');
-      $legalEntity->address = $request->input ('address');
-      $legalEntity->ruc = $request->input ('ruc');
-      $legalEntity->identificationNumber = $request->input ('identificationNumber');
-      if ( $request->input ('philanthropy') ) {
-        $artPiece->philanthropy = true;
+	  $legalEntity = new LegalEntity;
+	  $legalEntity->name = $request->input ('name');
+	  $legalEntity->email = $request->input ('email');
+	  $legalEntity->phone = $request->input ('phone');
+	  $legalEntity->address = $request->input ('address');
+	  $legalEntity->ruc = $request->input ('ruc');
+	  $legalEntity->identificationNumber = $request->input ('identificationNumber');
+	  if ( $request->input ('philanthropy') ) {
+		  $artPiece->philanthropy = true;
       }
       $legalEntity->save();
   }
@@ -66,7 +66,7 @@ class LegalEntityController extends Controller
    */
   public function show($id)
   {
-      return view('legalEntity.show');
+	  return view('legalEntity.show');
   }
 
   /**
@@ -77,7 +77,7 @@ class LegalEntityController extends Controller
    */
   public function edit($id)
   {
-      //
+	  //
   }
 
   /**
@@ -89,7 +89,7 @@ class LegalEntityController extends Controller
    */
   public function update(LegalEntityUpdateRequest $request, $id)
   {
-      //
+	  //
   }
 
   /**
@@ -100,6 +100,6 @@ class LegalEntityController extends Controller
    */
   public function destroy($id)
   {
-      //
+	  //
   }
 }

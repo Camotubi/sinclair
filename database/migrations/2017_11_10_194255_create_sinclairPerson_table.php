@@ -6,20 +6,20 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateSinclairPersonTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('sinclairPerson', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-	    $table->string('firstName');
-	    $table->string('lastName');
-	    $table->string('nin')->nullable();
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('sinclairPerson', function (Blueprint $table) {
+			$table->increments('id');
+			$table->timestamps();
+			$table->string('firstName');
+			$table->string('lastName');
+			$table->string('nin')->nullable();
+	});
     }
 
     /**
@@ -29,6 +29,6 @@ class CreateSinclairPersonTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sinclairPerson');
+	    Schema::dropIfExists('sinclairPerson');
     }
 }

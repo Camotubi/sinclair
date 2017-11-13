@@ -9,11 +9,11 @@ use App\LegalEntity;
 
 class CondecorationController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth');
-      $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-      $this->middleware('editor'['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth');
+		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor'['only' => ['store','edit']]);
   }
   /**
    * Display a listing of the resource.
@@ -22,7 +22,7 @@ class CondecorationController extends Controller
    */
   public function index()
   {
-      return view('condecoration.index');
+	  return view('condecoration.index');
   }
 
   /**
@@ -32,7 +32,7 @@ class CondecorationController extends Controller
    */
   public function create()
   {
-      return view('condecoration.create');
+	  return view('condecoration.create');
   }
 
   /**
@@ -43,13 +43,13 @@ class CondecorationController extends Controller
    */
   public function store(Request $request)
   {
-      $condecoration = new Condecoration;
-      $condecoration->name = $request-> input('name');
-      $condecoration->date = $request-> input('date');
-      $condecoration->desription = $request-> input('description');
-      $condecoration->condecorator()->attach(LegalEntity::where('legalEntity.id',
-      $request->input ('condecoratorId'))->first());
-      $condecoration->save();
+	  $condecoration = new Condecoration;
+	  $condecoration->name = $request-> input('name');
+	  $condecoration->date = $request-> input('date');
+	  $condecoration->desription = $request-> input('description');
+	  $condecoration->condecorator()->attach(LegalEntity::where('legalEntity.id',
+		  $request->input ('condecoratorId'))->first());
+	  $condecoration->save();
   }
 
   /**
@@ -60,7 +60,7 @@ class CondecorationController extends Controller
    */
   public function show($id)
   {
-      return view('condecoration.show');
+	  return view('condecoration.show');
   }
 
   /**
@@ -71,7 +71,7 @@ class CondecorationController extends Controller
    */
   public function edit($id)
   {
-      //
+	  //
   }
 
   /**
@@ -83,7 +83,7 @@ class CondecorationController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+	  //
   }
 
   /**
@@ -94,6 +94,6 @@ class CondecorationController extends Controller
    */
   public function destroy($id)
   {
-      //
+	  //
   }
 }

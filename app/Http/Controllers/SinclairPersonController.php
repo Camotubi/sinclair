@@ -8,11 +8,11 @@ use App\SinclairPerson;
 
 class SinclairPersonController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth');
-      $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-      $this->middleware('editor'['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth');
+		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor'['only' => ['store','edit']]);
   }
   /**
    * Display a listing of the resource.
@@ -21,7 +21,7 @@ class SinclairPersonController extends Controller
    */
   public function index()
   {
-      return view('sinclairPerson.index');
+	  return view('sinclairPerson.index');
   }
 
   /**
@@ -31,7 +31,7 @@ class SinclairPersonController extends Controller
    */
   public function create()
   {
-      return view('sinclairPerson.create');
+	  return view('sinclairPerson.create');
   }
 
   /**
@@ -42,11 +42,11 @@ class SinclairPersonController extends Controller
    */
   public function store(Request $request)
   {
-    $sinclairPerson = new SinclairPerson;
-    $sinclairPerson->firstname = $request-> input('firstname');
-    $sinclairPerson->lastname = $request-> input('lastname');
-    $sinclairPerson->nin = $request-> input('nin');
-    $sinclairPerson->save();
+	  $sinclairPerson = new SinclairPerson;
+	  $sinclairPerson->firstname = $request-> input('firstname');
+	  $sinclairPerson->lastname = $request-> input('lastname');
+	  $sinclairPerson->nin = $request-> input('nin');
+	  $sinclairPerson->save();
   }
 
   /**
@@ -57,7 +57,7 @@ class SinclairPersonController extends Controller
    */
   public function show($id)
   {
-      return view('sinclairPerson.show');
+	  return view('sinclairPerson.show');
   }
 
   /**
@@ -68,7 +68,7 @@ class SinclairPersonController extends Controller
    */
   public function edit($id)
   {
-      //
+	  //
   }
 
   /**
@@ -80,7 +80,7 @@ class SinclairPersonController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+	  //
   }
 
   /**
@@ -91,6 +91,6 @@ class SinclairPersonController extends Controller
    */
   public function destroy($id)
   {
-      //
+	  //
   }
 }

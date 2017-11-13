@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Visit extends Model
 {
-    protected $table = "visit";
+	protected $table = "visit";
 
-    public function visitor()
-    {
-      return $this->belongsTo('App\Visitors', 'visitorId');
+	public function visitor()
+	{
+		return $this->belongsTo('App\Visitors', 'visitorId');
     }
 }

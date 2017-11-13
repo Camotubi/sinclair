@@ -6,18 +6,18 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddMultimediaTableForeignKeyConstraintMultimediaType extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        //
-        Schema::table('multimedia', function (Blueprint $table) {
-		$table->integer('multimediaTypeId')->unsigned();
-		$table->foreign('multimediaTypeId')->references('id')->on('multimediaType');
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		//
+		Schema::table('multimedia', function (Blueprint $table) {
+			$table->integer('multimediaTypeId')->unsigned();
+			$table->foreign('multimediaTypeId')->references('id')->on('multimediaType');
+	});
     }
 
     /**
@@ -27,10 +27,10 @@ class AddMultimediaTableForeignKeyConstraintMultimediaType extends Migration
      */
     public function down()
     {
-        
-        Schema::table('multimedia', function (Blueprint $table) {
-		$table->dropForeign('multimedia_multimediaTypeId_foreign');
-		$table->dropColumn('multimediaTypeId');
-        });
+
+	    Schema::table('multimedia', function (Blueprint $table) {
+		    $table->dropForeign('multimedia_multimediaTypeId_foreign');
+		    $table->dropColumn('multimediaTypeId');
+	});
     }
 }

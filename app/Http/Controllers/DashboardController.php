@@ -8,12 +8,20 @@ use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 {
 
+	public function __construct()
+	{
+
+		//		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		//$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+		//$this->middleware('editor', ['only' => ['store','edit']]);
+
+	}
 	public function index()
 	{
-	$artPieces = DB::table('artPiece')->paginate(10);
-	$users = DB::table('users')->paginate(10);
-	return view('dashboard',['users'=> $users,'artPieces'=>$artPieces
-	]);
+		$artPieces = DB::table('artPiece')->paginate(10);
+		$users = DB::table('users')->paginate(10);
+		return view('dashboard',['users'=> $users,'artPieces'=>$artPieces
+		]);
 
 	}
 	public function test()

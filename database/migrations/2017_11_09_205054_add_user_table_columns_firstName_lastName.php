@@ -6,17 +6,17 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddUserTableColumnsFirstNameLastName extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::table('users', function (Blueprint $table) {
-		$table->string('firstName');
-		$table->string('lastName');
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::table('users', function (Blueprint $table) {
+			$table->string('firstName');
+			$table->string('lastName');
+	});
     }
 
     /**
@@ -26,10 +26,10 @@ class AddUserTableColumnsFirstNameLastName extends Migration
      */
     public function down()
     {
-        
-        Schema::table('users', function (Blueprint $table) {
-		$table->dropColumn('firstName');
-		$table->dropColumn('lastName');
-        });
+
+	    Schema::table('users', function (Blueprint $table) {
+		    $table->dropColumn('firstName');
+		    $table->dropColumn('lastName');
+	});
     }
 }

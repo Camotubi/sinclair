@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class ArtPieceController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-        $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-        $this->middleware('editor', ['only' => ['store','edit']]);
+	public function __construct()
+	{
+		//        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		//      $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+		//    $this->middleware('editor', ['only' => ['store','edit']]);
     }
 
     /**
@@ -25,8 +25,8 @@ class ArtPieceController extends Controller
      */
     public function index()
     {
-	$artPieces = DB::table('artPiece')->paginate(10);
-        return view('artPiece.index',['artPieces'=> $artPieces]);
+	    $artPieces = DB::table('artPiece')->paginate(10);
+	    return view('artPiece.index',['artPieces'=> $artPieces]);
     }
 
     /**
@@ -36,7 +36,7 @@ class ArtPieceController extends Controller
      */
     public function create()
     {
-        return view('artPiece.create');
+	    return view('artPiece.create');
     }
 
     /**
@@ -47,20 +47,20 @@ class ArtPieceController extends Controller
      */
     public function store(ArtPieceCreateRequest $request)
     {
-        $artPiece = new ArtPiece;
-        $artPiece->name = $request->input ('name');
-        $artPiece->currentLocation = $request->input ('currentLocation');
-        $artPiece->style = $request->input ('style');
-        $artPiece->era = $request->input ('era');
-        $artPiece->technique = $request->input ('technique');
-        $artPiece->criticalAnalisis = $request->input ('criticalAnalisis');
-        $artPiece->creationDate = $request->input ('creationDate');
-        if ( $request->input ('generatePublication') ) {
-          $artPiece->generatePublication = true;
-        }
-        $artPiece->donator()->attach(LegalEntity::where('legalEntity.id',
-        $request->input ('donatorId'))->first());
-        $artPiece->save();
+	    $artPiece = new ArtPiece;
+	    $artPiece->name = $request->input ('name');
+	    $artPiece->currentLocation = $request->input ('currentLocation');
+	    $artPiece->style = $request->input ('style');
+	    $artPiece->era = $request->input ('era');
+	    $artPiece->technique = $request->input ('technique');
+	    $artPiece->criticalAnalisis = $request->input ('criticalAnalisis');
+	    $artPiece->creationDate = $request->input ('creationDate');
+	    if ( $request->input ('generatePublication') ) {
+		    $artPiece->generatePublication = true;
+	}
+	$artPiece->donator()->attach(LegalEntity::where('legalEntity.id',
+		$request->input ('donatorId'))->first());
+	$artPiece->save();
     }
 
     /**
@@ -71,7 +71,7 @@ class ArtPieceController extends Controller
      */
     public function show($id)
     {
-        return view('artPiece.show');
+	    return view('artPiece.show');
     }
 
     /**
@@ -82,7 +82,7 @@ class ArtPieceController extends Controller
      */
     public function edit($id)
     {
-        //
+	    //
     }
 
     /**
@@ -94,7 +94,7 @@ class ArtPieceController extends Controller
      */
     public function update(ArtPieceUpdateRequest $request, $id)
     {
-        //
+	    //
     }
 
     /**
@@ -105,22 +105,22 @@ class ArtPieceController extends Controller
      */
     public function destroy($id)
     {
-        //
+	    //
     }
 
     public function apiPaginate($amount)
     {
 
-	$artPieces = DB::table('artPiece')->paginate($amount);
-	return $artPieces;
+	    $artPieces = DB::table('artPiece')->paginate($amount);
+	    return $artPieces;
     }
     public function frontIndex()
     {
-      return view('frontend.artPiece.Index');
+	    return view('frontend.artPiece.Index');
     }
 
     public function frontShow()
     {
-      return view('frontend.artPiece.show');
+	    return view('frontend.artPiece.show');
     }
 }
