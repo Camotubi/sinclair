@@ -30,6 +30,8 @@ class ArtPieceUpdateRequest extends FormRequest
           'era' => 'required',
           'technique' => 'required',
           'criticalAnalisis' => 'required',
+          'creationDate' => 'required',
+          'generatePublication' => 'required',
         ];
     }
 }
