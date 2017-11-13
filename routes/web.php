@@ -14,7 +14,6 @@
 Route::get('/', function () {
     return view('frontend.index');
 });
-Route::get('/vueTest',function(){return view('welcome');});
 Route::get('/dashboard','DashboardController@index');
 Route::get('/dashboard/p','DashboardController@test');
 
@@ -40,7 +39,7 @@ Route::get('/cita', function () {
 });
 
 Route::get('/test', function () {
-    return view('query');
+    return view('home');
 });
 Route::get('/login',function() {
 	return view('auth.login');

@@ -8,7 +8,7 @@ class ArtPiece extends Model
 {
 	protected $table = "artPiece";
 
-	public function exhibit()
+	public function exhhibitions()
 	{
 		return $this->belongsToMany('App\Exhibition', 'artPieceExhibition',
 		'artPieceId', 'exhibitionId');
@@ -40,7 +40,7 @@ class ArtPiece extends Model
 	  return $this->belongsToMany('App\LegalEntity');
 	}
 
-	public function rent()
+	public function rents()
 	{
 	  return $this->hasMany('App\Rent', 'artPieceId', 'id');
 	}

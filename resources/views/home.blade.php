@@ -1,19 +1,17 @@
 @extends('layouts.app')
 @section('content')
-<div id="app">
-	<h1> @{{ message }} </h1>
-	<input v-model="message">
-</div>
-
-<script>
-	new Vue({
-		el:'#app',
-			data: {
-			message: 'Hello World'
-
-		}
-});
-
+<script type="text/javascript">
+window.onload = function()
+{
+    if (window.jQuery)
+    {
+        alert('jQuery is loaded');
+    }
+    else
+    {
+        alert('jQuery is not loaded');
+    }
+}
 </script>
 @endsection
 
