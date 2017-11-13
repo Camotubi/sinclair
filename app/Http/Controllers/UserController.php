@@ -14,7 +14,7 @@ class UserController extends Controller
      */
 	public function __construct()
 	{
-		$this->middleware('admin')->only(['create','store']);
+		//$this->middleware('admin')->only(['create','store']);
 
 	}
     public function index()
@@ -57,6 +57,7 @@ class UserController extends Controller
 
 		$user->types()->attach(UserType::where('userType.id',config('app.userType.editorId'))->first());
 	    }
+	    return('aiuda');
     }
 
     /**
