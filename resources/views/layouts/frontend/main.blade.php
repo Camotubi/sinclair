@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 	<title>Fundación Maestro Alfredo Sinclair B. - yield('title')</title>
 	<link rel="icon" href="/icon/logo_2_TdQ_icon.ico">
 	<link rel="stylesheet" href="/css/frontend/bootstrap.min.css">

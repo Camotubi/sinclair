@@ -14,8 +14,9 @@
 Route::get('/', function () {
     return view('frontend.index');
 });
-
+Route::get('/vueTest',function(){return view('welcome');});
 Route::get('/dashboard','DashboardController@index');
+Route::get('/dashboard/p','DashboardController@test');
 
 Route::get('/index', function () {
     return view('frontend.index');
