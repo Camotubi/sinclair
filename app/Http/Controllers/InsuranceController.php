@@ -46,14 +46,14 @@ class InsuranceController extends Controller
   {
     $insurance = new Insurance;
     $insurance->name = $request-> input('name');
-    $insurance->artPiece()->attach(ArtPiece::where('artPiece.id',
-    $request->input ('artPieceId'))->first());
-    $insurance->insuranceCarrier()->attach(InsuranceCarrier::where('insuranceCarrier.id',
-    $request->input ('insuranceCarrierId'))->first());
     $insurance->cost = $request-> input('cost');
     $insurance->effectiveDate = $request-> input('effectiveDate');
     $insurance->terminationDate = $request-> input('terminationDate');
     $insurance->save();
+    $insurance->artPiece()->attach(ArtPiece::where('artPiece.id',
+    $request->input ('artPieceId'))->first());
+    $insurance->insuranceCarrier()->attach(InsuranceCarrier::where('insuranceCarrier.id',
+    $request->input ('insuranceCarrierId'))->first());
   }
 
   /**

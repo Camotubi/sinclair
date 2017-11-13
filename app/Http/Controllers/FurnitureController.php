@@ -47,9 +47,9 @@ class FurnitureController extends Controller
         $furniture = new Furniture;
         $furniture->name = $request-> input('name');
         $furniture->furnitureTypeId = $request-> input('furnitureTypeId');
+        $furniture->save();
         $furniture->donator()->attach(LegalEntity::where('legalEntity.id',
         $request->input ('donatorId'))->first());
-        $furniture->save();
     }
 
     /**

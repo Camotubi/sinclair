@@ -52,9 +52,9 @@ class MultimediaController extends Controller
       $multimedia->creationDate = $request->input ('creationDate');
       $multimedia->description = $request->input ('description');
       $multimedia->fileLocation = $request->input ('fileLocation');
+      $multimedia->save();
       $multimedia->types()->attach(MultimediaType::where('MultimediaType.id',
       $request->input ('multimediaTypeId'))->first());
-      $multimedia->save();
     }
 
     /**
