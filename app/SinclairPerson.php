@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class SinclairPerson extends Model
 {
-    protected $table = "sinclairPerson";
+	protected $table = "sinclairPerson";
 
-    public function relationshipType()
-    {
-      return $this->belongsToMany('App\RelationshipType');
+	public function relationshipType()
+	{
+		return $this->belongsToMany('App\RelationshipType');
     }
 }

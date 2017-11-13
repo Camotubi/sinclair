@@ -8,11 +8,11 @@ use App\InsuranceCarrier;
 
 class InsuranceCarrierController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth');
-      $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-      $this->middleware('editor'['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth');
+		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor'['only' => ['store','edit']]);
   }
   /**
    * Display a listing of the resource.
@@ -21,7 +21,7 @@ class InsuranceCarrierController extends Controller
    */
   public function index()
   {
-      return view('insuranceCarrier.index');
+	  return view('insuranceCarrier.index');
   }
 
   /**
@@ -31,7 +31,7 @@ class InsuranceCarrierController extends Controller
    */
   public function create()
   {
-      return view('insuranceCarrier.create');
+	  return view('insuranceCarrier.create');
   }
 
   /**
@@ -42,12 +42,12 @@ class InsuranceCarrierController extends Controller
    */
   public function store(Request $request)
   {
-      $insuranceCarrier = new InsuranceCarrier;
-      $insuranceCarrier->name = $request-> input('name');
-      $insuranceCarrier->phone = $request-> input('phone');
-      $insuranceCarrier->email = $request-> input('email');
-      $insuranceCarrier->ruc = $request-> input('ruc');
-      $insuranceCarrier->save();
+	  $insuranceCarrier = new InsuranceCarrier;
+	  $insuranceCarrier->name = $request-> input('name');
+	  $insuranceCarrier->phone = $request-> input('phone');
+	  $insuranceCarrier->email = $request-> input('email');
+	  $insuranceCarrier->ruc = $request-> input('ruc');
+	  $insuranceCarrier->save();
   }
 
   /**
@@ -58,7 +58,7 @@ class InsuranceCarrierController extends Controller
    */
   public function show($id)
   {
-      return view('insuranceCarrier.show');
+	  return view('insuranceCarrier.show');
   }
 
   /**
@@ -69,7 +69,7 @@ class InsuranceCarrierController extends Controller
    */
   public function edit($id)
   {
-      //
+	  //
   }
 
   /**
@@ -81,7 +81,7 @@ class InsuranceCarrierController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+	  //
   }
 
   /**
@@ -92,6 +92,6 @@ class InsuranceCarrierController extends Controller
    */
   public function destroy($id)
   {
-      //
+	  //
   }
 }

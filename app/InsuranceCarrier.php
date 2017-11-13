@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class InsuranceCarrier extends Model
 {
-    protected $table = "insuranceCarrier";
+	protected $table = "insuranceCarrier";
 
-    public function insurance()
-    {
-      return $this->hasMany('App\Insurance', 'insuranceCarrierId', 'id');
+	public function insurance()
+	{
+		return $this->hasMany('App\Insurance', 'insuranceCarrierId', 'id');
     }
 }

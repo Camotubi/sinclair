@@ -10,11 +10,11 @@ use App\InsuranceCarrier;
 
 class InsuranceController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-      $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-      $this->middleware('editor', ['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor', ['only' => ['store','edit']]);
   }
   /**
    * Display a listing of the resource.
@@ -23,7 +23,7 @@ class InsuranceController extends Controller
    */
   public function index()
   {
-      return view('insurance.index');
+	  return view('insurance.index');
   }
 
   /**
@@ -33,7 +33,7 @@ class InsuranceController extends Controller
    */
   public function create()
   {
-      return view('insurance.create');
+	  return view('insurance.create');
   }
 
   /**
@@ -44,16 +44,16 @@ class InsuranceController extends Controller
    */
   public function store(Request $request)
   {
-    $insurance = new Insurance;
-    $insurance->name = $request-> input('name');
-    $insurance->artPiece()->attach(ArtPiece::where('artPiece.id',
-    $request->input ('artPieceId'))->first());
-    $insurance->insuranceCarrier()->attach(InsuranceCarrier::where('insuranceCarrier.id',
-    $request->input ('insuranceCarrierId'))->first());
-    $insurance->cost = $request-> input('cost');
-    $insurance->effectiveDate = $request-> input('effectiveDate');
-    $insurance->terminationDate = $request-> input('terminationDate');
-    $insurance->save();
+	  $insurance = new Insurance;
+	  $insurance->name = $request-> input('name');
+	  $insurance->artPiece()->attach(ArtPiece::where('artPiece.id',
+		  $request->input ('artPieceId'))->first());
+	  $insurance->insuranceCarrier()->attach(InsuranceCarrier::where('insuranceCarrier.id',
+		  $request->input ('insuranceCarrierId'))->first());
+	  $insurance->cost = $request-> input('cost');
+	  $insurance->effectiveDate = $request-> input('effectiveDate');
+	  $insurance->terminationDate = $request-> input('terminationDate');
+	  $insurance->save();
   }
 
   /**
@@ -64,7 +64,7 @@ class InsuranceController extends Controller
    */
   public function show($id)
   {
-      return view('insurance.show');
+	  return view('insurance.show');
   }
 
   /**
@@ -75,7 +75,7 @@ class InsuranceController extends Controller
    */
   public function edit($id)
   {
-      //
+	  //
   }
 
   /**
@@ -87,7 +87,7 @@ class InsuranceController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+	  //
   }
 
   /**
@@ -98,6 +98,6 @@ class InsuranceController extends Controller
    */
   public function destroy($id)
   {
-      //
+	  //
   }
 }

@@ -6,14 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class MultimediaCreateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return true;
     }
 
     /**
@@ -23,8 +23,8 @@ class MultimediaCreateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+	    return [
+		    //
+	    ];
     }
 }

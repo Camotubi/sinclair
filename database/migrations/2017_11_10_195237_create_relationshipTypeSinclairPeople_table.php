@@ -6,23 +6,23 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateRelationshipTypeSinclairPeopleTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('relationshipTypeSinclairPerson', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-	    $table->integer('sinclairPersonId')->unsigned();
-	    $table->foreign('sinclairPersonId')->references('id')->on('sinclairPerson');
-	    $table->integer('relationshipTypeId')->unsigned();
-	    $table->foreign('relationshipTypeId')->references('id')->on('relationshipType');
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('relationshipTypeSinclairPerson', function (Blueprint $table) {
+			$table->increments('id');
+			$table->timestamps();
+			$table->integer('sinclairPersonId')->unsigned();
+			$table->foreign('sinclairPersonId')->references('id')->on('sinclairPerson');
+			$table->integer('relationshipTypeId')->unsigned();
+			$table->foreign('relationshipTypeId')->references('id')->on('relationshipType');
 
 
-        });
+	});
     }
 
     /**
@@ -32,6 +32,6 @@ class CreateRelationshipTypeSinclairPeopleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('relationshipTypeSinclairPerson');
+	    Schema::dropIfExists('relationshipTypeSinclairPerson');
     }
 }

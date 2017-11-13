@@ -6,55 +6,55 @@ use Illuminate\Database\Eloquent\Model;
 
 class LegalEntity extends Model
 {
-    protected $table = "legalEntity";
+	protected $table = "legalEntity";
 
-    public function artPiecePossession()
-    {
-      return $this->belongsToMany('App\ArtPiece', 'legalEntityArtPiecePossession',
-      'legalEntityId', 'artPieceId');
+	public function artPiecePossession()
+	{
+		return $this->belongsToMany('App\ArtPiece', 'legalEntityArtPiecePossession',
+			'legalEntityId', 'artPieceId');
     }
 
     public function artPieceRestoration()
     {
-      return $this->belongsToMany('App\ArtPiece', 'legalEntityArtPieceRestoration',
-      'legalEntityId', 'artPieceId');
+	    return $this->belongsToMany('App\ArtPiece', 'legalEntityArtPieceRestoration',
+		    'legalEntityId', 'artPieceId');
     }
 
     public function rent()
     {
-      return $this->hasMany('App\Rent', 'legalEntityId', 'id');
+	    return $this->hasMany('App\Rent', 'legalEntityId', 'id');
     }
 
     public function exhibition()
     {
-      return $this->belongsToMany('App\Exhibition', 'legalEntityExhibition',
-      'legalEntityId', 'exhibitionId');
+	    return $this->belongsToMany('App\Exhibition', 'legalEntityExhibition',
+		    'legalEntityId', 'exhibitionId');
     }
 
     public function furniturePossession()
     {
-      return $this->belongsToMany('App\Furniture', 'legalEntityFurniturePossession',
-      'legalEntityId', 'furnitureId');
+	    return $this->belongsToMany('App\Furniture', 'legalEntityFurniturePossession',
+		    'legalEntityId', 'furnitureId');
     }
 
     public function furnitureRestoration()
     {
-      return $this->belongsToMany('App\Furniture',
-      'legalEntityFurnitureRestoration', 'legalEntityId', 'furnitureId');
+	    return $this->belongsToMany('App\Furniture',
+		    'legalEntityFurnitureRestoration', 'legalEntityId', 'furnitureId');
     }
 
     public function artPieceDonator()
     {
-      return $this->hasMany('App\ArtPiece', 'donatorId', 'id');
+	    return $this->hasMany('App\ArtPiece', 'donatorId', 'id');
     }
 
     public function condecoration()
     {
-      return $this->hasMany('App\Condecoration', 'condecoratorId', 'id');
+	    return $this->hasMany('App\Condecoration', 'condecoratorId', 'id');
     }
 
     public function furnitureDonator()
     {
-      return $this->hasMany('App\Furniture', 'donatorId', 'id');
+	    return $this->hasMany('App\Furniture', 'donatorId', 'id');
     }
 }

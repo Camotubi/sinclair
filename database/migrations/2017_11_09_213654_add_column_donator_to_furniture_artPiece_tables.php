@@ -6,17 +6,17 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddColumnDonatorToFurnitureArtPieceTables extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        //
-	    Schema::table('furniture', function (Blueprint $table) {
-		    $table->integer('donatorId')->unsigned()->nullable();
-		    $table->foreign('donatorId')->references('id')->on('legalEntity');
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		//
+		Schema::table('furniture', function (Blueprint $table) {
+			$table->integer('donatorId')->unsigned()->nullable();
+			$table->foreign('donatorId')->references('id')->on('legalEntity');
 	    });
 	    Schema::table('artPiece', function (Blueprint $table) {
 		    $table->integer('donatorId')->unsigned()->nullable();
@@ -33,11 +33,11 @@ class AddColumnDonatorToFurnitureArtPieceTables extends Migration
     {
 	    Schema::table('furniture', function (Blueprint $table) {
 
-		$table->dropForeign('furniture_donatorId_foreign');
+		    $table->dropForeign('furniture_donatorId_foreign');
 		    $table->dropColumn('donatorId');
 	    });
 	    Schema::table('artPiece', function (Blueprint $table) {
-		$table->dropForeign('artPiece_donatorId_foreign');
+		    $table->dropForeign('artPiece_donatorId_foreign');
 		    $table->dropColumn('donatorId');
 	    });
     }

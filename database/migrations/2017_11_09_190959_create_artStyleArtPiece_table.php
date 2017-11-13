@@ -6,21 +6,21 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateArtStyleArtPieceTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('artStyleArtPiece', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-	    $table->integer('artPieceId')->unsigned()->nullable();
-	    $table->foreign('artPieceId')->references('id')->on('artPiece');
-	    $table->integer('artStyleId')->unsigned()->nullable();
-	    $table->foreign('artStyleId')->references('id')->on('artStyle');
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('artStyleArtPiece', function (Blueprint $table) {
+			$table->increments('id');
+			$table->timestamps();
+			$table->integer('artPieceId')->unsigned()->nullable();
+			$table->foreign('artPieceId')->references('id')->on('artPiece');
+			$table->integer('artStyleId')->unsigned()->nullable();
+			$table->foreign('artStyleId')->references('id')->on('artStyle');
+	});
     }
 
     /**
@@ -30,6 +30,6 @@ class CreateArtStyleArtPieceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artStyleArtPiece');
+	    Schema::dropIfExists('artStyleArtPiece');
     }
 }

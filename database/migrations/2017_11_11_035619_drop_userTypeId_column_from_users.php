@@ -6,18 +6,18 @@ use Illuminate\Database\Migrations\Migration;
 
 class DropUserTypeIdColumnFromUsers extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        
-	Schema::table('users', function(Blueprint $table)
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
 	{
-		$table->dropForeign('users_userTypeId_foreign');
-		$table->dropColumn('userTypeId');
+
+		Schema::table('users', function(Blueprint $table)
+		{
+			$table->dropForeign('users_userTypeId_foreign');
+			$table->dropColumn('userTypeId');
 
 	});
     }
@@ -29,10 +29,10 @@ class DropUserTypeIdColumnFromUsers extends Migration
      */
     public function down()
     {
-        //
-        Schema::table('users', function (Blueprint $table) {
-		$table->integer('userTypeId')->unsigned();
-		$table->foreign('userTypeId')->references('id')->on('userType');
-        });
+	    //
+	    Schema::table('users', function (Blueprint $table) {
+		    $table->integer('userTypeId')->unsigned();
+		    $table->foreign('userTypeId')->references('id')->on('userType');
+	});
     }
 }

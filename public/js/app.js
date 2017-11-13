@@ -1098,6 +1098,7 @@ window.Vue = __webpack_require__(37);
 
 Vue.component('pagination', __webpack_require__(40));
 Vue.component('art-piece-table', __webpack_require__(41));
+Vue.component('user-create-form', __webpack_require__(49));
 var app = new Vue({ el: '#app' });
 
 /***/ }),
@@ -47159,7 +47160,7 @@ var render = function() {
         attrs: { data: _vm.laravelData },
         on: { "pagination-change-page": _vm.getResults }
       }),
-      _vm._v("\n" + _vm._s(_vm.show_name) + "\n")
+      _vm._v("\n\t" + _vm._s(_vm.show_name) + "\n")
     ],
     1
   )
@@ -47175,9 +47176,363 @@ if (false) {
 }
 
 /***/ }),
-/* 49 */,
-/* 50 */,
-/* 51 */,
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(9)
+/* script */
+var __vue_script__ = __webpack_require__(50)
+/* template */
+var __vue_template__ = __webpack_require__(51)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/UserCreateForm.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-de0963f0", Component.options)
+  } else {
+    hotAPI.reload("data-v-de0963f0", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			username: '',
+			email: '',
+			password: '',
+			userExists: true,
+			emailExists: true,
+			csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+		};
+	},
+
+	methods: {
+		checkUniqueUser: function checkUniqueUser() {
+			var self = this;
+			if (this.username.length == 0) {
+				this.incorrectUsername = true;
+			} else {
+
+				axios.get('/api/user/findUsername/' + self.username).then(function (response) {
+					self.userExists = response.data;
+				});
+			}
+		},
+
+		checkUniqueEmail: function checkUniqueEmail() {
+			var self = this;
+			if (self.email.length == 0) {
+				//this.incorrectEmail = true;
+			} else {
+				axios.get('/api/user/findEmail/' + self.email).then(function (response) {
+					self.emailExists = response.data;
+				});
+			}
+		}
+	},
+	computed: {
+		allowSubmit: function allowSubmit() {
+			return !(this.userExists || this.emailExists || this.incorrectEmail || this.incorrectPassword);
+		},
+		correctUser: function correctUser() {
+			return this.username.length > 0;
+		},
+		incorrectEmail: function validateEmail() {
+			var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+			return !re.test(this.email);
+		},
+		incorrectPassword: function validatePassword() {
+			return this.password.length < 8;
+		}
+
+	}
+});
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("form", { attrs: { action: "/user", method: "post" } }, [
+    _c("div", { staticClass: "form-row" }, [
+      _c("input", {
+        attrs: { type: "hidden", name: "_token" },
+        domProps: { value: _vm.csrf }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-4" }, [
+        _c("label", { attrs: { for: "usernameInput" } }, [
+          _vm._v("Nombre de Usuario:")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.username,
+              expression: "username"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            required: "",
+            id: "usernameInput",
+            type: "text",
+            name: "username"
+          },
+          domProps: { value: _vm.username },
+          on: {
+            change: _vm.checkUniqueUser,
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.username = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-4" }, [
+        _c("label", { attrs: { for: "emailInput" } }, [_vm._v("Email:")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.email,
+              expression: "email"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            required: "",
+            id: "emailInput",
+            type: "text",
+            name: "email"
+          },
+          domProps: { value: _vm.email },
+          on: {
+            change: _vm.checkUniqueEmail,
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.email = $event.target.value
+            }
+          }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-4" }, [
+        _c("label", { attrs: { for: "passwordInput" } }, [
+          _vm._v("Contraseña:")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.password,
+              expression: "password"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: {
+            id: "passwordInput",
+            required: "",
+            type: "password",
+            name: "password"
+          },
+          domProps: { value: _vm.password },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.password = $event.target.value
+            }
+          }
+        })
+      ])
+    ]),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _c("label", [_vm._v("Tipo de Usuario:")]),
+    _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
+    _vm._m(2),
+    _vm._v(" "),
+    _c("input", {
+      staticClass: "btn btn-primary",
+      attrs: {
+        type: "submit",
+        disabled: !_vm.allowSubmit,
+        value: "Crear Usuario"
+      }
+    })
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-row" }, [
+      _c("div", { staticClass: "form-group col-md-6" }, [
+        _c("label", { attrs: { for: "firstNameInput" } }, [
+          _vm._v("Primer Nombre:")
+        ]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { id: "firstNameInput", type: "text", name: "firstName" }
+        })
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group col-md-6" }, [
+        _c("label", { attrs: { for: "lastNameInput" } }, [_vm._v("Apellido:")]),
+        _vm._v(" "),
+        _c("input", {
+          staticClass: "form-control",
+          attrs: { id: "lastNameInput", type: "text", name: "lastName" }
+        })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-check" }, [
+      _c("label", { staticClass: "form-check-label" }, [
+        _c("input", {
+          staticClass: "form-check-input",
+          attrs: { name: "adminType", type: "checkbox", value: "true" }
+        }),
+        _vm._v("\n\t\t\tAdministrador\n\t\t")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-check" }, [
+      _c("label", { staticClass: "form-check-label" }, [
+        _c("input", {
+          staticClass: "form-check-input",
+          attrs: {
+            name: "editorType",
+            type: "checkbox",
+            checked: "",
+            value: "true",
+            disabled: ""
+          }
+        }),
+        _vm._v("\n\t\t\tEditor\n\t\t")
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-de0963f0", module.exports)
+  }
+}
+
+/***/ }),
 /* 52 */
 /***/ (function(module, exports) {
 

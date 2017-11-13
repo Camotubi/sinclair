@@ -6,17 +6,17 @@ use Illuminate\Database\Migrations\Migration;
 
 class AddDefaultToColumnGeneratePublicationOnartPieceTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        
-	    Schema::table('artPiece', function(Blueprint $table)
-	    {
-		$table->boolean('generatePublication')->default(false)->change();
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+
+		Schema::table('artPiece', function(Blueprint $table)
+		{
+			$table->boolean('generatePublication')->default(false)->change();
 	    });
     }
 
@@ -27,6 +27,6 @@ class AddDefaultToColumnGeneratePublicationOnartPieceTable extends Migration
      */
     public function down()
     {
-        //
+	    //
     }
 }

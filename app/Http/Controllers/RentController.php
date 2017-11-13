@@ -12,11 +12,11 @@ use App\LegalEntity;
 
 class RentController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-        $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-        $this->middleware('editor', ['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor', ['only' => ['store','edit']]);
     }
     /**
      * Display a listing of the resource.
@@ -25,7 +25,7 @@ class RentController extends Controller
      */
     public function index()
     {
-        return view('rent.index');
+	    return view('rent.index');
     }
 
     /**
@@ -35,7 +35,7 @@ class RentController extends Controller
      */
     public function create()
     {
-        return view('rent.create');
+	    return view('rent.create');
     }
 
     /**
@@ -46,15 +46,15 @@ class RentController extends Controller
      */
     public function store(RentCreateRequest $request)
     {
-      $rent = new Rent;
-      $rent->artPiece()->attach(ArtPiece::where('artPiece.id',
-      $request->input ('artPieceId'))->first());
-      $rent->legalEntity()->attach(LegalEntity::where('legalEntity.id',
-      $request->input ('legalEntityId'))->first());
-      $rent->moneyQuantity = $request-> input('moneyQuantity');
-      $rent->effectiveDate = $request-> input('effectiveDate');
-      $rent->terminationDate = $request-> input('terminationDate');
-      $rent->save();
+	    $rent = new Rent;
+	    $rent->artPiece()->attach(ArtPiece::where('artPiece.id',
+		    $request->input ('artPieceId'))->first());
+	    $rent->legalEntity()->attach(LegalEntity::where('legalEntity.id',
+		    $request->input ('legalEntityId'))->first());
+	    $rent->moneyQuantity = $request-> input('moneyQuantity');
+	    $rent->effectiveDate = $request-> input('effectiveDate');
+	    $rent->terminationDate = $request-> input('terminationDate');
+	    $rent->save();
     }
 
     /**
@@ -65,7 +65,7 @@ class RentController extends Controller
      */
     public function show($id)
     {
-        return view('rent.show');
+	    return view('rent.show');
     }
 
     /**
@@ -76,7 +76,7 @@ class RentController extends Controller
      */
     public function edit($id)
     {
-        //
+	    //
     }
 
     /**
@@ -88,7 +88,7 @@ class RentController extends Controller
      */
     public function update(RentUpdateRequest $request, $id)
     {
-        //
+	    //
     }
 
     /**
@@ -99,6 +99,6 @@ class RentController extends Controller
      */
     public function destroy($id)
     {
-        //
+	    //
     }
 }

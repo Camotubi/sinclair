@@ -3,10 +3,10 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\UserType::class, function (Faker $faker) {
-    static $password;
+	static $password;
 
-    return [
-        'name' => $faker->name,
-	'description' => $faker->sentence,
-    ];
+	return [
+		'name' => $faker->name,
+		'description' => $faker->sentence,
+	];
 });

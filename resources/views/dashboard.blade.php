@@ -1,4 +1,6 @@
 @extends('layouts.app')
 @section('content')
-	@include('components.artPieceTable')
+	<div class="container">
+		<art-piece-table :show_name="true"></art-piece-table>
+	</div>
 @endsection
