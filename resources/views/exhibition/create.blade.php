@@ -1,15 +1,15 @@
 @extends('layouts.app')
 
 @section('title')
-  Registro de Mueble
+  Registro de Exhibición
 @endsection
 
 @section('content')
 <div>
   <section>
     <article>
-      <h3>Registro de Mueble</h3>
-      <form class="" action="/furniture" method="post">
+      <h3>Registro de Exhibición</h3>
+      <form class=""  action= "/exhibition" method="post">
         {{ csrf_field() }}
         <div class="form-row">
           <div class="form-group col-md-4">
@@ -17,15 +17,15 @@
             <input class="form-control" type="text" name="name" value="">
           </div>
           <div class="form-group col-md-4">
-            <label for="furnitureTypeId">Tipo de mueble:</label>
-            <input class="form-control" type="text" name="furnitureTypeId" value="">
+            <label for="location">Lugar:</label>
+            <input class="form-control" type="text" name="location" value="">
           </div>
           <div class="form-group col-md-4">
-            <label for="donatorId">Donador:</label>
-            <input class="form-control" type="text" name="donatorId" value="">
+            <label for="date">Fecha:</label>
+            <input class="form-control" type="date" name="date" value="">
           </div>
         </div>
-        <input type="submit" name="register" class="btn btn-primary" value="Registrar">
+        <input type="submit" class="btn btn-primary" name="register" value="Registrar">
       </form>
     </article>
   </section>
