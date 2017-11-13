@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ArtPieceCreateRequest;
+use App\Http\Requests\ArtPieceUpdateRequest;
 use App\ArtPiece;
 use Illuminate\Support\Facades\DB;
 class ArtPieceController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-        //$this->middleware('editor'['only' => ['create',store','edit']]);
+        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+        $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+        $this->middleware('editor', ['only' => ['store','edit']]);
     }
 
     /**
@@ -40,7 +43,7 @@ class ArtPieceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ArtPieceCreateRequest $request)
     {
         $artPiece = new ArtPiece;
         $artPiece->name = $request->input ('name');
@@ -85,7 +88,7 @@ class ArtPieceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ArtPieceUpdateRequest $request, $id)
     {
         //
     }
@@ -106,7 +109,15 @@ class ArtPieceController extends Controller
 
 	$artPieces = DB::table('artPiece')->paginate($amount);
 	return $artPieces;
+    }
+    public function frontIndex()
+    {
+      return view('frontend.artPiece.Index');
+    }
 
+    public function frontShow()
+    {
+      return view('frontend.artPiece.show');
     }
 }
 

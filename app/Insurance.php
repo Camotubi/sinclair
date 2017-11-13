@@ -4,13 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Rent extends Model
+class Insurance extends Model
 {
-    protected $table = "rent";
+    protected $table = "insurance";
 
-    public function legalEntity()
+    public function insuranceCarrier()
     {
-      return $this->belongsTo('App\LegalEntity');
+      return $this->belongsTo('App\InsuranceCarrier');
     }
 
     public function artPiece()

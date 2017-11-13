@@ -22,8 +22,7 @@ class LegalEntity extends Model
 
     public function rent()
     {
-      return $this->belongsToMany('App\ArtPiece', 'rent', 'legalEntityId',
-      'artPieceId');
+      return $this->hasMany('App\Rent', 'legalEntityId', 'id');
     }
 
     public function exhibition()

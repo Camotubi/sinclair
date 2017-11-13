@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\MultimediaCreateRequest;
+use App\Http\Requests\MultimediaUpdateRequest;
 
 class MultimediaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-        $this->middleware('editor'['only' => ['store','edit']]);
+        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+        $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+        $this->middleware('editor', ['only' => ['store','edit']]);
     }
     /**
      * Display a listing of the resource.
@@ -38,7 +40,7 @@ class MultimediaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MultimediaCreateRequest $request)
     {
         //
     }
@@ -72,7 +74,7 @@ class MultimediaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(MultimediaUpdateRequest $request, $id)
     {
         //
     }

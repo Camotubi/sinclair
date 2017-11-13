@@ -3,12 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\LegalEntityCreateRequest;
-use App\Http\Requests\LegalEntityUpdateRequest;
 
-use App\LegalEntity;
-
-class LegalEntityController extends Controller
+class InsuranceController extends Controller
 {
   public function __construct()
   {
@@ -16,7 +12,6 @@ class LegalEntityController extends Controller
       $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
       $this->middleware('editor', ['only' => ['store','edit']]);
   }
-
   /**
    * Display a listing of the resource.
    *
@@ -24,7 +19,7 @@ class LegalEntityController extends Controller
    */
   public function index()
   {
-      return view('legalEntity.index');
+      //
   }
 
   /**
@@ -34,7 +29,7 @@ class LegalEntityController extends Controller
    */
   public function create()
   {
-      return view('legalEntity.create');
+      //
   }
 
   /**
@@ -43,19 +38,9 @@ class LegalEntityController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(LegalEntityCreateRequest $request)
+  public function store(MultimediaCreateRequest $request)
   {
-      $legalEntity = new LegalEntity;
-      $legalEntity->name = $request->input ('name');
-      $legalEntity->email = $request->input ('email');
-      $legalEntity->phone = $request->input ('phone');
-      $legalEntity->address = $request->input ('address');
-      $legalEntity->ruc = $request->input ('ruc');
-      $legalEntity->identificationNumber = $request->input ('identificationNumber');
-      if ( $request->input ('philanthropy') ) {
-        $artPiece->philanthropy = true;
-      }
-      $legalEntity->save();
+      //
   }
 
   /**
@@ -66,7 +51,7 @@ class LegalEntityController extends Controller
    */
   public function show($id)
   {
-      return view('legalEntity.show');
+      //
   }
 
   /**
@@ -87,7 +72,7 @@ class LegalEntityController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(LegalEntityUpdateRequest $request, $id)
+  public function update(MultimediaUpdateRequest $request, $id)
   {
       //
   }
