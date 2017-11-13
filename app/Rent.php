@@ -10,11 +10,11 @@ class Rent extends Model
 
     public function legalEntity()
     {
-      return $this->belongsTo('App\LegalEntity');
+      return $this->belongsTo('App\LegalEntity', 'legalEntityId');
     }
 
     public function artPiece()
     {
-      return $this->belongsTo('App\ArtPiece');
+      return $this->belongsTo('App\ArtPiece', 'artPieceId');
     }
 }

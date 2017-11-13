@@ -10,6 +10,6 @@ class Condecoration extends Model
 
     public function condecorator()
     {
-      return $this->belongsTo('App\LegalEntity', 'donatorId');
+      return $this->belongsTo('App\LegalEntity', 'condecoratorId');
     }
 }
