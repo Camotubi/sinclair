@@ -30,7 +30,7 @@ Route::get('/alfredo', function () {
 
 Route::get('/f/artPiece/index', 'ArtPieceController@frontIndex');
 
-Route::get('/f/artPiece/show', 'ArtPieceController@frontShow');
+Route::get('/f/artPiece/show/{name}', 'ArtPieceController@frontShow');
 
 Route::get('/contacto', function () {
 });
