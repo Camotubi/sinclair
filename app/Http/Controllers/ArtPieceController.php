@@ -102,4 +102,14 @@ class ArtPieceController extends Controller
     {
         //
     }
+
+    public function frontIndex()
+    {
+      return view('frontend.artPiece.Index');
+    }
+
+    public function frontShow()
+    {
+      return view('frontend.artPiece.show');
+    }
 }
