@@ -10,12 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
  */
-
+// Main Page Routes
 Route::get('/', function () {
 	return view('frontend.index');
 });
-Route::get('/dashboard','DashboardController@index');
-Route::get('/dashboard/p','DashboardController@test');
 
 Route::get('/index', function () {
 	return view('frontend.index');
@@ -37,17 +35,11 @@ Route::get('/contacto', function () {
 Route::get('/cita', function () {
 	return view('frontend.cita');
 });
-
-Route::get('/test', function () {
-	return view('home');
-});
+// Staff Routes
 Route::get('/login',function() {
 	return view('auth.login');
 })->name('login');
-Route::post('/user','UserController@store');
-Route::get('/user/create','UserController@create');
 Route::post('/login','Auth\LoginController@authenticate');
-Route::get('/testAxios','QueriesController@test');
 Route::resources([
 	'artPiece' => 'ArtPieceController',
 	'dashBoard' => 'DashboardController',
@@ -56,7 +48,7 @@ Route::resources([
 	'publication' => 'PublicationController',
 	'rent' => 'RentController',
 	'multimedia' => 'MultimediaController',
-	//'user' => 'UserController',
+	'user' => 'UserController',
 	'artStyle' => 'ArtStyleController',
 	'condecoration' => 'CondecorationController',
 	'exhibition' => 'ExhibitionController',
@@ -66,3 +58,10 @@ Route::resources([
 	'visit' => 'VisitController',
 	'visitor' => 'VisitorController'
 ]);
+Route::get('/dashboard','DashboardController@index');
+Route::get('/dashboard/p','DashboardController@test');
+//Testing Routes
+Route::get('/test', function () {
+	return view('home');
+});
+Route::get('/testAxios','QueriesController@test');

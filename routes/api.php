@@ -13,9 +13,6 @@ use Illuminate\Http\Request;
 |
  */
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-   return $request->user();
-});*/
 
 Route::get('/artPiece/paginate/{amount}','ArtPieceController@apiPaginate');
 Route::get('/user/findUsername/{username}','UserController@findUsername');
