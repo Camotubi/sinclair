@@ -20,8 +20,8 @@
 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 		</form>
 		<div >
-			<button class ="btn btn-outline-info my-2 my-sm-0 dropdown-toggle nav-item" type ="button" id="userDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 
-				@isset($user)
+			@isset($user)
+				<button class ="btn btn-outline-info my-2 my-sm-0 dropdown-toggle nav-item" type ="button" id="userDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 
 				{{$user->name}}
 			@endisset
 			</button>
