@@ -71,7 +71,15 @@ class ArtPieceController extends Controller
 	 */
 	public function show($id)
 	{
-		return view('artPiece.show');
+		$artPiece = ArtPiece::find($id);
+		if(!is_null($artPiece))
+		{
+			return view('artPiece.show', ['artPiece' => $artPiece]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Obra de arte no encontrada');
+		}
 	}
 
 	/**

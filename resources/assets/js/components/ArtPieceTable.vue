@@ -18,7 +18,6 @@
 			</table>
 		</ul>
 		<pagination :data="laravelData" v-on:pagination-change-page="getResults"></pagination>
-		{{show_name}}
 	</div>
 
 </template>
