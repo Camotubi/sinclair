@@ -6,14 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CondecorationUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return false;
     }
 
     /**
@@ -23,8 +23,8 @@ class CondecorationUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+	    return [
+		    //
+	    ];
     }
 }

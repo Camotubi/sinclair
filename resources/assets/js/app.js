@@ -18,5 +18,6 @@ window.Vue = require('vue');
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('art-piece-table', require('./components/ArtPieceTable.vue'));
+Vue.component('user-create-form', require('./components/UserCreateForm.vue'));
 const app = new Vue({ el: '#app' });
 

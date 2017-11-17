@@ -6,20 +6,20 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateVisitorTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('visitor', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-	    $table->string('fisrtName');
-	    $table->string('lastName');
-	    $table->string('nin')->nullable();
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('visitor', function (Blueprint $table) {
+			$table->increments('id');
+			$table->timestamps();
+			$table->string('fisrtName');
+			$table->string('lastName');
+			$table->string('nin')->nullable();
+	});
     }
 
     /**
@@ -29,6 +29,6 @@ class CreateVisitorTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('visitor');
+	    Schema::dropIfExists('visitor');
     }
 }

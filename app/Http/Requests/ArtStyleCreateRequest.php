@@ -6,14 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ArtStyleCreateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return false;
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return false;
     }
 
     /**
@@ -23,8 +23,8 @@ class ArtStyleCreateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
-        ];
+	    return [
+		    //
+	    ];
     }
 }

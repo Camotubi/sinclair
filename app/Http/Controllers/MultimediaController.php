@@ -11,11 +11,11 @@ use App\MultimediaType;
 
 class MultimediaController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-        $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-        $this->middleware('editor', ['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor', ['only' => ['store','edit']]);
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class MultimediaController extends Controller
      */
     public function index()
     {
-        return view('multimedia.index');
+	    return view('multimedia.index');
     }
 
     /**
@@ -34,7 +34,7 @@ class MultimediaController extends Controller
      */
     public function create()
     {
-        return view('multimedia.create');
+	    return view('multimedia.create');
     }
 
     /**
@@ -45,16 +45,16 @@ class MultimediaController extends Controller
      */
     public function store(MultimediaCreateRequest $request)
     {
-      $multimedia = new Multimedia;
-      if ( $request->input ('sinclairMemorability') ) {
-        $multimedia->sinclairMemorability = true;
+	    $multimedia = new Multimedia;
+	    if ( $request->input ('sinclairMemorability') ) {
+		    $multimedia->sinclairMemorability = true;
       }
       $multimedia->creationDate = $request->input ('creationDate');
       $multimedia->description = $request->input ('description');
       $multimedia->fileLocation = $request->input ('fileLocation');
-      $multimedia->types()->attach(MultimediaType::where('MultimediaType.id',
-      $request->input ('multimediaTypeId'))->first());
       $multimedia->save();
+      $multimedia->types()->attach(MultimediaType::where('MultimediaType.id',
+		$request->input ('multimediaTypeId'))->first());
     }
 
     /**
@@ -65,7 +65,7 @@ class MultimediaController extends Controller
      */
     public function show($id)
     {
-        return view('multimedia.show');
+	    return view('multimedia.show');
     }
 
     /**
@@ -76,7 +76,7 @@ class MultimediaController extends Controller
      */
     public function edit($id)
     {
-        //
+	    //
     }
 
     /**
@@ -88,7 +88,7 @@ class MultimediaController extends Controller
      */
     public function update(MultimediaUpdateRequest $request, $id)
     {
-        //
+	    //
     }
 
     /**
@@ -99,6 +99,6 @@ class MultimediaController extends Controller
      */
     public function destroy($id)
     {
-        //
+	    //
     }
 }

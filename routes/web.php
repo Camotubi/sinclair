@@ -9,23 +9,20 @@
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
-
+ */
+// Main Page Routes
 Route::get('/', function () {
-    return view('frontend.index');
+	return view('frontend.index');
 });
-Route::get('/vueTest',function(){return view('welcome');});
-Route::get('/dashboard','DashboardController@index');
-Route::get('/dashboard/p','DashboardController@test');
 
 Route::get('/index', function () {
-    return view('frontend.index');
+	return view('frontend.index');
 });
 Route::get('/quienes_somos', function () {
-    return view('frontend.quienes_somos');
+	return view('frontend.quienes_somos');
 });
 Route::get('/alfredo', function () {
-    return view('frontend.alfredo');
+	return view('frontend.alfredo');
 });
 
 Route::get('/f/artPiece/index', 'ArtPieceController@frontIndex');
@@ -36,32 +33,35 @@ Route::get('/contacto', function () {
 });
 
 Route::get('/cita', function () {
-    return view('frontend.cita');
+	return view('frontend.cita');
 });
-
-Route::get('/test', function () {
-    return view('query');
-});
+// Staff Routes
 Route::get('/login',function() {
 	return view('auth.login');
-});
+})->name('login');
 Route::post('/login','Auth\LoginController@authenticate');
-Route::get('/testAxios','QueriesController@test');
 Route::resources([
-    'artPiece' => 'ArtPieceController',
-    'dashBoard' => 'DashboardController',
-    'furniture' => 'FurnitureController',
-    'legalEntity' => 'LegalEntityController',
-    'publication' => 'PublicationController',
-    'rent' => 'RentController',
-    'multimedia' => 'MultimediaController',
-    'user' => 'UserController',
-    'artStyle' => 'ArtStyleController',
-    'condecoration' => 'CondecorationController',
-    'exhibition' => 'ExhibitionController',
-    'insuranceCarrier' => 'InsuranceCarrierController',
-    'insurance' => 'InsuranceController',
-    'sinclairPerson' => 'SinclairPersonController',
-    'visit' => 'VisitController',
-    'visitor' => 'VisitorController'
+	'artPiece' => 'ArtPieceController',
+	'dashBoard' => 'DashboardController',
+	'furniture' => 'FurnitureController',
+	'legalEntity' => 'LegalEntityController',
+	'publication' => 'PublicationController',
+	'rent' => 'RentController',
+	'multimedia' => 'MultimediaController',
+	'user' => 'UserController',
+	'artStyle' => 'ArtStyleController',
+	'condecoration' => 'CondecorationController',
+	'exhibition' => 'ExhibitionController',
+	'insuranceCarrier' => 'InsuranceCarrierController',
+	'insurance' => 'InsuranceController',
+	'sinclairPerson' => 'SinclairPersonController',
+	'visit' => 'VisitController',
+	'visitor' => 'VisitorController'
 ]);
+Route::get('/dashboard','DashboardController@index');
+Route::get('/dashboard/p','DashboardController@test');
+//Testing Routes
+Route::get('/test', function () {
+	return view('home');
+});
+Route::get('/testAxios','QueriesController@test');

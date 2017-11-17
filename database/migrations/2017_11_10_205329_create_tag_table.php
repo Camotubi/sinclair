@@ -6,18 +6,18 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateTagTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('tag', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-	    $table->string('tag')->unique();
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('tag', function (Blueprint $table) {
+			$table->increments('id');
+			$table->timestamps();
+			$table->string('tag')->unique();
+	});
     }
 
     /**
@@ -27,6 +27,6 @@ class CreateTagTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tag');
+	    Schema::dropIfExists('tag');
     }
 }

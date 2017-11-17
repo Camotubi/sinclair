@@ -6,14 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ArtPieceUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return true;
     }
 
     /**
@@ -23,15 +23,15 @@ class ArtPieceUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-          'name' => 'required',
-          'currentLocation' => 'required',
-          'style' => 'required',
-          'era' => 'required',
-          'technique' => 'required',
-          'criticalAnalisis' => 'required',
-          'creationDate' => 'required',
-          'generatePublication' => 'required',
-        ];
+	    return [
+		    'name' => 'required',
+		    'currentLocation' => 'required',
+		    'style' => 'required',
+		    'era' => 'required',
+		    'technique' => 'required',
+		    'criticalAnalisis' => 'required',
+		    'creationDate' => 'required',
+		    'generatePublication' => 'required',
+	    ];
     }
 }

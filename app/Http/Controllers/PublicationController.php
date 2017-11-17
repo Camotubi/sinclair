@@ -11,11 +11,11 @@ use App\User;
 
 class PublicationController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-        $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-        $this->middleware('editor', ['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor', ['only' => ['store','edit']]);
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +24,7 @@ class PublicationController extends Controller
      */
     public function index()
     {
-        return view('publication.index');
+	    return view('publication.index');
     }
 
     /**
@@ -34,7 +34,7 @@ class PublicationController extends Controller
      */
     public function create()
     {
-        return view('publication.create');
+	    return view('publication.create');
     }
 
     /**
@@ -48,9 +48,9 @@ class PublicationController extends Controller
       $publication = new Publication;
       $publication->title = $request-> input('title');
       $publication->body = $request-> input('body');
+      $apublication->save();
       $publication->user()->attach(User::where('users.id',
       $request->input ('userId'))->first());
-      $apublication->save();
     }
 
     /**
@@ -61,7 +61,7 @@ class PublicationController extends Controller
      */
     public function show($id)
     {
-        return view('publication.show');
+	    return view('publication.show');
     }
 
     /**
@@ -72,7 +72,7 @@ class PublicationController extends Controller
      */
     public function edit($id)
     {
-        //
+	    //
     }
 
     /**
@@ -84,7 +84,7 @@ class PublicationController extends Controller
      */
     public function update(PublicationUpdateRequest $request, $id)
     {
-        //
+	    //
     }
 
     /**
@@ -95,6 +95,6 @@ class PublicationController extends Controller
      */
     public function destroy($id)
     {
-        //
+	    //
     }
 }

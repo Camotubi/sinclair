@@ -6,20 +6,20 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateArtStyleTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('artStyle', function (Blueprint $table) {
-            $table->increments('id');
-	    $table->timestamps();
-	    $table->string('name');
-	    $table->text('description')->nullable();
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('artStyle', function (Blueprint $table) {
+			$table->increments('id');
+			$table->timestamps();
+			$table->string('name');
+			$table->text('description')->nullable();
 
-        });
+	});
     }
 
     /**
@@ -29,6 +29,6 @@ class CreateArtStyleTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('artStyle');
+	    Schema::dropIfExists('artStyle');
     }
 }

@@ -8,11 +8,11 @@ use App\Exhibition;
 
 class ExhibitionController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth');
-      $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-      $this->middleware('editor'['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth');
+		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor'['only' => ['store','edit']]);
   }
   /**
    * Display a listing of the resource.
@@ -21,7 +21,7 @@ class ExhibitionController extends Controller
    */
   public function index()
   {
-      return view('exhibition.index');
+	  return view('exhibition.index');
   }
 
   /**
@@ -31,7 +31,7 @@ class ExhibitionController extends Controller
    */
   public function create()
   {
-      return view('exhibition.create');
+	  return view('exhibition.create');
   }
 
   /**
@@ -42,11 +42,11 @@ class ExhibitionController extends Controller
    */
   public function store(Request $request)
   {
-      $exhibition = new Exhibition;
-      $exhibition->name = $request-> input('name');
-      $exhibition->location = $request-> input('location');
-      $exhibition->date = $request-> input('date');
-      $exhibition->save();
+	  $exhibition = new Exhibition;
+	  $exhibition->name = $request-> input('name');
+	  $exhibition->location = $request-> input('location');
+	  $exhibition->date = $request-> input('date');
+	  $exhibition->save();
   }
 
   /**
@@ -57,7 +57,7 @@ class ExhibitionController extends Controller
    */
   public function show($id)
   {
-      return view('exhibition.show');
+	  return view('exhibition.show');
   }
 
   /**
@@ -68,7 +68,7 @@ class ExhibitionController extends Controller
    */
   public function edit($id)
   {
-      //
+	  //
   }
 
   /**
@@ -80,7 +80,7 @@ class ExhibitionController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+	  //
   }
 
   /**
@@ -91,6 +91,6 @@ class ExhibitionController extends Controller
    */
   public function destroy($id)
   {
-      //
+	  //
   }
 }

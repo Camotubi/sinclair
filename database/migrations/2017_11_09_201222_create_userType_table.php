@@ -6,19 +6,19 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateUserTypeTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
-    {
-        Schema::create('userType', function (Blueprint $table) {
-            $table->increments('id');
-            $table->timestamps();
-	    $table->string('name');
-	    $table->text('description');
-        });
+	/**
+	 * Run the migrations.
+	 *
+	 * @return void
+	 */
+	public function up()
+	{
+		Schema::create('userType', function (Blueprint $table) {
+			$table->increments('id');
+			$table->timestamps();
+			$table->string('name');
+			$table->text('description');
+	});
     }
 
     /**
@@ -28,6 +28,6 @@ class CreateUserTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('userType');
+	    Schema::dropIfExists('userType');
     }
 }

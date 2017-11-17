@@ -8,11 +8,11 @@ use App\Tag;
 
 class TagController extends Controller
 {
-  public function __construct()
-  {
-      $this->middleware('auth');
-      $this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-      $this->middleware('editor'['only' => ['store','edit']]);
+	public function __construct()
+	{
+		$this->middleware('auth');
+		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
+		$this->middleware('editor'['only' => ['store','edit']]);
   }
   /**
    * Display a listing of the resource.
@@ -21,7 +21,7 @@ class TagController extends Controller
    */
   public function index()
   {
-      return view('tag.index');
+	  return view('tag.index');
   }
 
   /**
@@ -31,7 +31,7 @@ class TagController extends Controller
    */
   public function create()
   {
-      return view('tag.create');
+	  return view('tag.create');
   }
 
   /**
@@ -42,9 +42,9 @@ class TagController extends Controller
    */
   public function store(Request $request)
   {
-      $tag = new Tag;
-      $tag->name = $request-> input('name');
-      $tag->save();
+	  $tag = new Tag;
+	  $tag->name = $request-> input('name');
+	  $tag->save();
   }
 
   /**
@@ -55,7 +55,7 @@ class TagController extends Controller
    */
   public function show($id)
   {
-      return view('tag.show');
+	  return view('tag.show');
   }
 
   /**
@@ -66,7 +66,7 @@ class TagController extends Controller
    */
   public function edit($id)
   {
-      //
+	  //
   }
 
   /**
@@ -78,7 +78,7 @@ class TagController extends Controller
    */
   public function update(Request $request, $id)
   {
-      //
+	  //
   }
 
   /**
@@ -89,6 +89,6 @@ class TagController extends Controller
    */
   public function destroy($id)
   {
-      //
+	  //
   }
 }

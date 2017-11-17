@@ -6,14 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class LegalEntityUpdateRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
+	/**
+	 * Determine if the user is authorized to make this request.
+	 *
+	 * @return bool
+	 */
+	public function authorize()
+	{
+		return true;
     }
 
     /**
@@ -23,14 +23,14 @@ class LegalEntityUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => 'required',
-            'email' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
-            'ruc' => 'required',
-            'identificationNumber' => 'required',
-            'philanthropy' => 'required',
-        ];
+	    return [
+		    'name' => 'required',
+		    'email' => 'required',
+		    'phone' => 'required',
+		    'address' => 'required',
+		    'ruc' => 'required',
+		    'identificationNumber' => 'required',
+		    'philanthropy' => 'required',
+	    ];
     }
 }

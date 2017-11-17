@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-    protected $table = "tag";
+	protected $table = "tag";
 
-    public function publication()
-    {
-      return $this->belongsToMany('App\Publication', 'tagPublication', 'tagId',
-      'publicationId');
+	public function publication()
+	{
+		return $this->belongsToMany('App\Publication', 'tagPublication', 'tagId',
+			'publicationId');
     }
 }

@@ -1,7 +1,7 @@
 @extends('layouts.frontend.main')
 
 @section('title')
-  Galeria
+	Galeria
 @endsection
 
 @section('content')
@@ -23,5 +23,5 @@
 @endforeach
 <div>
 
-</div>
+	</div>
 @endsection

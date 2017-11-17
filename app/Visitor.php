@@ -10,6 +10,6 @@ class Visitor extends Model
 
 	public function visitor()
 	{
-	  return $this->hasMany('App\Visit', 'visitorId', 'id');
+		return $this->hasMany('App\Visit', 'visitorId', 'id');
 	}
 }
