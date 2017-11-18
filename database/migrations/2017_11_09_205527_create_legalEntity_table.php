@@ -13,7 +13,7 @@ class CreateLegalEntityTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('legalEntity', function (Blueprint $table) {
+		Schema::create('legal_entity', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->string('name');
@@ -36,6 +36,6 @@ class CreateLegalEntityTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('legalEntity');
+	    Schema::dropIfExists('legal_entity');
     }
 }

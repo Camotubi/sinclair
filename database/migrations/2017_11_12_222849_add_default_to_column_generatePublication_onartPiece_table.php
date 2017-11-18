@@ -14,7 +14,7 @@ class AddDefaultToColumnGeneratePublicationOnartPieceTable extends Migration
 	public function up()
 	{
 
-		Schema::table('artPiece', function(Blueprint $table)
+		Schema::table('art_piece', function(Blueprint $table)
 		{
 			$table->boolean('generatePublication')->default(false)->change();
 	    });

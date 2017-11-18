@@ -13,7 +13,7 @@ class CreateUserTypeTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('userType', function (Blueprint $table) {
+		Schema::create('user_type', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->string('name');
@@ -28,6 +28,6 @@ class CreateUserTypeTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('userType');
+	    Schema::dropIfExists('user_type');
     }
 }

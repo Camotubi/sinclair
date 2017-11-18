@@ -13,13 +13,13 @@ class CreateMultimediaArtPieceTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('multimediaArtPiece', function (Blueprint $table) {
+		Schema::create('multimedia_art_piece', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->integer('multimediaId')->unsigned()->nullable();
 			$table->foreign('multimediaId')->references('id')->on('multimedia');
 			$table->integer('artPieceId')->unsigned()->nullable();
-			$table->foreign('artPieceId')->references('id')->on('artPiece');
+			$table->foreign('artPieceId')->references('id')->on('art_piece');
 	});
     }
 
@@ -30,6 +30,6 @@ class CreateMultimediaArtPieceTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('multimediaArtPiece');
+	    Schema::dropIfExists('multimedia_art_piece');
     }
 }

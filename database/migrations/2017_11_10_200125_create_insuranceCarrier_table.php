@@ -13,7 +13,7 @@ class CreateInsuranceCarrierTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('insuranceCarrier', function (Blueprint $table) {
+		Schema::create('insurance_carrier', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->string('name');
@@ -31,6 +31,6 @@ class CreateInsuranceCarrierTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('insuranceCarrier');
+	    Schema::dropIfExists('insurance_carrier');
     }
 }

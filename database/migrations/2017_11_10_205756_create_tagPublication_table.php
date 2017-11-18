@@ -13,7 +13,7 @@ class CreateTagPublicationTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('tagPublication', function (Blueprint $table) {
+		Schema::create('tag_publication', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->integer('publicationId')->unsigned();
@@ -30,6 +30,6 @@ class CreateTagPublicationTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('tagPublication');
+	    Schema::dropIfExists('tag_publication');
     }
 }

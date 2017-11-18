@@ -16,7 +16,7 @@ class AddMultimediaTableForeignKeyConstraintMultimediaType extends Migration
 		//
 		Schema::table('multimedia', function (Blueprint $table) {
 			$table->integer('multimediaTypeId')->unsigned();
-			$table->foreign('multimediaTypeId')->references('id')->on('multimediaType');
+			$table->foreign('multimediaTypeId')->references('id')->on('multimedia_type');
 	});
     }
 
