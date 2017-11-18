@@ -12,7 +12,7 @@
 $artPiece = $artPieces[$x]
 @endphp
   <div class="col-sm">
-    <a href="/f/artPiece/show/{{$artPiece->name}}" class="thumbnail">
+    <a href="/f/artPiece/show/{{$artPiece->id}}" class="thumbnail">
       <img class ="img-thumbnail" src="/img/thumbnail.jpg">
       <div class="caption">
         <h3>{{$artPiece->name}}</h3>
