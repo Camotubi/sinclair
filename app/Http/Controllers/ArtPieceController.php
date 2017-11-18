@@ -25,7 +25,7 @@ class ArtPieceController extends Controller
 	 */
 	public function index()
 	{
-		$artPieces = DB::table('artPiece')->paginate(10);
+		$artPieces = ArtPiece::paginate(10);
 		return view('artPiece.index',['artPieces'=> $artPieces]);
 	}
 
@@ -119,7 +119,7 @@ class ArtPieceController extends Controller
 	public function apiPaginate($amount)
 	{
 
-		$artPieces = DB::table('artPiece')->paginate($amount);
+		$artPieces = ArtPiece::paginate($amount);
 		return $artPieces;
 	}
 	public function frontIndex()
