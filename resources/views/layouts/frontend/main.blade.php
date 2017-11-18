@@ -6,7 +6,7 @@
 		<meta name="csrf-token" content="{{ csrf_token() }}">
 		<title>Fundación Maestro Alfredo Sinclair B. - yield('title')</title>
 		<link rel="icon" href="/icon/logo_2_TdQ_icon.ico">
-		<link rel="stylesheet" href="/css/frontend/bootstrap.min.css">
+		<link rel="stylesheet" href="/css/app.css">
 		<link rel="stylesheet" href="/css/frontend/estilos.css">
 	</head>
 	<body>
@@ -35,7 +35,6 @@
 				</div>
 			</footer>
 
-			<script src="/js/frontend/jquery-3.2.1.min.js"></script>
-			<script src="/js/frontend/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/app.js"></script>
 	</body>
 </html>

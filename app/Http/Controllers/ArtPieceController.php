@@ -124,10 +124,7 @@ class ArtPieceController extends Controller
 	}
 	public function frontIndex()
 	{
-		$artPiece = DB::table('artPiece')
-			->select('name')
-			->get();
-		return view('frontend.artPiece.index', compact('artPiece'));
+		return view('frontend.artPiece.index', ['artPieces'=> $this->apiPaginate(16)]);
 	}
 
 	public function frontShow()
