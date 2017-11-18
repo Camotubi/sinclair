@@ -13,7 +13,7 @@ class CreateMultimediaTypeTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('multimediaType', function (Blueprint $table) {
+		Schema::create('multimedia_type', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->string('name');
@@ -27,6 +27,6 @@ class CreateMultimediaTypeTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('multimediaType');
+	    Schema::dropIfExists('multimedia_type');
     }
 }

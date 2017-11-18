@@ -13,7 +13,7 @@ class CreateFurnitureTypeTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('furnitureType', function (Blueprint $table) {
+		Schema::create('furniture_type', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->string('name');
@@ -27,6 +27,6 @@ class CreateFurnitureTypeTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('furnitureType');
+	    Schema::dropIfExists('furniture_type');
     }
 }

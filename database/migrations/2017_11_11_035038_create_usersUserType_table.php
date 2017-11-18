@@ -13,13 +13,13 @@ class CreateUsersUserTypeTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('usersUserType', function (Blueprint $table) {
+		Schema::create('users_user_type', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->integer('userId')->unsigned();
 			$table->foreign('userId')->references('id')->on('users');
 			$table->integer('userTypeId')->unsigned();
-			$table->foreign('userTypeId')->references('id')->on('userType');
+			$table->foreign('userTypeId')->references('id')->on('user_type');
 	});
     }
 
@@ -30,6 +30,6 @@ class CreateUsersUserTypeTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('usersUserType');
+	    Schema::dropIfExists('users_user_type');
     }
 }

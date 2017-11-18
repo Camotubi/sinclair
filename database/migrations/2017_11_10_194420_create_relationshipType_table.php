@@ -13,7 +13,7 @@ class CreateRelationshipTypeTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('relationshipType', function (Blueprint $table) {
+		Schema::create('relationship_type', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->string('name');
@@ -27,6 +27,6 @@ class CreateRelationshipTypeTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('relationshipType');
+	    Schema::dropIfExists('relationship_type');
     }
 }

@@ -13,14 +13,14 @@ class CreateLegalEntityFurniturePossessionTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('legalEntityFurniturePossession', function (Blueprint $table) {
+		Schema::create('legal_entity_furniture_possession', function (Blueprint $table) {
 			$table->increments('id');
-			$table->timestamps();	    
+			$table->timestamps();
 			$table->date('possessionDate');
 			$table->integer('furnitureId')->unsigned();
 			$table->foreign('furnitureId')->references('id')->on('furniture');
 			$table->integer('legalEntityId')->unsigned();
-			$table->foreign('legalEntityId')->references('id')->on('legalEntity');
+			$table->foreign('legalEntityId')->references('id')->on('legal_entity');
 
 	});
     }
@@ -32,6 +32,6 @@ class CreateLegalEntityFurniturePossessionTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('legalEntityFurniturePossession');
+	    Schema::dropIfExists('legal_entity_furniture_possession');
     }
 }

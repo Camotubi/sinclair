@@ -20,7 +20,7 @@ class CreateCondecorationTable extends Migration
 			$table->date('date')->nullable();
 			$table->text('description')->nullable();
 			$table->integer('condecoratorId')->unsigned()->nullable();
-			$table->foreign('condecoratorId')->references('id')->on('legalEntity');
+			$table->foreign('condecoratorId')->references('id')->on('legal_entity');
 	});
     }
 

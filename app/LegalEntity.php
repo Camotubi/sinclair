@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class LegalEntity extends Model
 {
-	protected $table = "legalEntity";
+	protected $table = "legal_entity";
 
 	public function artPiecePossession()
 	{
-		return $this->belongsToMany('App\ArtPiece', 'legalEntityArtPiecePossession',
+		return $this->belongsToMany('App\ArtPiece', 'legal_entity_art_piece_possession',
 			'legalEntityId', 'artPieceId');
     }
 
     public function artPieceRestoration()
     {
-	    return $this->belongsToMany('App\ArtPiece', 'legalEntityArtPieceRestoration',
+	    return $this->belongsToMany('App\ArtPiece', 'legal_entity_art_piece_restoration',
 		    'legalEntityId', 'artPieceId');
     }
 
@@ -27,20 +27,20 @@ class LegalEntity extends Model
 
     public function exhibition()
     {
-	    return $this->belongsToMany('App\Exhibition', 'legalEntityExhibition',
+	    return $this->belongsToMany('App\Exhibition', 'legal_entity_exhibition',
 		    'legalEntityId', 'exhibitionId');
     }
 
     public function furniturePossession()
     {
-	    return $this->belongsToMany('App\Furniture', 'legalEntityFurniturePossession',
+	    return $this->belongsToMany('App\Furniture', 'legal_entity_furniture_possession',
 		    'legalEntityId', 'furnitureId');
     }
 
     public function furnitureRestoration()
     {
 	    return $this->belongsToMany('App\Furniture',
-		    'legalEntityFurnitureRestoration', 'legalEntityId', 'furnitureId');
+		    'legal_entity_furniture_restoration', 'legalEntityId', 'furnitureId');
     }
 
     public function artPieceDonator()

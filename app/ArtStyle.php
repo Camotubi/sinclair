@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArtStyle extends Model
 {
-	protected $table = "artStyle";
+	protected $table = "art_style";
 
 	public function artPiece()
 	{

@@ -29,7 +29,7 @@ class User extends Authenticatable
 
 	public function types()
 	{
-		return $this->belongsToMany('App\UserType','usersUserType','userId','userTypeId');
+		return $this->belongsToMany('App\UserType','users_user_type','userId','userTypeId');
     }
 
     public function isAdmin()

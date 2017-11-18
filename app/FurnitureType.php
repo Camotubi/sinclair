@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class FurnitureType extends Model
 {
-	protected $table = "furnitureType";
+	protected $table = "furniture_type";
 
 	public function furniture()
 	{

@@ -32,7 +32,7 @@ class DropUserTypeIdColumnFromUsers extends Migration
 	    //
 	    Schema::table('users', function (Blueprint $table) {
 		    $table->integer('userTypeId')->unsigned();
-		    $table->foreign('userTypeId')->references('id')->on('userType');
+		    $table->foreign('userTypeId')->references('id')->on('user_type');
 	});
     }
 }

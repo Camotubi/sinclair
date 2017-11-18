@@ -22,9 +22,9 @@ class CreateInsuranceTable extends Migration
 			$table->decimal('cost',8,2);
 			$table->text('description')->nullable();
 			$table->integer('artPieceId')->unsigned();
-			$table->foreign('artPieceId')->references('id')->on('artPiece');
+			$table->foreign('artPieceId')->references('id')->on('art_piece');
 			$table->integer('insuranceCarrierId')->unsigned();
-			$table->foreign('insuranceCarrierId')->references('id')->on('insuranceCarrier');
+			$table->foreign('insuranceCarrierId')->references('id')->on('insurance_carrier');
 
 	});
     }

@@ -13,11 +13,11 @@ class CreateLegalEntityExhibitionTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('legalEntityExhibition', function (Blueprint $table) {
+		Schema::create('legal_entity_exhibition', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->integer('legalEntityId')->unsigned();
-			$table->foreign('legalEntityId')->references('id')->on('legalEntity');
+			$table->foreign('legalEntityId')->references('id')->on('legal_entity');
 			$table->integer('exhibitionId')->unsigned();
 			$table->foreign('exhibitionId')->references('id')->on('exhibition');
 	});
@@ -30,6 +30,6 @@ class CreateLegalEntityExhibitionTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('legalEntityExhibition');
+	    Schema::dropIfExists('legal_entity_exhibition');
     }
 }

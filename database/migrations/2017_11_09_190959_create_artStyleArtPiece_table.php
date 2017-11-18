@@ -13,13 +13,13 @@ class CreateArtStyleArtPieceTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('artStyleArtPiece', function (Blueprint $table) {
+		Schema::create('art_style_art_piece', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->integer('artPieceId')->unsigned()->nullable();
-			$table->foreign('artPieceId')->references('id')->on('artPiece');
+			$table->foreign('artPieceId')->references('id')->on('art_piece');
 			$table->integer('artStyleId')->unsigned()->nullable();
-			$table->foreign('artStyleId')->references('id')->on('artStyle');
+			$table->foreign('artStyleId')->references('id')->on('art_style');
 	});
     }
 
@@ -30,6 +30,6 @@ class CreateArtStyleArtPieceTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('artStyleArtPiece');
+	    Schema::dropIfExists('art_style_art_piece');
     }
 }

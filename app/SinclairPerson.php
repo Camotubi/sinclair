@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SinclairPerson extends Model
 {
-	protected $table = "sinclairPerson";
+	protected $table = "sinclair_person";
 
 	public function relationshipType()
 	{

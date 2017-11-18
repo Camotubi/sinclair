@@ -16,11 +16,11 @@ class AddColumnDonatorToFurnitureArtPieceTables extends Migration
 		//
 		Schema::table('furniture', function (Blueprint $table) {
 			$table->integer('donatorId')->unsigned()->nullable();
-			$table->foreign('donatorId')->references('id')->on('legalEntity');
+			$table->foreign('donatorId')->references('id')->on('legal_entity');
 	    });
-	    Schema::table('artPiece', function (Blueprint $table) {
+	    Schema::table('art_piece', function (Blueprint $table) {
 		    $table->integer('donatorId')->unsigned()->nullable();
-		    $table->foreign('donatorId')->references('id')->on('legalEntity');
+		    $table->foreign('donatorId')->references('id')->on('legal_entity');
 	    });
     }
 
@@ -36,7 +36,7 @@ class AddColumnDonatorToFurnitureArtPieceTables extends Migration
 		    $table->dropForeign('furniture_donatorId_foreign');
 		    $table->dropColumn('donatorId');
 	    });
-	    Schema::table('artPiece', function (Blueprint $table) {
+	    Schema::table('art_piece', function (Blueprint $table) {
 		    $table->dropForeign('artPiece_donatorId_foreign');
 		    $table->dropColumn('donatorId');
 	    });

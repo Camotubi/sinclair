@@ -20,9 +20,9 @@ class CreateRentTable extends Migration
 			$table->date('terminationDate');
 			$table->decimal('moneyQuantity')->nullable();
 			$table->integer('artPieceId')->unsigned();
-			$table->foreign('artPieceId')->references('id')->on('artPiece');
+			$table->foreign('artPieceId')->references('id')->on('art_piece');
 			$table->integer('legalEntityId')->unsigned();
-			$table->foreign('legalEntityId')->references('id')->on('legalEntity');
+			$table->foreign('legalEntityId')->references('id')->on('legal_entity');
 	});
     }
 

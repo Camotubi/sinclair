@@ -13,7 +13,7 @@ class CreateSinclairPersonTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('sinclairPerson', function (Blueprint $table) {
+		Schema::create('sinclair_person', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->string('firstName');
@@ -29,6 +29,6 @@ class CreateSinclairPersonTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('sinclairPerson');
+	    Schema::dropIfExists('sinclair_person');
     }
 }

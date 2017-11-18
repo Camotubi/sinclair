@@ -13,11 +13,11 @@ class CreateArtPieceExhibitionTable extends Migration
 	 */
 	public function up()
 	{
-		Schema::create('artPieceExhibition', function (Blueprint $table) {
+		Schema::create('art_piece_exhibition', function (Blueprint $table) {
 			$table->increments('id');
 			$table->timestamps();
 			$table->integer('artPieceId')->unsigned();
-			$table->foreign('artPieceId')->references('id')->on('artPiece');
+			$table->foreign('artPieceId')->references('id')->on('art_piece');
 			$table->integer('exhibitionId')->unsigned();
 			$table->foreign('exhibitionId')->references('id')->on('exhibition');
 	});
@@ -30,6 +30,6 @@ class CreateArtPieceExhibitionTable extends Migration
      */
     public function down()
     {
-	    Schema::dropIfExists('artPieceExhibition');
+	    Schema::dropIfExists('art_piece_exhibition');
     }
 }

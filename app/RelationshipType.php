@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class RelationshipType extends Model
 {
-	protected $table = "relationshipType";
+	protected $table = "relationship_type";
 
 	public function sinclairPerson()
 	{
 		return $this->belongsToMany('App\SinclairPerson',
-			'relationshipTypeSinclairPerson', 'relationshipTypeId', 'sinclairPersonId');
+			'relationship_type_sinclair_person', 'relationshipTypeId', 'sinclairPersonId');
     }
 }
