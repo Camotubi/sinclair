@@ -6,17 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class ArtPiece extends Model
 {
-	protected $table = "artPiece";
+	protected $table = "art_piece";
 
 	public function exhhibitions()
 	{
-		return $this->belongsToMany('App\Exhibition', 'artPieceExhibition',
+		return $this->belongsToMany('App\Exhibition', 'art_piece_exhibition',
 			'artPieceId', 'exhibitionId');
 	}
 
 	public function artStyle()
 	{
-		return $this->belongsToMany('App\ArtStyle', 'artStyleArtPiece', 'artPieceId',
+		return $this->belongsToMany('App\ArtStyle', 'art_style_art_piece', 'artPieceId',
 			'artStyleId');
 	}
 

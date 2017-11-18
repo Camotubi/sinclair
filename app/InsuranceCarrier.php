@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class InsuranceCarrier extends Model
 {
-	protected $table = "insuranceCarrier";
+	protected $table = "insurance_carrier";
 
 	public function insurance()
 	{

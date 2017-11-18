@@ -10,7 +10,7 @@ class Multimedia extends Model
 
 	public function artPiece()
 	{
-		return $this->belongsToMany('App\ArtPiece', 'multimediaArtPiece',
+		return $this->belongsToMany('App\ArtPiece', 'multimedia_art_piece',
 			'multimediaId', 'artPieceId');
   }
 

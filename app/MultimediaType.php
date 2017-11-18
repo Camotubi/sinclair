@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MultimediaType extends Model
 {
-	protected $table = "multimediaType";
+	protected $table = "multimedia_type";
 
 	public function multimedia()
 	{
