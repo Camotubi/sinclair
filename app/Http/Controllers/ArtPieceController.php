@@ -122,13 +122,19 @@ class ArtPieceController extends Controller
 		$artPieces = ArtPiece::paginate($amount);
 		return $artPieces;
 	}
+	public function getArtPiece($id)
+	{
+		$artPiece = ArtPiece::where('id',$id)->first();
+		return $artPiece;
+	}
+
 	public function frontIndex()
 	{
 		return view('frontend.artPiece.index', ['artPieces'=> $this->apiPaginate(16)]);
 	}
 
-	public function frontShow()
+	public function frontShow($id)
 	{
-		return view('frontend.artPiece.show');
+		return view('frontend.artPiece.show',['artPiece'=>$this->getArtPiece($id)]);
 	}
 }
