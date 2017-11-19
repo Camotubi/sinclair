@@ -17,7 +17,7 @@ class CreateMultimediaTable extends Migration
 			$table->increments('id');
 			$table->timestamps();
 			$table->boolean('sinclairMemorability');
-			$table->date('creationDate')->default(DB::raw('CURRENT_DATE'));
+			$table->date('creationDate')->nullable();
 			$table->text('description')->nullable();
 			$table->text('fileLocation');
 	});
