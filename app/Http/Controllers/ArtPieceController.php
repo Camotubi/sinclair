@@ -139,7 +139,7 @@ class ArtPieceController extends Controller
 
 	public function frontIndex()
 	{
-		return view('frontend.artPiece.index', ['artPieces'=> $this->apiPaginate(16)]);
+		return view('frontend.artPiece.index', ['artPieces'=> $this->apiPaginate(15)]);
 	}
 
 	public function frontShow($id)
