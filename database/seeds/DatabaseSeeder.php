@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Facades\DB;
 class DatabaseSeeder extends Seeder
 {
 	/**
@@ -11,7 +11,7 @@ class DatabaseSeeder extends Seeder
 	 */
 	public function run()
 	{
-		DB::table('artPieces')->insert([
+/*		DB::table('artPieces')->insert([
 			'name' => str_random(50),
 	  'technique' => str_random(50),
     'style' => str_random(50),
@@ -37,6 +37,15 @@ class DatabaseSeeder extends Seeder
       'email' =>str_random(191),
       'per_type' =>str_random(191),
 	]);
-}
+ */
+		if(is_null(DB::table('multimediaType')->where('name','Image')->first()))
+			DB::table('multimediaType')->insert(['name' => 'Image']);
+		if(is_null(DB::table('multimediaType')->where('name','Document')->first()))
+			DB::table('multimediaType')->insert(['name' => 'Document']);
+		if(is_null(DB::table('multimediaType')->where('name','Audio')->first()))
+			DB::table('multimediaType')->insert(['name' => 'Audio']);
+		if(is_null(DB::table('multimediaType')->where('name','Video')->first()))
+			DB::table('multimediaType')->insert(['name' => 'Video']);
+	}
 
 }

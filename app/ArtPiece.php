@@ -14,13 +14,13 @@ class ArtPiece extends Model
 			'artPieceId', 'exhibitionId');
 	}
 
-	public function artStyle()
+	public function artStyles()
 	{
 		return $this->belongsToMany('App\ArtStyle', 'art_style_art_piece', 'artPieceId',
 			'artStyleId');
 	}
 
-	public function insurance()
+	public function insurances()
 	{
 		return $this->hasMany('App\Insurance', 'artPieceId', 'id');
 	}
