@@ -149,7 +149,7 @@ class ArtPieceController extends Controller
 
 	public function addImage($id)
 	{
-		return view('artPiece.addImage',['artPiece'=>$this->getArtPiece($id)]);
+		return view('artPiece.add_image',['artPiece'=>$this->getArtPiece($id)]);
 	}
 	public function storeImage(Request $request, $id)
 	{
