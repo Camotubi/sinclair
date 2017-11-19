@@ -8,13 +8,13 @@ class Multimedia extends Model
 {
 	protected $table = "multimedia";
 
-	public function artPiece()
+	public function artPieces()
 	{
 		return $this->belongsToMany('App\ArtPiece', 'multimedia_art_piece',
 			'multimediaId', 'artPieceId');
   }
 
-  public function type()
+  public function types()
   {
 	  return $this->belongsTo('App\MultimediaType', 'multimediaTypeId');
   }
