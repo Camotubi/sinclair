@@ -47130,9 +47130,11 @@ var render = function() {
             _vm._l(_vm.laravelData.data, function(artPiece) {
               return _c("tr", [
                 _vm.show_name
-                  ? _c("td", {
-                      domProps: { textContent: _vm._s(artPiece.name) }
-                    })
+                  ? _c("td", [
+                      _c("a", { attrs: { href: "/artPiece/" + artPiece.id } }, [
+                        _vm._v(_vm._s(artPiece.name))
+                      ])
+                    ])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.show_technique

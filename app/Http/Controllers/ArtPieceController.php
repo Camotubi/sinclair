@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ArtPieceCreateRequest;
 use App\Http\Requests\ArtPieceUpdateRequest;
 use App\ArtPiece;
+use App\Multimedia;
 use App\LegalEntity;
 use Illuminate\Support\Facades\DB;
 
@@ -144,5 +145,24 @@ class ArtPieceController extends Controller
 	public function frontShow($id)
 	{
 		return view('frontend.artPiece.show',['artPiece'=>$this->getArtPiece($id)]);
+	}
+
+	public function addImage($id)
+	{
+		return view('artPiece.addImage',['artPiece'=>$this->getArtPiece($id)]);
+	}
+	public function storeImage(Request $request, $id)
+	{
+		$artPiece = ArtPiece::where('id',$id)->first();
+		$imgFile = $request->file('image')->store('artPieceImgs','public');
+		$multimedia = new Multimedia;
+		$multimedia->description = $request->input('description');
+		$multimedia->fileLocation = $imgFile;
+		$multimedia->save();
+		$multimedia->artPieces()->attach($artPiece->id);
+
+		return redirect('artPiece/'.$id);
+
+
 	}
 }

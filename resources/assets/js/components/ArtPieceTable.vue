@@ -11,7 +11,7 @@
 				</thead>
 				<tr v-for="artPiece in laravelData.data">
 
-					<td v-if="show_name" v-text="artPiece.name"></td>
+					<td v-if="show_name" ><a :href="'/artPiece/' +artPiece.id">{{artPiece.name}}</a></td>
 					<td v-if="show_technique" v-text="artPiece.technique"></td>
 					<td v-if="show_current_location" v-text="artPiece.currentLocation"></td>
 				</tr>
