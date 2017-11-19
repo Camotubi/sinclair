@@ -27,7 +27,7 @@ class ArtPiece extends Model
 
 	public function multimedia()
 	{
-		return $this->belongsToMany('App\Multimedia');
+		return $this->belongsToMany('App\Multimedia','multimedia_art_piece','artPieceId','multimediaId');
 	}
 
 	public function legalEntityPossession()
