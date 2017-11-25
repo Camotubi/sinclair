@@ -1,0 +1,30 @@
+@extends('layouts.app')
+
+@section('title')
+	Actualización de Visita
+@endsection
+
+@section('content')
+	<div>
+		<section>
+			<article>
+				<h3>Actualización de Visita</h3>
+				<form class=""  action= "/visit/{{$visit->id}}" method="post">
+					<div class="form-row">
+						<div class="form-group col-md-4">
+							<label for="visitorId">Visitante:</label>
+							<input class="form-control" type="text" name="visitorId" value="{{$visit->visitorId}}">
+						</div>
+						<div class="form-group col-md-4">
+							<label for="date">Fecha:</label>
+							<input class="form-control" type="date" name="date" value="{{$visit->date}}">
+						</div>
+					</div>
+					<input type="submit" class="btn btn-primary" name="update" value="Actualizar">
+				</form>
+			</article>
+		</section>
+	</div>
+
+	</div>
+@endsection
