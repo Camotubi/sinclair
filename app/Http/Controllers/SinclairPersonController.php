@@ -21,7 +21,8 @@ class SinclairPersonController extends Controller
    */
   public function index()
   {
-	  return view('sinclairPerson.index');
+		$sinclairPersons = SinclairPerson::paginate(10);
+		return view('sinclairPerson.index', ['sinclairPersons' => $sinclairPersons]);
   }
 
   /**
@@ -57,7 +58,15 @@ class SinclairPersonController extends Controller
    */
   public function show($id)
   {
-	  return view('sinclairPerson.show');
+		$sinclairPerson = SinclairPerson::find($id);
+		if(!is_null($sinclairPerson))
+		{
+		  return view('sinclairPerson.show', ['sinclairPerson' => $sinclairPerson]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Persona no encontrada');
+		}
   }
 
   /**
@@ -68,7 +77,15 @@ class SinclairPersonController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$sinclairPerson = SinclairPerson::find($id);
+		if(!is_null($sinclairPerson))
+		{
+		  return view('sinclairPerson.edit', ['sinclairPerson' => $sinclairPerson]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Persona no encontrada');
+		}
   }
 
   /**

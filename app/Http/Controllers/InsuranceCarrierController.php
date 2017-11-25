@@ -21,7 +21,8 @@ class InsuranceCarrierController extends Controller
    */
   public function index()
   {
-	  return view('insuranceCarrier.index');
+		$insuranceCarriers = InsuranceCarrier::paginate(10);
+		return view('insuranceCarrier.index', ['insuranceCarriers' => $insuranceCarriers]);
   }
 
   /**
@@ -58,7 +59,15 @@ class InsuranceCarrierController extends Controller
    */
   public function show($id)
   {
-	  return view('insuranceCarrier.show');
+		$insuranceCarrier = InsuranceCarrier::find($id);
+		if(!is_null($insuranceCarrier))
+		{
+		  return view('insuranceCarrier.show', ['insuranceCarrier' => $insuranceCarrier]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Aseguradora no encontrada');
+		}
   }
 
   /**
@@ -69,7 +78,15 @@ class InsuranceCarrierController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$insuranceCarrier = InsuranceCarrier::find($id);
+		if(!is_null($insuranceCarrier))
+		{
+		  return view('insuranceCarrier.edit', ['insuranceCarrier' => $insuranceCarrier]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Aseguradora no encontrada');
+		}
   }
 
   /**

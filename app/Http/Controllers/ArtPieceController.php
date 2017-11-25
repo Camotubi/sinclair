@@ -26,7 +26,7 @@ class ArtPieceController extends Controller
 	 */
 	public function index()
 	{
-		$artPieces = ArtPiece::paginate(10);
+		$artPieces = ArtPiece::paginate(12);
 		return view('artPiece.index',['artPieces'=> $artPieces]);
 	}
 

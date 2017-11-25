@@ -10,9 +10,9 @@ class ArtStyleController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth');
+		/*$this->middleware('auth');
 		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-		$this->middleware('editor'['only' => ['store','edit']]);
+		$this->middleware('editor'['only' => ['store','edit']]);*/
   }
   /**
    * Display a listing of the resource.
@@ -21,7 +21,8 @@ class ArtStyleController extends Controller
    */
   public function index()
   {
-	  return view('artStyle.index');
+		$artStyles = ArtStyle::paginate(10);
+	  return view('artStyle.index', ['artStyles' => $artStyles]);
   }
 
   /**
@@ -56,7 +57,15 @@ class ArtStyleController extends Controller
    */
   public function show($id)
   {
-	  return view('artStyle.show');
+		$artStyle = ArtStyle::find($id);
+		if(!is_null($artStyle))
+		{
+		  return view('artStyle.show', ['artStyle' => $artStyle]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Estilo de arte no encontrada');
+		}
   }
 
   /**
@@ -67,7 +76,15 @@ class ArtStyleController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$artStyle = ArtStyle::find($id);
+		if(!is_null($artStyle))
+		{
+		  return view('artStyle.edit', ['artStyle' => $artStyle]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Estilo de arte no encontrada');
+		}
   }
 
   /**

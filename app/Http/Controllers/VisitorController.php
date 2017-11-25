@@ -21,7 +21,8 @@ class VisitorController extends Controller
    */
   public function index()
   {
-	  return view('visitor.index');
+	  $visitors = Visitor::paginate(10);
+		return view('visitor.index', ['visitors' => $visitors]);
   }
 
   /**
@@ -57,7 +58,15 @@ class VisitorController extends Controller
    */
   public function show($id)
   {
-	  return view('visitor.show');
+		$visitor = Visitor::find($id);
+		if(!is_null($visitor))
+		{
+		  return view('visitor.show', ['visitor' => $visitor]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Visitante no encontrada');
+		}
   }
 
   /**
@@ -68,7 +77,15 @@ class VisitorController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$visitor = Visitor::find($id);
+		if(!is_null($visitor))
+		{
+		  return view('visitor.edit', ['visitor' => $visitor]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Visitante no encontrada');
+		}
   }
 
   /**
