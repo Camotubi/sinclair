@@ -6,7 +6,7 @@ Publicaciones
 
 @section('content')
 @foreach( $publications as $publication )
-  <a href="/publication/show/{{@$publication->id}}">
+  <a href="/publication/{{@$publication->id}}">
     <h4>{{ @$publication->name }}</h4>
   </a>
   @endforeach

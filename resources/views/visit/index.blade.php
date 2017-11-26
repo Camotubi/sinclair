@@ -6,7 +6,7 @@ Visitas
 
 @section('content')
 @foreach( $visits as $visit )
-  <a href="/visit/show/{{@$visit->id}}">
+  <a href="/visit/{{@$visit->id}}">
     <h4>{{ @$visit->name }}</h4>
   </a>
   @endforeach

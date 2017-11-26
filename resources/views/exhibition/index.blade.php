@@ -6,7 +6,7 @@ Exhibición
 
 @section('content')
 @foreach( $exhibitions as $exhibition )
-  <a href="/exhibition/show/{{@$exhibition->id}}">
+  <a href="/exhibition/{{@$exhibition->id}}">
     <h4>{{ @$exhibition->name }}</h4>
   </a>
   @endforeach

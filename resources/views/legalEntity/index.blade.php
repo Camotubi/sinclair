@@ -6,7 +6,7 @@ Entidades Legales
 
 @section('content')
 @foreach( $legalEntities as $legalEntity )
-  <a href="/legalEntity/show/{{@$legalEntity->id}}">
+  <a href="/legalEntity/{{@$legalEntity->id}}">
     <h4>{{ @$legalEntity->name }}</h4>
   </a>
   @endforeach

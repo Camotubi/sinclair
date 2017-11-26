@@ -6,7 +6,7 @@ Seguros
 
 @section('content')
 @foreach( $insurances as $insurance )
-  <a href="/insurance/show/{{@$insurance->id}}">
+  <a href="/insurance/{{@$insurance->id}}">
     <h4>{{ @$insurance->name }}</h4>
   </a>
   @endforeach

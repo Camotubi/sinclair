@@ -6,7 +6,7 @@ Inmobiliario
 
 @section('content')
 @foreach( $furnitures as $furniture )
-  <a href="/furniture/show/{{@$furniture->id}}">
+  <a href="/furniture/{{@$furniture->id}}">
     <h4>{{ @$furniture->name }}</h4>
   </a>
   @endforeach

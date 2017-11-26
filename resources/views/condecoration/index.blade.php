@@ -6,7 +6,7 @@ Condecoración
 
 @section('content')
 @foreach( $condecorations as $condecoration )
-  <a href="/condecoration/show/{{@$condecoration->id}}">
+  <a href="/condecoration/{{@$condecoration->id}}">
     <h4>{{ @$condecoration->name }}</h4>
   </a>
   @endforeach

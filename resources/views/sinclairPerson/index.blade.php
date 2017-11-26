@@ -6,7 +6,7 @@ Personas Relacionadas a Sinclair
 
 @section('content')
 @foreach( $sinclairPersons as $sinclairPerson )
-  <a href="/sinclairPersons/show/{{@$sinclairPerson->id}}">
+  <a href="/sinclairPersons/{{@$sinclairPerson->id}}">
     <h4>{{ @$sinclairPerson->name }}</h4>
   </a>
   @endforeach

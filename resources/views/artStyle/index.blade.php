@@ -6,7 +6,7 @@
 
 @section('content')
   @foreach( $artStyles as $artStyle )
-    <a href="/artStyle/show/{{@$artStyle->id}}">
+    <a href="/artStyle/{{@$artStyle->id}}">
       <h4>{{ @$artStyle->name }}</h4>
     </a>
     @endforeach
