@@ -46689,7 +46689,7 @@ exports = module.exports = __webpack_require__(44)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47062,6 +47062,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -47164,8 +47166,15 @@ var render = function() {
                         {
                           attrs: { href: "/artPiece/" + artPiece.id + "/show" }
                         },
-                        [_vm._v("Modificar")]
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-pencil",
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("\nModificar")
+                        ]
                       ),
+                      _vm._v("|"),
                       _c(
                         "a",
                         {
@@ -47173,7 +47182,14 @@ var render = function() {
                             href: "/artPiece/" + artPiece.id + "/delete"
                           }
                         },
-                        [_vm._v("Eliminar")]
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("\nEliminar")
+                        ]
                       )
                     ])
                   : _vm._e()
