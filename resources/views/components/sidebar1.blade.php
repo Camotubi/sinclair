@@ -43,5 +43,18 @@
 		</ul>
 	</div>
 
-	</ul>
+	<a class="nav-fill" data-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapseExample">
+		Entidades Legales
+	</a>
+	<div id ="collapse3" class ="collapse">
+		<ul class="nav nav-pills flex-column">
+			<li class="nav-item">
+				<a class="nav-link" href="/legalEntity">Ver</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/legalEntity/create">Registrar</a>
+			</li>
+		</ul>
+	</div>
+
 </nav>   
