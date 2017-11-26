@@ -12,7 +12,7 @@
 				<a class="nav-link" href="/artPiece/create">Registrar</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Alquilers</a>
+				<a class="nav-link" href="#">Alquileres</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#">Seguros</a>
@@ -29,10 +29,10 @@
 	<div id ="collapse2" class ="collapse">
 		<ul class="nav nav-pills flex-column">
 			<li class="nav-item">
-				<a class="nav-link" href="#">Ver</a>
+				<a class="nav-link" href="/Inmobilario">Ver</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Alquilers</a>
+				<a class="nav-link" href="#">Alquileres</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#">Seguros</a>
@@ -43,5 +43,16 @@
 		</ul>
 	</div>
 
+	<a class="nav-fill" data-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapseExample">
+		Exhibiciones
+	</a>
+	<div id ="collapse3" class ="collapse">
+		<ul class="nav nav-pills flex-column">
+			<li class="nav-item">
+				<a class="nav-link" href="/exhibition">Ver</a>
+			</li>
+		</ul>
+	</div>
+
 	</ul>
-</nav>   
+</nav>
