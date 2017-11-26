@@ -16,7 +16,9 @@
 					<td v-if="show_name" ><a :href="'/artPiece/' +artPiece.id">{{artPiece.name}}</a></td>
 					<td v-if="show_technique" v-text="artPiece.technique"></td>
 					<td v-if="show_current_location" v-text="artPiece.currentLocation"></td>
-					<td v-if="show_links"><a :href="'/artPiece/'+artPiece.id+'/show'">Modificar</a><a :href="'/artPiece/'+artPiece.id+'/delete'">Eliminar</a></td>
+					<td v-if="show_links"><a :href="'/artPiece/'+artPiece.id+'/show'"><i class="fa fa-pencil" aria-hidden="true"></i>
+Modificar</a>|<a :href="'/artPiece/'+artPiece.id+'/delete'"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i>
+Eliminar</a></td>
 				</tr>
 			</table>
 		</ul>
