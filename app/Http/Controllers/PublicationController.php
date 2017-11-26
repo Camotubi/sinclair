@@ -24,7 +24,8 @@ class PublicationController extends Controller
      */
     public function index()
     {
-	    return view('publication.index');
+			$publications = Publication::paginate(10);
+			return view('publication.index', ['publications' => $publications]);
     }
 
     /**
@@ -61,7 +62,15 @@ class PublicationController extends Controller
      */
     public function show($id)
     {
-	    return view('publication.show');
+			$publication = Publication::find($id);
+			if(!is_null($publication))
+			{
+			  return view('publication.show', ['publication' => $publication]);
+			}
+			else
+			{
+			  return redirect('dashboard')->with('error' , 'Publicación no encontrada');
+			}
     }
 
     /**
@@ -72,7 +81,15 @@ class PublicationController extends Controller
      */
     public function edit($id)
     {
-	    //
+			$publication = Publication::find($id);
+			if(!is_null($publication))
+			{
+			  return view('publication.edit', ['publication' => $publication]);
+			}
+			else
+			{
+			  return redirect('dashboard')->with('error' , 'Publicación no encontrada');
+			}
     }
 
     /**

@@ -3,7 +3,7 @@
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-		<a class="navbar-brand" href="#">Sincalir</a>
+		<a class="navbar-brand" href="#">Sinclair</a>
 		<ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 			<li class="nav-item active">
 				<a class="nav-link" href="/dashboard">Dashboard</a>
@@ -21,7 +21,7 @@
 		</form>
 		<div >
 			@isset($user)
-				<button class ="btn btn-outline-info my-2 my-sm-0 dropdown-toggle nav-item" type ="button" id="userDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> 
+				<button class ="btn btn-outline-info my-2 my-sm-0 dropdown-toggle nav-item" type ="button" id="userDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 				{{$user->name}}
 			@endisset
 			</button>

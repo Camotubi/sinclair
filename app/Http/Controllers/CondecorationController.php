@@ -22,7 +22,8 @@ class CondecorationController extends Controller
 	 */
 	public function index()
 	{
-		return view('condecoration.index');
+		$condecorations = Condecoration::paginate(10);
+		return view('condecoration.index', ['condecorations' => $condecorations]);
 	}
 
 	/**
@@ -60,7 +61,15 @@ class CondecorationController extends Controller
 	 */
 	public function show($id)
 	{
-		return view('condecoration.show');
+		$condecoration = Condecoration::find($id);
+		if(!is_null($condecoration))
+		{
+		  return view('condecoration.show', ['condecoration' => $condecoration]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Condecoración no encontrada');
+		}
 	}
 
 	/**
@@ -71,7 +80,15 @@ class CondecorationController extends Controller
 	 */
 	public function edit($id)
 	{
-		//
+		$condecoration = Condecoration::find($id);
+		if(!is_null($condecoration))
+		{
+		  return view('condecoration.edit', ['condecoration' => $condecoration]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Condecoración no encontrada');
+		}
 	}
 
 	/**

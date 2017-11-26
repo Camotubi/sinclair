@@ -23,7 +23,8 @@ class InsuranceController extends Controller
 	 */
 	public function index()
 	{
-		return view('insurance.index');
+		$insurances = Insurance::paginate(10);
+		return view('insurance.index', ['insurances' => $insurances]);
 	}
 
 	/**
@@ -64,7 +65,16 @@ class InsuranceController extends Controller
 	 */
 	public function show($id)
 	{
-		return view('insurance.show');
+		$insurance = Insurance::find($id);
+		if(!is_null($insurance))
+		{
+		  return view('insurance.show', ['insurance' => $insurance]);
+
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Seguro no encontrado');
+		}
 	}
 
 	/**
@@ -75,7 +85,16 @@ class InsuranceController extends Controller
 	 */
 	public function edit($id)
 	{
-		//
+		$insurance = Insurance::find($id);
+		if(!is_null($insurance))
+		{
+		  return view('insurance.edit', ['insurance' => $insurance]);
+
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Seguro no encontrado');
+		}
 	}
 
 	/**

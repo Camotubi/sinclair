@@ -2,16 +2,15 @@
 @extends('layouts.app')
 
 @section('title')
-	Registro de obra de arte
+	Actualización de obra de arte
 @endsection
 
 @section('content')
 	<div>
 		<section>
 			<article>
-				<h3>Registro de obra de arte</h3>
-				<form class=""  action= "/artPiece" method="post">
-					{{ csrf_field() }}
+				<h3>Actualización de obra de arte</h3>
+				<form class=""  action= "/artPiece/{{$artPiece->id}}" method="post">
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="name">Nombre:</label>
@@ -55,7 +54,7 @@
 							<input class="form-control" type="file" name="file" accept="*">
 						</div>
 					</div>
-					<input type="submit" class="btn btn-primary" name="register" value="Registrar">
+					<input type="submit" class="btn btn-primary" name="update" value="Actualizar">
 				</form>
 			</article>
 		</section>

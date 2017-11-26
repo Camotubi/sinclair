@@ -21,7 +21,8 @@ class TagController extends Controller
    */
   public function index()
   {
-	  return view('tag.index');
+		$tags = Tag::paginate(10);
+		return view('tag.index', ['tags' => $tags]);
   }
 
   /**
@@ -55,7 +56,15 @@ class TagController extends Controller
    */
   public function show($id)
   {
-	  return view('tag.show');
+		$tag = Tag::find($id);
+		if(!is_null($tag))
+		{
+		  return view('tag.show', ['tag' => $tag]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Etiqueta no encontrada');
+		}
   }
 
   /**
@@ -66,7 +75,15 @@ class TagController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$tag = Tag::find($id);
+		if(!is_null($tag))
+		{
+		  return view('tag.edit', ['tag' => $tag]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Etiqueta no encontrada');
+		}
   }
 
   /**

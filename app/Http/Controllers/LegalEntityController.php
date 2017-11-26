@@ -24,7 +24,8 @@ class LegalEntityController extends Controller
    */
   public function index()
   {
-	  return view('legalEntity.index');
+		$legalEntities = LegalEntity::paginate(10);
+		return view('legalEntity.index', ['legalEntities' => $legalEntities]);
   }
 
   /**
@@ -66,7 +67,15 @@ class LegalEntityController extends Controller
    */
   public function show($id)
   {
-	  return view('legalEntity.show');
+		$legalEntity = LegalEntity::find($id);
+		if(!is_null($legalEntity))
+		{
+		  return view('legalEntity.show', ['legalEntity' => $legalEntity]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Entidad Legal no encontrada');
+		}
   }
 
   /**
@@ -77,7 +86,15 @@ class LegalEntityController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$legalEntity = LegalEntity::find($id);
+		if(!is_null($legalEntity))
+		{
+		  return view('legalEntity.edit', ['legalEntity' => $legalEntity]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Entidad Legal no encontrada');
+		}
   }
 
   /**

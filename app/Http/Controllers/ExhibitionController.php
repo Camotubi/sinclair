@@ -21,7 +21,8 @@ class ExhibitionController extends Controller
    */
   public function index()
   {
-	  return view('exhibition.index');
+		$exhibitions = exhibition::paginate(10);
+		return view('exhibition.index', ['exhibitions' => $exhibitions]);
   }
 
   /**
@@ -57,7 +58,15 @@ class ExhibitionController extends Controller
    */
   public function show($id)
   {
-	  return view('exhibition.show');
+		$exhibition = Exhibition::find($id);
+		if(!is_null($exhibition))
+		{
+		  return view('exhibition.show', ['exhibition' => $exhibition]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Exhibición no encontrada');
+		}
   }
 
   /**
@@ -68,7 +77,15 @@ class ExhibitionController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$exhibition = Exhibition::find($id);
+		if(!is_null($exhibition))
+		{
+		  return view('exhibition.edit', ['exhibition' => $exhibition]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Exhibición no encontrada');
+		}
   }
 
   /**

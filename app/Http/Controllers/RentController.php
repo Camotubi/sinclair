@@ -25,7 +25,8 @@ class RentController extends Controller
      */
     public function index()
     {
-	    return view('rent.index');
+			$rents = Rent::paginate(10);
+			return view('rent.index', ['rents' => $rents]);
     }
 
     /**
@@ -65,7 +66,15 @@ class RentController extends Controller
      */
     public function show($id)
     {
-	    return view('rent.show');
+			$rent = Rent::find($id);
+			if(!is_null($rent))
+			{
+			  return view('rent.show', ['rent' => $rent]);
+			}
+			else
+			{
+			  return redirect('dashboard')->with('error' , 'Alquiler no encontrado');
+			}
     }
 
     /**
@@ -76,7 +85,15 @@ class RentController extends Controller
      */
     public function edit($id)
     {
-	    //
+			$rent = Rent::find($id);
+			if(!is_null($rent))
+			{
+			  return view('rent.edit', ['rent' => $rent]);
+			}
+			else
+			{
+			  return redirect('dashboard')->with('error' , 'Alquiler no encontrado');
+			}
     }
 
     /**

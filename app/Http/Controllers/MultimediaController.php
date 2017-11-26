@@ -24,7 +24,8 @@ class MultimediaController extends Controller
      */
     public function index()
     {
-	    return view('multimedia.index');
+			$multimedias = Multimedia::paginate(10);
+			return view('multimedia.index', ['multimedias' => $multimedias]);
     }
 
     /**
@@ -65,7 +66,15 @@ class MultimediaController extends Controller
      */
     public function show($id)
     {
-	    return view('multimedia.show');
+			$multimedia = Multimedia::find($id);
+			if(!is_null($multimedia))
+			{
+			  return view('multimedia.show', ['multimedia' => $multimedia]);
+			}
+			else
+			{
+			  return redirect('dashboard')->with('error' , 'Memorabilia no encontrada');
+			}
     }
 
     /**
@@ -76,7 +85,15 @@ class MultimediaController extends Controller
      */
     public function edit($id)
     {
-	    //
+			$multimedia = Multimedia::find($id);
+			if(!is_null($multimedia))
+			{
+			  return view('multimedia.edit', ['multimedia' => $multimedia]);
+			}
+			else
+			{
+			  return redirect('dashboard')->with('error' , 'Memorabilia no encontrada');
+			}
     }
 
     /**

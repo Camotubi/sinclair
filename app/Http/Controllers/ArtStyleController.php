@@ -21,8 +21,8 @@ class ArtStyleController extends Controller
    */
   public function index()
   {
-
-	  return view('artStyle.index');
+		$artStyles = ArtStyle::paginate(10);
+	  return view('artStyle.index', ['artStyles' => $artStyles]);
   }
 
   /**
@@ -57,7 +57,15 @@ class ArtStyleController extends Controller
    */
   public function show($id)
   {
-	  return view('artStyle.show');
+		$artStyle = ArtStyle::find($id);
+		if(!is_null($artStyle))
+		{
+		  return view('artStyle.show', ['artStyle' => $artStyle]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Estilo de arte no encontrada');
+		}
   }
 
   /**
@@ -68,7 +76,15 @@ class ArtStyleController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$artStyle = ArtStyle::find($id);
+		if(!is_null($artStyle))
+		{
+		  return view('artStyle.edit', ['artStyle' => $artStyle]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Estilo de arte no encontrada');
+		}
   }
 
   /**

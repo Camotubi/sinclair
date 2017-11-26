@@ -23,7 +23,8 @@ class FurnitureController extends Controller
 	 */
 	public function index()
 	{
-		return view('furniture.index');
+		$furnitures = Furniture::paginate(10);
+		return view('furniture.index', ['furnitures' => $furnitures]);
 	}
 
 	/**
@@ -60,7 +61,15 @@ class FurnitureController extends Controller
 	 */
 	public function show($id)
 	{
-		return view('furniture.show');
+		$furniture = Furniture::find($id);
+		if(!is_null($furniture))
+		{
+		  return view('furniture.show', ['furniture' => $furniture]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Inmobiliario no encontrado');
+		}
 	}
 
 	/**
@@ -71,7 +80,15 @@ class FurnitureController extends Controller
 	 */
 	public function edit($id)
 	{
-		//
+		$furniture = Furniture::find($id);
+		if(!is_null($furniture))
+		{
+		  return view('furniture.edit', ['furniture' => $furniture]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Inmobiliario no encontrado');
+		}
 	}
 
 	/**
