@@ -25,7 +25,7 @@ Restauraciones
 	</thead>
 	@foreach($artPiece->legalEntityRestoration() as $restoration)
 		<tr>
-			{{$restoration->legalEntityId}}
+			{{$restoration->name}}
 		</tr>
 		<tr>
 			{{$restoration->restorationDate}}
