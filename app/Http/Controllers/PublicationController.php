@@ -13,9 +13,10 @@ class PublicationController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-		$this->middleware('editor', ['only' => ['store','edit']]);
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		}
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +25,8 @@ class PublicationController extends Controller
      */
     public function index()
     {
-	    return view('publication.index');
+			$publications = Publication::paginate(10);
+			return view('publication.index', ['publications' => $publications]);
     }
 
     /**
@@ -49,7 +51,7 @@ class PublicationController extends Controller
       $publication->title = $request-> input('title');
       $publication->body = $request-> input('body');
       $apublication->save();
-      $publication->user()->attach(User::where('users.id',
+      $publication->user()->associate(User::where('users.id',
       $request->input ('userId'))->first());
     }
 
@@ -61,7 +63,15 @@ class PublicationController extends Controller
      */
     public function show($id)
     {
-	    return view('publication.show');
+			$publication = Publication::find($id);
+			if(!is_null($publication))
+			{
+			  return view('publication.show', ['publication' => $publication]);
+			}
+			else
+			{
+			  return redirect('dashboard')->with('error' , 'Publicación no encontrada');
+			}
     }
 
     /**
@@ -72,7 +82,15 @@ class PublicationController extends Controller
      */
     public function edit($id)
     {
-	    //
+			$publication = Publication::find($id);
+			if(!is_null($publication))
+			{
+			  return view('publication.edit', ['publication' => $publication]);
+			}
+			else
+			{
+			  return redirect('dashboard')->with('error' , 'Publicación no encontrada');
+			}
     }
 
     /**

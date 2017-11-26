@@ -228,6 +228,10 @@ return [
 
     ],
 
+
+    'enableGuards' => false,
+
+
     'userType' => [
 	    'adminId' => 1,
 	    'editorId' => 2,

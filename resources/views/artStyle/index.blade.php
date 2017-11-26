@@ -5,5 +5,10 @@
 @endsection
 
 @section('content')
-
+  @foreach( $artStyles as $artStyle )
+    <a href="/artStyle/{{@$artStyle->id}}">
+      <h4>{{ @$artStyle->name }}</h4>
+    </a>
+    @endforeach
+  {{$artStyles->links()}}
 @endsection

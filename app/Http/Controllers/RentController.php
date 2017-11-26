@@ -14,9 +14,10 @@ class RentController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-		$this->middleware('editor', ['only' => ['store','edit']]);
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		}
     }
     /**
      * Display a listing of the resource.
@@ -25,7 +26,8 @@ class RentController extends Controller
      */
     public function index()
     {
-	    return view('rent.index');
+			$rents = Rent::paginate(10);
+			return view('rent.index', ['rents' => $rents]);
     }
 
     /**
@@ -51,9 +53,9 @@ class RentController extends Controller
       $rent->effectiveDate = $request-> input('effectiveDate');
       $rent->terminationDate = $request-> input('terminationDate');
       $rent->save();
-      $rent->artPiece()->attach(ArtPiece::where('artPiece.id',
+      $rent->artPiece()->associate(ArtPiece::where('artPiece.id',
       $request->input ('artPieceId'))->first());
-      $rent->legalEntity()->attach(LegalEntity::where('legalEntity.id',
+      $rent->legalEntity()->associate(LegalEntity::where('legalEntity.id',
       $request->input ('legalEntityId'))->first());
     }
 
@@ -65,7 +67,15 @@ class RentController extends Controller
      */
     public function show($id)
     {
-	    return view('rent.show');
+			$rent = Rent::find($id);
+			if(!is_null($rent))
+			{
+			  return view('rent.show', ['rent' => $rent]);
+			}
+			else
+			{
+			  return redirect('dashboard')->with('error' , 'Alquiler no encontrado');
+			}
     }
 
     /**
@@ -76,7 +86,15 @@ class RentController extends Controller
      */
     public function edit($id)
     {
-	    //
+			$rent = Rent::find($id);
+			if(!is_null($rent))
+			{
+			  return view('rent.edit', ['rent' => $rent]);
+			}
+			else
+			{
+			  return redirect('dashboard')->with('error' , 'Alquiler no encontrado');
+			}
     }
 
     /**

@@ -12,9 +12,10 @@ class LegalEntityController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-		$this->middleware('editor', ['only' => ['store','edit']]);
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		}
   }
 
   /**
@@ -24,7 +25,8 @@ class LegalEntityController extends Controller
    */
   public function index()
   {
-	  return view('legalEntity.index');
+		$legalEntities = LegalEntity::paginate(10);
+		return view('legalEntity.index', ['legalEntities' => $legalEntities]);
   }
 
   /**
@@ -53,7 +55,7 @@ class LegalEntityController extends Controller
 	  $legalEntity->ruc = $request->input ('ruc');
 	  $legalEntity->identificationNumber = $request->input ('identificationNumber');
 	  if ( $request->input ('philanthropy') ) {
-		  $artPiece->philanthropy = true;
+		  $legalEntity->philanthropy = true;
       }
       $legalEntity->save();
   }
@@ -66,7 +68,15 @@ class LegalEntityController extends Controller
    */
   public function show($id)
   {
-	  return view('legalEntity.show');
+		$legalEntity = LegalEntity::find($id);
+		if(!is_null($legalEntity))
+		{
+		  return view('legalEntity.show', ['legalEntity' => $legalEntity]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Entidad Legal no encontrada');
+		}
   }
 
   /**
@@ -77,7 +87,15 @@ class LegalEntityController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$legalEntity = LegalEntity::find($id);
+		if(!is_null($legalEntity))
+		{
+		  return view('legalEntity.edit', ['legalEntity' => $legalEntity]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Entidad Legal no encontrada');
+		}
   }
 
   /**

@@ -8,7 +8,7 @@ class ArtPiece extends Model
 {
 	protected $table = "art_piece";
 
-	public function exhhibitions()
+	public function exhibitions()
 	{
 		return $this->belongsToMany('App\Exhibition', 'art_piece_exhibition',
 			'artPieceId', 'exhibitionId');
@@ -32,12 +32,12 @@ class ArtPiece extends Model
 
 	public function legalEntityPossession()
 	{
-		return $this->belongsToMany('App\LegalEntity');
+		return $this->belongsToMany('App\LegalEntity')->withPivot('possessionDate');
 	}
 
 	public function legalEntityRestoration()
 	{
-		return $this->belongsToMany('App\LegalEntity');
+		return $this->belongsToMany('App\LegalEntity')->withPivot('restorationDate', 'description');
 	}
 
 	public function rents()

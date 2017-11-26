@@ -11,9 +11,10 @@ class VisitController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth');
-		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-		$this->middleware('editor'['only' => ['store','edit']]);
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		}
   }
   /**
    * Display a listing of the resource.
@@ -22,7 +23,8 @@ class VisitController extends Controller
    */
   public function index()
   {
-	  return view('visit.index');
+		$visits = Visit::paginate(10);
+		return view('visit.index', ['visits' => $visits]);
   }
 
   /**
@@ -46,7 +48,7 @@ class VisitController extends Controller
       $visit = new Visit;
       $visit->date = $request-> input('date');
       $visit->save();
-      $visit->visitor()->attach(Visitor::where('visitor.id',
+      $visit->visitor()->associate(Visitor::where('visitor.id',
       $request->input ('visitorId'))->first());
   }
 
@@ -58,7 +60,15 @@ class VisitController extends Controller
    */
   public function show($id)
   {
-	  return view('visit.show');
+		$visit = Visit::find($id);
+		if(!is_null($visit))
+		{
+		  return view('visit.show', ['visit' => $visit]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Visita no encontrada');
+		}
   }
 
   /**
@@ -69,7 +79,15 @@ class VisitController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$visit = Visit::find($id);
+		if(!is_null($visit))
+		{
+		  return view('visit.edit', ['visit' => $visit]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Visita no encontrada');
+		}
   }
 
   /**

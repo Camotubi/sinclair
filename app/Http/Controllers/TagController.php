@@ -10,9 +10,10 @@ class TagController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth');
-		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-		$this->middleware('editor'['only' => ['store','edit']]);
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		}
   }
   /**
    * Display a listing of the resource.
@@ -21,7 +22,8 @@ class TagController extends Controller
    */
   public function index()
   {
-	  return view('tag.index');
+		$tags = Tag::paginate(10);
+		return view('tag.index', ['tags' => $tags]);
   }
 
   /**
@@ -55,7 +57,15 @@ class TagController extends Controller
    */
   public function show($id)
   {
-	  return view('tag.show');
+		$tag = Tag::find($id);
+		if(!is_null($tag))
+		{
+		  return view('tag.show', ['tag' => $tag]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Etiqueta no encontrada');
+		}
   }
 
   /**
@@ -66,7 +76,15 @@ class TagController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$tag = Tag::find($id);
+		if(!is_null($tag))
+		{
+		  return view('tag.edit', ['tag' => $tag]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Etiqueta no encontrada');
+		}
   }
 
   /**

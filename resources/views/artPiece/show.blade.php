@@ -17,6 +17,22 @@ artStyles
 <h3>{{$artStyle}}</h3>
 @endforeach
 
+Restauraciones
+<table>
+	<thead>
+		<th>Restaurador</th>
+		<th>Fecha</th>
+	</thead>
+	@foreach($artPiece->legalEntityRestoration() as $restoration)
+		<tr>
+			{{$restoration->legalEntityId}}
+		</tr>
+		<tr>
+			{{$restoration->restorationDate}}
+		</tr>
+	@endforeach
+</table>
+
 <div>
 <ul>
 	@foreach($artPiece->multimedia as $image)

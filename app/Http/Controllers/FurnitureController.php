@@ -12,9 +12,10 @@ class FurnitureController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-		$this->middleware('editor', ['only' => ['store','edit']]);
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		}
 	}
 	/**
 	 * Display a listing of the resource.
@@ -23,7 +24,8 @@ class FurnitureController extends Controller
 	 */
 	public function index()
 	{
-		return view('furniture.index');
+		$furnitures = Furniture::paginate(10);
+		return view('furniture.index', ['furnitures' => $furnitures]);
 	}
 
 	/**
@@ -46,10 +48,11 @@ class FurnitureController extends Controller
 	{
 		$furniture = new Furniture;
 		$furniture->name = $request-> input('name');
-		$furniture->furnitureTypeId = $request-> input('furnitureTypeId');
 		$furniture->save();
-		$furniture->donator()->attach(LegalEntity::where('legalEntity.id',
+		$furniture->donator()->associate(LegalEntity::where('legalEntity.id',
 			$request->input ('donatorId'))->first());
+		$furniture->type()->associate(LegalEntity::where('legalEntity.id',
+			$request-> input('furnitureTypeId'))->first());
 	}
 
 	/**
@@ -60,7 +63,15 @@ class FurnitureController extends Controller
 	 */
 	public function show($id)
 	{
-		return view('furniture.show');
+		$furniture = Furniture::find($id);
+		if(!is_null($furniture))
+		{
+		  return view('furniture.show', ['furniture' => $furniture]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Inmobiliario no encontrado');
+		}
 	}
 
 	/**
@@ -71,7 +82,15 @@ class FurnitureController extends Controller
 	 */
 	public function edit($id)
 	{
-		//
+		$furniture = Furniture::find($id);
+		if(!is_null($furniture))
+		{
+		  return view('furniture.edit', ['furniture' => $furniture]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Inmobiliario no encontrado');
+		}
 	}
 
 	/**

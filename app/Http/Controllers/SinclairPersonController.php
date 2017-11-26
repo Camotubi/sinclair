@@ -5,14 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\SinclairPerson;
+use App\RelationshipType;
 
 class SinclairPersonController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth');
-		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-		$this->middleware('editor'['only' => ['store','edit']]);
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		}
   }
   /**
    * Display a listing of the resource.
@@ -21,7 +23,8 @@ class SinclairPersonController extends Controller
    */
   public function index()
   {
-	  return view('sinclairPerson.index');
+		$sinclairPersons = SinclairPerson::paginate(10);
+		return view('sinclairPerson.index', ['sinclairPersons' => $sinclairPersons]);
   }
 
   /**
@@ -47,6 +50,8 @@ class SinclairPersonController extends Controller
 	  $sinclairPerson->lastname = $request-> input('lastname');
 	  $sinclairPerson->nin = $request-> input('nin');
 	  $sinclairPerson->save();
+		$multimedia->relationshipType()->associate(RelationshipType::where('RelationshipType.id',
+			$request->input ('RelationshipTypeId'))->first());
   }
 
   /**
@@ -57,7 +62,15 @@ class SinclairPersonController extends Controller
    */
   public function show($id)
   {
-	  return view('sinclairPerson.show');
+		$sinclairPerson = SinclairPerson::find($id);
+		if(!is_null($sinclairPerson))
+		{
+		  return view('sinclairPerson.show', ['sinclairPerson' => $sinclairPerson]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Persona no encontrada');
+		}
   }
 
   /**
@@ -68,7 +81,15 @@ class SinclairPersonController extends Controller
    */
   public function edit($id)
   {
-	  //
+		$sinclairPerson = SinclairPerson::find($id);
+		if(!is_null($sinclairPerson))
+		{
+		  return view('sinclairPerson.edit', ['sinclairPerson' => $sinclairPerson]);
+		}
+		else
+		{
+		  return redirect('dashboard')->with('error' , 'Persona no encontrada');
+		}
   }
 
   /**
