@@ -46689,7 +46689,7 @@ exports = module.exports = __webpack_require__(44)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47059,6 +47059,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -47072,7 +47075,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		show_name: { default: true },
 		show_technique: { default: true },
 		show_current_location: { default: true },
-		page_amount: { default: 10 }
+		page_amount: { default: 10 },
+		show_links: { default: true }
 
 	},
 
@@ -47123,7 +47127,9 @@ var render = function() {
                 _vm._v(" "),
                 _vm.show_current_location
                   ? _c("th", [_vm._v("Localizacion")])
-                  : _vm._e()
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -47149,6 +47155,27 @@ var render = function() {
                         textContent: _vm._s(artPiece.currentLocation)
                       }
                     })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "/artPiece/" + artPiece.id + "/show" }
+                        },
+                        [_vm._v("Modificar")]
+                      ),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/artPiece/" + artPiece.id + "/delete"
+                          }
+                        },
+                        [_vm._v("Eliminar")]
+                      )
+                    ])
                   : _vm._e()
               ])
             })
