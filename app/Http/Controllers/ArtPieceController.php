@@ -66,7 +66,7 @@ class ArtPieceController extends Controller
 		$artPiece->save();
 		$artPiece->donator()->associate(LegalEntity::where('legalEntity.id',
 			$request->input ('donatorId'))->first());
-		$artPiece->artStyles()->attach($request->input('artStylesId'));
+		$artPiece->artStyles()->attach($request->input('artStyleId'));
 	}
 
 	/**
@@ -99,7 +99,10 @@ class ArtPieceController extends Controller
 		$artPiece = ArtPiece::find($id);
 		if(!is_null($artPiece))
 		{
-			return view('artPiece.edit', ['artPiece' => $artPiece]);
+			$legalEntities = LegalEntity::all();
+			$artStyles = ArtStyle::all();
+			return view('artPiece.edit', ['artPiece' => $artPiece,
+				'legalEntities' => $legalEntities, 'artStyles' => $artStyles]);
 		}
 		else
 		{
