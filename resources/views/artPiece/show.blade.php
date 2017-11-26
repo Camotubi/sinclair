@@ -23,12 +23,12 @@ Restauraciones
 		<th>Restaurador</th>
 		<th>Fecha</th>
 	</thead>
-	@foreach($artPiece->pivot->restorationDate as $date)
+	@foreach($artPiece->legalEntityRestoration() as $restoration)
 		<tr>
-			{{$artPiece->pivot->legalEntityId}}
+			{{$restoration->legalEntityId}}
 		</tr>
 		<tr>
-			{{$date}}
+			{{$restoration->restorationDate}}
 		</tr>
 	@endforeach
 </table>
