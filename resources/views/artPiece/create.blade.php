@@ -22,7 +22,14 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="style">Estilo:</label>
-							<input class="form-control" type="text" name="style" value="">
+							<select class="form-control" name="artStylesId" multiple>
+    								<option disabled selected value></option>
+								@foreach($artStyles as $artStyle)
+									<option value ="{{$artStyle->id}}">{{$artStyle->name}}</option>
+
+								@endforeach
+
+							</select>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="technique">Técnica:</label>
@@ -42,7 +49,13 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="donatorId">Donador:</label>
-							<input class="form-control" type="text" name="donatorId" value="">
+							<select class="form-control" name="donatorId" value="">
+    								<option disabled selected value></option>
+								@foreach($legalEntities as $legalEntity)
+									<option value ="{{$legalEntity->id}}"> {{$legalEntity->name}}</option>
+
+								@endforeach
+							</select>
 						</div>
 						<div class ="form-check">
 							<label class="form-check-label">
@@ -60,5 +73,4 @@
 		</section>
 	</div>
 
-	</div>
 @endsection
