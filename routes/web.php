@@ -62,6 +62,6 @@ Route::get('/dashboard','DashboardController@index');
 Route::get('/dashboard/p','DashboardController@test');
 //Testing Routes
 Route::get('/test','ArtStyleController@test'); 
-
+Route::get('artPiece/{id}/delete','ArtPieceController@showDeleteConfirmation');
 Route::get('/artPiece/{id}/addImage' ,'ArtPieceController@addImage');
 Route::post('/artPiece/{id}/addImage' ,'ArtPieceController@storeImage');

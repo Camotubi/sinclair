@@ -127,7 +127,11 @@ class ArtPieceController extends Controller
 	 */
 	public function destroy($id)
 	{
-		ArtPiece::find($id)->delete();
+		$ArtPiece = ArtPiece::find($id);
+		$ArtPiece->legalEntityRestoration()->detach();
+		$ArtPiece->multimedia()->detach();
+		$ArtPiece->delete();
+		return redirect('dashboard')->with('success' , 'Obra eliminada');
 	}
 
 	public function apiPaginate($amount)
@@ -169,5 +173,19 @@ class ArtPieceController extends Controller
 		return redirect('artPiece/'.$id);
 
 
+	}
+
+	public function showDeleteConfirmation($id)
+	{
+		$artPiece = ArtPiece::find($id);
+		if(!is_null($artPiece))
+		{
+			return view('artPiece.delete', ['artPiece' => $artPiece]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Obra de arte no encontrada');
+		}
+		
 	}
 }
