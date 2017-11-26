@@ -12,10 +12,10 @@ class DashboardController extends Controller
 	public function __construct()
 	{
 
-		//		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-		//$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-		//$this->middleware('editor', ['only' => ['store','edit']]);
-
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth');
+		}
 	}
 	public function index()
 	{

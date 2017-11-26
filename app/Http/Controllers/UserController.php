@@ -14,7 +14,10 @@ class UserController extends Controller
 	 */
 	public function __construct()
 	{
-		//$this->middleware('admin')->only(['create','store']);
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('admin')->only(['create','store']);
+		}
 
 	}
     public function index()
