@@ -10,9 +10,11 @@ class ArtStyleController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth');
-		$this->middleware('admin'['only' => ['create','store','edit','update','destroy']]);
-		$this->middleware('editor'['only' => ['store','edit']]);
+
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		}
   }
   /**
    * Display a listing of the resource.
@@ -109,4 +111,10 @@ class ArtStyleController extends Controller
   {
 	  //
   }
+
+public function test()
+{
+
+	return view('test',['items'=>ArtStyle::paginate(10)]);
+}
 }

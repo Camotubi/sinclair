@@ -8,7 +8,7 @@ class ArtPiece extends Model
 {
 	protected $table = "art_piece";
 
-	public function exhhibitions()
+	public function exhibitions()
 	{
 		return $this->belongsToMany('App\Exhibition', 'art_piece_exhibition',
 			'artPieceId', 'exhibitionId');

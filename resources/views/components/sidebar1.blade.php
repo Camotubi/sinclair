@@ -44,15 +44,31 @@
 	</div>
 
 	<a class="nav-fill" data-toggle="collapse" href="#collapse3" aria-expanded="false" aria-controls="collapseExample">
-		Exhibiciones
+		Entidades Legales
 	</a>
 	<div id ="collapse3" class ="collapse">
 		<ul class="nav nav-pills flex-column">
 			<li class="nav-item">
-				<a class="nav-link" href="/exhibition">Ver</a>
+				<a class="nav-link" href="/legalEntity">Ver</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/legalEntity/create">Registrar</a>
 			</li>
 		</ul>
 	</div>
 
-	</ul>
+	<a class="nav-fill" data-toggle="collapse" href="#collapse4" aria-expanded="false" aria-controls="collapseExample">
+		Exhibiciones
+	</a>
+	<div id ="collapse4" class ="collapse">
+		<ul class="nav nav-pills flex-column">
+			<li class="nav-item">
+				<a class="nav-link" href="/exhibition">Ver</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/exhibition/create">Registrar</a>
+			</li>
+		</ul>
+	</div>
+
 </nav>

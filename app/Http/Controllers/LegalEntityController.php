@@ -12,9 +12,10 @@ class LegalEntityController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-		$this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-		$this->middleware('editor', ['only' => ['store','edit']]);
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		}
   }
 
   /**
@@ -54,7 +55,7 @@ class LegalEntityController extends Controller
 	  $legalEntity->ruc = $request->input ('ruc');
 	  $legalEntity->identificationNumber = $request->input ('identificationNumber');
 	  if ( $request->input ('philanthropy') ) {
-		  $artPiece->philanthropy = true;
+		  $legalEntity->philanthropy = true;
       }
       $legalEntity->save();
   }

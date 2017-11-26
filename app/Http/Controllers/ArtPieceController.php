@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ArtPieceCreateRequest;
 use App\Http\Requests\ArtPieceUpdateRequest;
 use App\ArtPiece;
+use App\ArtStyle;
 use App\Multimedia;
 use App\LegalEntity;
 use Illuminate\Support\Facades\DB;
@@ -14,9 +15,11 @@ class ArtPieceController extends Controller
 {
 	public function __construct()
 	{
-		//        $this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
-		//      $this->middleware('admin', ['only' => ['create','store','edit','update','destroy']]);
-		//    $this->middleware('editor', ['only' => ['store','edit']]);
+
+		if(config('app.enableGuards'))
+		{
+			$this->middleware('auth', ['only' => ['index','create','store','edit','update','destroy']]);
+		}
 	}
 
 	/**
@@ -37,7 +40,9 @@ class ArtPieceController extends Controller
 	 */
 	public function create()
 	{
-		return view('artPiece.create');
+		$legalEntities = LegalEntity::all();
+		$artStyles = ArtStyle::all();
+		return view('artPiece.create', ['legalEntities' => $legalEntities, 'artStyles' => $artStyles]);
 	}
 
 	/**
@@ -46,22 +51,22 @@ class ArtPieceController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(ArtPieceCreateRequest $request)
+	public function store(Request $request)
 	{
 		$artPiece = new ArtPiece;
 		$artPiece->name = $request->input ('name');
 		$artPiece->currentLocation = $request->input ('currentLocation');
-		$artPiece->style = $request->input ('style');
-		$artPiece->era = $request->input ('era');
 		$artPiece->technique = $request->input ('technique');
 		$artPiece->criticalAnalisis = $request->input ('criticalAnalisis');
 		$artPiece->creationDate = $request->input ('creationDate');
+		$artPiece->donatorId = $request->input('donatorId');
 		if ( $request->input ('generatePublication') ) {
 			$artPiece->generatePublication = true;
 		}
 		$artPiece->save();
 		$artPiece->donator()->associate(LegalEntity::where('legalEntity.id',
 			$request->input ('donatorId'))->first());
+		$artPiece->artStyles()->attach($request->input('artStylesId'));
 	}
 
 	/**
@@ -122,7 +127,7 @@ class ArtPieceController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
+		ArtPiece::find($id)->delete();
 	}
 
 	public function apiPaginate($amount)
