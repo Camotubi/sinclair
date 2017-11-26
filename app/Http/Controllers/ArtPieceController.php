@@ -60,7 +60,7 @@ class ArtPieceController extends Controller
 			$artPiece->generatePublication = true;
 		}
 		$artPiece->save();
-		$artPiece->donator()->attach(LegalEntity::where('legalEntity.id',
+		$artPiece->donator()->associate(LegalEntity::where('legalEntity.id',
 			$request->input ('donatorId'))->first());
 	}
 

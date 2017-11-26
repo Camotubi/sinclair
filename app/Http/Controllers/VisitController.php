@@ -47,7 +47,7 @@ class VisitController extends Controller
       $visit = new Visit;
       $visit->date = $request-> input('date');
       $visit->save();
-      $visit->visitor()->attach(Visitor::where('visitor.id',
+      $visit->visitor()->associate(Visitor::where('visitor.id',
       $request->input ('visitorId'))->first());
   }
 

@@ -49,7 +49,7 @@ class CondecorationController extends Controller
 		$condecoration->date = $request-> input('date');
 		$condecoration->desription = $request-> input('description');
 		$condecoration->save();
-		$condecoration->condecorator()->attach(LegalEntity::where('legalEntity.id',
+		$condecoration->condecorator()->associate(LegalEntity::where('legalEntity.id',
 			$request->input ('condecoratorId'))->first());
 	}
 

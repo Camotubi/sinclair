@@ -52,9 +52,9 @@ class RentController extends Controller
       $rent->effectiveDate = $request-> input('effectiveDate');
       $rent->terminationDate = $request-> input('terminationDate');
       $rent->save();
-      $rent->artPiece()->attach(ArtPiece::where('artPiece.id',
+      $rent->artPiece()->associate(ArtPiece::where('artPiece.id',
       $request->input ('artPieceId'))->first());
-      $rent->legalEntity()->attach(LegalEntity::where('legalEntity.id',
+      $rent->legalEntity()->associate(LegalEntity::where('legalEntity.id',
       $request->input ('legalEntityId'))->first());
     }
 

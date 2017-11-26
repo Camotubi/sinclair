@@ -54,7 +54,7 @@ class MultimediaController extends Controller
       $multimedia->description = $request->input ('description');
       $multimedia->fileLocation = $request->input ('fileLocation');
       $multimedia->save();
-      $multimedia->types()->attach(MultimediaType::where('MultimediaType.id',
+      $multimedia->types()->associate(MultimediaType::where('MultimediaType.id',
 		$request->input ('multimediaTypeId'))->first());
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\SinclairPerson;
+use App\RelationshipType;
 
 class SinclairPersonController extends Controller
 {
@@ -48,6 +49,8 @@ class SinclairPersonController extends Controller
 	  $sinclairPerson->lastname = $request-> input('lastname');
 	  $sinclairPerson->nin = $request-> input('nin');
 	  $sinclairPerson->save();
+		$multimedia->relationshipType()->associate(RelationshipType::where('RelationshipType.id',
+			$request->input ('RelationshipTypeId'))->first());
   }
 
   /**
