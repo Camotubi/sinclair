@@ -37,7 +37,8 @@ class ArtPiece extends Model
 
 	public function legalEntityRestoration()
 	{
-		return $this->belongsToMany('App\LegalEntity')->withPivot('restorationDate', 'description');
+		return $this->belongsToMany('App\LegalEntity','legal_entity_art_piece_restoration','artPieceId','legalEntityId')
+			->withPivot('restorationDate', 'description');
 	}
 
 	public function rents()
