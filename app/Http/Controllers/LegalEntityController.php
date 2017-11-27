@@ -118,6 +118,7 @@ class LegalEntityController extends Controller
    */
   public function destroy($id)
   {
-	  //
+	  $legalEntity = LegalEntity::find($id);
+		$legalEntity->delete();
   }
 }
