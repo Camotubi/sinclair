@@ -9,8 +9,9 @@
 		<section>
 			<article>
 				<h3>Actualización de entidad legal</h3>
-				<form class=""  action= "/legalEntity/{{$legalEntity->id}}" method="post">
+				<form class=""  action= "/legalEntity/{{$legalEntity->id}}" method="post" enctype="multipart/form-data">
 					{{ csrf_field() }}
+					{{ method_field('PATCH') }}
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="name">Nombre:</label>

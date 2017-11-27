@@ -56,9 +56,9 @@ class LegalEntityController extends Controller
 	  $legalEntity->identificationNumber = $request->input ('identificationNumber');
 	  if ( $request->input ('philanthropy') ) {
 		  $legalEntity->philanthropy = true;
-      }
-      $legalEntity->save();
-			return redirect('dashboard')->with('success' , 'Entidad Legal registrada');
+	  }
+	  $legalEntity->save();
+	  return redirect('dashboard')->with('success' , 'Entidad Legal registrada');
   }
 
   /**
@@ -106,20 +106,20 @@ class LegalEntityController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(LegalEntityUpdateRequest $request, $id)
+  public function update(Request $request, $id)
   {
-	  $legalEntity = LegalEntity::find($id);
-		$legalEntity->name = $request->input ('name');
-	  $legalEntity->email = $request->input ('email');
-	  $legalEntity->phone = $request->input ('phone');
-	  $legalEntity->address = $request->input ('address');
-	  $legalEntity->ruc = $request->input ('ruc');
-	  $legalEntity->identificationNumber = $request->input ('identificationNumber');
-	  if ( $request->input ('philanthropy') ) {
-		  $legalEntity->philanthropy = true;
-      }
-      $legalEntity->save();
-			return redirect('legalEntity/'.$id);
+	$legalEntity = LegalEntity::find($id);
+	$legalEntity->name = $request->input ('name');
+	$legalEntity->email = $request->input ('email');
+	$legalEntity->phone = $request->input ('phone');
+	$legalEntity->address = $request->input ('address');
+	$legalEntity->ruc = $request->input ('ruc');
+	$legalEntity->identificationNumber = $request->input ('identificationNumber');
+	if ( $request->input ('philanthropy') ) {
+		$legalEntity->philanthropy = true;
+	}
+	$legalEntity->save();
+	return redirect('legalEntity/'.$id);
   }
 
   /**
