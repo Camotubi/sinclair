@@ -48,7 +48,7 @@ class FurnitureController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(FurnitureCreateRequest $request)
+	public function store(Request $request)
 	{
 		$furniture = new Furniture;
 		$furniture->name = $request-> input('name');
@@ -106,7 +106,7 @@ class FurnitureController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(FurnitureUpdateRequest $request, $id)
+	public function update(Request $request, $id)
 	{
 		$furniture = Furniture::find($id);
 		$furniture->name = $request-> input('name');

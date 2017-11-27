@@ -118,7 +118,7 @@ class ArtPieceController extends Controller
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(ArtPieceUpdateRequest $request, $id)
+	public function update(Request $request, $id)
 	{
 		$artPiece = ArtPiece::find($id);
 		$artPiece->name = $request->input ('name');

@@ -49,7 +49,7 @@ class RentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RentCreateRequest $request)
+    public function store(Request $request)
     {
       $rent = new Rent;
       $rent->moneyQuantity = $request-> input('moneyQuantity');
@@ -108,7 +108,7 @@ class RentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RentUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
 	    $rent = Rent::find($id);
 			$rent->moneyQuantity = $request-> input('moneyQuantity');

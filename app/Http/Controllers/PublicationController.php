@@ -46,7 +46,7 @@ class PublicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PublicationCreateRequest $request)
+    public function store(Request $request)
     {
       $publication = new Publication;
       $publication->title = $request-> input('title');
@@ -102,7 +102,7 @@ class PublicationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PublicationUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
 	    $publication = Publication::find($id);
 			$publication->title = $request-> input('title');

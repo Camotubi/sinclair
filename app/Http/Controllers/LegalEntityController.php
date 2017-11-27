@@ -45,7 +45,7 @@ class LegalEntityController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function store(LegalEntityCreateRequest $request)
+  public function store(Request $request)
   {
 	  $legalEntity = new LegalEntity;
 	  $legalEntity->name = $request->input ('name');

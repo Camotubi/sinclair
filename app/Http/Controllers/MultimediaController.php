@@ -46,7 +46,7 @@ class MultimediaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MultimediaCreateRequest $request)
+    public function store(Request $request)
     {
 	    $multimedia = new Multimedia;
 	    if ( $request->input ('sinclairMemorability') ) {
@@ -106,7 +106,7 @@ class MultimediaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(MultimediaUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
 	    $multimedia = Multimedia::find($id);
 			if ( $request->input ('sinclairMemorability') ) {
