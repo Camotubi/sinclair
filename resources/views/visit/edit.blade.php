@@ -11,6 +11,7 @@
 				<h3>Actualización de Visita</h3>
 				<form class=""  action= "/visit/{{$visit->id}}" method="post">
 					{{ csrf_field() }}
+					<input type="hidden" name="_method" value="PUT/PATCH">
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="date">Fecha:</label>

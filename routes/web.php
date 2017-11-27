@@ -85,6 +85,8 @@ Route::get('insurance/{id}/delete','InsuranceController@showDeleteConfirmation')
 
 Route::get('insuranceCarrier/{id}/delete','InsuranceCarrierController@showDeleteConfirmation');
 
+Route::get('legalEntity/{id}/delete','LegalEntityController@showDeleteConfirmation');
+
 Route::get('multimedia/{id}/delete','MultimediaController@showDeleteConfirmation');
 
 Route::get('publication/{id}/delete','PublicationController@showDeleteConfirmation');

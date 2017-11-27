@@ -109,7 +109,10 @@ class LegalEntityController extends Controller
   public function update(LegalEntityUpdateRequest $request, $id)
   {
 	  $legalEntity = LegalEntity::find($id);
-		$legalEntity->name = $request->input ('name');
+		$legalEntity->name = "bolas";
+		$legalEntity->save();
+//		$legalEntity->update($request->all());
+		/*$legalEntity->name = $request->input ('name');
 	  $legalEntity->email = $request->input ('email');
 	  $legalEntity->phone = $request->input ('phone');
 	  $legalEntity->address = $request->input ('address');
@@ -118,7 +121,7 @@ class LegalEntityController extends Controller
 	  if ( $request->input ('philanthropy') ) {
 		  $legalEntity->philanthropy = true;
       }
-      $legalEntity->save();
+      $legalEntity->save();*/
 			return redirect('legalEntity/'.$id);
   }
 
