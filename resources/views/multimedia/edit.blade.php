@@ -31,15 +31,6 @@
 							<label for="fileLocation">Localización de la memorabilia:</label>
 							<input class="form-control" type="text" name="fileLocation" value="{{$multimedia->fileLocation}}">
 						</div>
-						<div class="form-group col-md-4">
-							<label for="multimediaTypeId">Tipo de Memorabilia:</label>
-							<input type="text" class="form-control" name="multimediaTypeId" value="{{$multimedia->multimediaTypeId}}" list="multimediaTypes">
-								<datalist id="multimediaTypes">
-									@foreach($multimediaTypes as $multimediaType)
-										<option value ="{{$multimediaType->id}}"> {{$multimediaType->name}}</option>
-									@endforeach
-								</datalist>
-						</div>
 					</div>
 					<input type="submit" name="update" class="btn btn-primary" value="Actualizar">
 				</form>

@@ -13,15 +13,6 @@
 					{{ csrf_field() }}
 					<div class="form-row">
 						<div class="form-group col-md-4">
-							<label for="visitorId">Visitante:</label>
-							<input type="text" class="form-control" name="visitorId" value="{{$visit->visitorId}}" list="visitors">
-								<datalist id="visitors">
-									@foreach($visitors as $visitor)
-										<option value ="{{$visitor->id}}"> {{$visitor->name}}</option>
-									@endforeach
-								</datalist>
-						</div>
-						<div class="form-group col-md-4">
 							<label for="date">Fecha:</label>
 							<input class="form-control" type="date" name="date" value="{{$visit->date}}">
 						</div>
