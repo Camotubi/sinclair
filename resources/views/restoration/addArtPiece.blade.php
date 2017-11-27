@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
 @section('title')
-
+Registro de restauración de obra de arte
 @endsection
 
 @section('content')
 <div>
 	<form class=""  method="post" enctype="multipart/form-data">
 		{{ csrf_field() }}
-		<h3>Agregar restauracion</h3>
+		<h3>Registro de restauración de obra de arte</h3>
 		<label>Restaurador:</label>
 		<textarea name="description">
 		</textarea>
