@@ -120,4 +120,19 @@ class VisitController extends Controller
 		$visit->delete();
 		return redirect('dashboard')->with('success' , 'Visita eliminada');
   }
+
+	public function showDeleteConfirmation($id)
+	{
+		$visit = Visit::find($id);
+		if(!is_null($visit))
+		{
+			$visitor = Visitor::find($visit->visitorId);
+			return view('visit.delete', ['visit' => $visit, 'visitor' => $visitor]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Visita no encontrada');
+		}
+
+	}
 }

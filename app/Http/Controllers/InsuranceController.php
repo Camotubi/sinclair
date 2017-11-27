@@ -90,9 +90,10 @@ class InsuranceController extends Controller
 		$insurance = Insurance::find($id);
 		if(!is_null($insurance))
 		{
-			$artPieces = ArtPiece::all();
+			$artPieces = artPiece::all();
 			$insuranceCarriers = InsuranceCarrier::all();
-		  return view('insurance.edit', ['insurance' => $insurance, 'artPieces' => $artPieces, 'insuranceCarriers' => $insuranceCarriers]);
+		  return view('insurance.edit', ['insurance' => $insurance,
+				'artPieces' => $artPieces, 'insuranceCarriers' => $insuranceCarriers]);
 
 		}
 		else
@@ -132,5 +133,21 @@ class InsuranceController extends Controller
 		$insurance->insuranceCarrier()->dissociate();
 		$insurance->delete();
 		return redirect('dashboard')->with('success' , 'Seguro eliminado');
+	}
+	public function showDeleteConfirmation($id)
+	{
+		$insurance = insurance::find($id);
+		if(!is_null($insurance))
+		{
+			$artPiece = artPiece::find($insurance->artPieceId);
+			$insuranceCarrier = InsuranceCarrier::find($insurance->insuranceCarrierId);
+			return view('insurance.delete', ['insurance' => $insurance,
+				'artPieces' => $artPieces, 'insuranceCarriers' => $insuranceCarriers]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Seguro no encontrado');
+		}
+
 	}
 }

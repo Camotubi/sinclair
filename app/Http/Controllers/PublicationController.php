@@ -124,4 +124,18 @@ class PublicationController extends Controller
 			$publication->delete();
 			return redirect('dashboard')->with('success' , 'Publicación eliminada');
     }
+
+		public function showDeleteConfirmation($id)
+		{
+			$publication = Publication::find($id);
+			if(!is_null($publication))
+			{
+				return view('publication.delete', ['publication' => $publication]);
+			}
+			else
+			{
+				return redirect('dashboard')->with('error' , 'Publicación no encontrada');
+			}
+
+		}
 }

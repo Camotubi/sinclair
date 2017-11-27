@@ -55,7 +55,7 @@ class FurnitureController extends Controller
 		$furniture->save();
 		$furniture->donator()->associate($request->input ('donatorId'));
 		$furniture->type()->associate($request-> input('furnitureTypeId'));
-		return redirect('dashboard')->with('success' , 'Inmobilario registrado');
+		return redirect('dashboard')->with('success' , 'Inmobiliario registrado');
 	}
 
 	/**
@@ -128,6 +128,20 @@ class FurnitureController extends Controller
 		$furniture->legalEntityPossession()->detach();
 		$furniture->legalEntityRestoration()->detach();
 		$furniture->delete();
-		return redirect('dashboard')->with('success' , 'Inmobilario eliminado');
+		return redirect('dashboard')->with('success' , 'Inmobiliario eliminado');
+	}
+
+	public function showDeleteConfirmation($id)
+	{
+		$furniture = Furniture::find($id);
+		if(!is_null($furniture))
+		{
+			return view('furniture.delete', ['furniture' => $furniture]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Inmobiliario no encontrado');
+		}
+
 	}
 }

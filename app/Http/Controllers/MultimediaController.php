@@ -132,4 +132,18 @@ class MultimediaController extends Controller
 			$multimedia->delete();
 			return redirect('dashboard')->with('success' , 'Memorabilia eliminada');
     }
+
+		public function showDeleteConfirmation($id)
+		{
+			$multimedia = Multimedia::find($id);
+			if(!is_null($multimedia))
+			{
+				return view('multimedia.delete', ['multimedia' => $multimedia]);
+			}
+			else
+			{
+				return redirect('dashboard')->with('error' , 'Memorabilia no encontrada');
+			}
+
+		}
 }
