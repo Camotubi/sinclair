@@ -46993,7 +46993,7 @@ exports = module.exports = __webpack_require__(10)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47037,6 +47037,16 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -47162,20 +47172,29 @@ var render = function() {
                 _vm._v(" "),
                 _vm.show_links
                   ? _c("td", [
+                      _c("a", { attrs: { href: "/artPiece/" + artPiece.id } }, [
+                        _c("i", {
+                          staticClass: "fa fa-object-ungroup",
+                          attrs: { "aria-hidden": "true" }
+                        }),
+                        _vm._v("Ver\n\t\t\t\t\t")
+                      ]),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
                       _c(
                         "a",
                         {
-                          attrs: { href: "/artPiece/" + artPiece.id + "/show" }
+                          attrs: { href: "/artPiece/" + artPiece.id + "/edit" }
                         },
                         [
                           _c("i", {
                             staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#f8990e" },
                             attrs: { "aria-hidden": "true" }
                           }),
-                          _vm._v("\nModificar")
+                          _vm._v("Modificar\n\t\t\t\t\t")
                         ]
                       ),
-                      _vm._v("|"),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
                       _c(
                         "a",
                         {
@@ -47189,7 +47208,7 @@ var render = function() {
                             staticStyle: { color: "red" },
                             attrs: { "aria-hidden": "true" }
                           }),
-                          _vm._v("\nEliminar")
+                          _vm._v("Eliminar\n\t\t\t\t\t")
                         ]
                       )
                     ])
@@ -47306,7 +47325,7 @@ exports = module.exports = __webpack_require__(10)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47317,6 +47336,16 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -47407,35 +47436,35 @@ var render = function() {
               _c("tr", [
                 _vm.show_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
                 _vm._v(" "),
-                _vm.show_technique ? _c("th", [_vm._v("Email")]) : _vm._e(),
+                _vm.show_email ? _c("th", [_vm._v("Email")]) : _vm._e(),
                 _vm._v(" "),
-                _vm.show_current_location
-                  ? _c("th", [_vm._v("Telefono")])
-                  : _vm._e(),
+                _vm.show_phone ? _c("th", [_vm._v("Telefono")]) : _vm._e(),
                 _vm._v(" "),
                 _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
               ])
             ]),
             _vm._v(" "),
-            _vm._l(_vm.laravelData.data, function(artPiece) {
+            _vm._l(_vm.laravelData.data, function(legalEntity) {
               return _c("tr", [
                 _vm.show_name
                   ? _c("td", [
-                      _c("a", { attrs: { href: "/artPiece/" + artPiece.id } }, [
-                        _vm._v(_vm._s(artPiece.name))
-                      ])
+                      _c(
+                        "a",
+                        { attrs: { href: "/legalEntity/" + legalEntity.id } },
+                        [_vm._v(_vm._s(legalEntity.name))]
+                      )
                     ])
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.show_email
                   ? _c("td", {
-                      domProps: { textContent: _vm._s(_vm.legalEntity.email) }
+                      domProps: { textContent: _vm._s(legalEntity.email) }
                     })
                   : _vm._e(),
                 _vm._v(" "),
                 _vm.show_phone
                   ? _c("td", {
-                      domProps: { textContent: _vm._s(_vm.legalEntity.phone) }
+                      domProps: { textContent: _vm._s(legalEntity.phone) }
                     })
                   : _vm._e(),
                 _vm._v(" "),
@@ -47443,26 +47472,38 @@ var render = function() {
                   ? _c("td", [
                       _c(
                         "a",
+                        { attrs: { href: "/legalEntity/" + legalEntity.id } },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-object-ungroup",
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Ver\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
                         {
                           attrs: {
-                            href: "/legalEntity/" + _vm.legalEntity.id + "/show"
+                            href: "/legalEntity/" + legalEntity.id + "/edit"
                           }
                         },
                         [
                           _c("i", {
                             staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#f8990e" },
                             attrs: { "aria-hidden": "true" }
                           }),
-                          _vm._v("\nModificar")
+                          _vm._v("Modificar\n\t\t\t\t\t")
                         ]
                       ),
-                      _vm._v("|"),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
                       _c(
                         "a",
                         {
                           attrs: {
-                            href:
-                              "/legalEntity/" + _vm.legalEntity.id + "/delete"
+                            href: "/legalEntity/" + legalEntity.id + "/delete"
                           }
                         },
                         [
@@ -47471,7 +47512,7 @@ var render = function() {
                             staticStyle: { color: "red" },
                             attrs: { "aria-hidden": "true" }
                           }),
-                          _vm._v("\nEliminar")
+                          _vm._v("Eliminar\n\t\t\t\t\t")
                         ]
                       )
                     ])
