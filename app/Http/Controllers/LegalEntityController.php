@@ -121,4 +121,9 @@ class LegalEntityController extends Controller
 	  $legalEntity = LegalEntity::find($id);
 		$legalEntity->delete();
   }
+	public function apiPaginate($amount)
+	{
+
+		return LegalEntity::paginate($amount);
+	}
 }

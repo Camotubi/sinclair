@@ -18,3 +18,4 @@ Route::get('/artPiece/paginate/{amount}','ArtPieceController@apiPaginate');
 Route::get('/user/findUsername/{username}','UserController@findUsername');
 Route::get('/user/findEmail/{email}','UserController@findEmail');
 
+Route::get('/legalEntity/paginate/{amount}','LegalEntityController@apiPaginate');

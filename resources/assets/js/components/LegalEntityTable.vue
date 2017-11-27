@@ -1,3 +1,4 @@
+
 <template>
 	<div class="container">
 		<ul>
@@ -5,27 +6,27 @@
 				<thead class="thead-light">
 					<tr>
 						<th v-if="show_name">Nombre</th>
-						<th v-if="show_technique">Tecnica</th>
-						<th v-if="show_current_location">Localizacion</th>
+						<th v-if="show_email">Email</th>
+						<th v-if="show_phone">Telefono</th>
 						<th v-if="show_links">Acciones</th>
 
 					</tr>
 				</thead>
-				<tr v-for="artPiece in laravelData.data">
+				<tr v-for="legalEntity in laravelData.data">
 
-					<td v-if="show_name" ><a :href="'/artPiece/' +artPiece.id">{{artPiece.name}}</a></td>
-					<td v-if="show_technique" v-text="artPiece.technique"></td>
-					<td v-if="show_current_location" v-text="artPiece.currentLocation"></td>
+					<td v-if="show_name" ><a :href="'/legalEntity/' +legalEntity.id">{{legalEntity.name}}</a></td>
+					<td v-if="show_email" v-text="legalEntity.email"></td>
+					<td v-if="show_phone" v-text="legalEntity.phone"></td>
 					<td v-if="show_links">
-						<a :href="'/artPiece/'+artPiece.id">
+						<a :href="'/legalEntity/'+legalEntity.id">
 							<i class="fa fa-object-ungroup" aria-hidden="true"></i>Ver
 						</a>
 						|
-						<a :href="'/artPiece/'+artPiece.id+'/edit'">
+						<a :href="'/legalEntity/'+legalEntity.id+'/edit'">
 							<i style="color:#f8990e" class="fa fa-pencil" aria-hidden="true"></i>Modificar
 						</a>
 						|
-						<a :href="'/artPiece/'+artPiece.id+'/delete'">
+						<a :href="'/legalEntity/'+legalEntity.id+'/delete'">
 							<i style="color:red" class="fa fa-trash" aria-hidden="true"></i>Eliminar
 						</a>
 					</td>
@@ -46,8 +47,8 @@ export default {
 	},
 	props:{
 		show_name:{default:true},
-		show_technique:{default:true},
-		show_current_location:{default:true},
+		show_email:{default:true},
+		show_phone:{default:true},
 		page_amount:{default:10},
 		show_links:{default:true},
 
@@ -68,7 +69,7 @@ export default {
 			}
 
 			// Using vue-resource as an example
-			axios.get('api/artPiece/paginate/'+ self.page_amount +'?page=' + page).then(
+			axios.get('api/legalEntity/paginate/'+ self.page_amount +'?page=' + page).then(
 				function(response){
 					self.laravelData = response.data;
 				});
