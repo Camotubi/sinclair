@@ -125,4 +125,18 @@ class CondecorationController extends Controller
 		$condecoration->delete();
 		return redirect('dashboard')->with('success' , 'Condecoración eliminada');
 	}
+
+	public function showDeleteConfirmation($id)
+	{
+		$condecoration = Condecoration::find($id);
+		if(!is_null($condecoration))
+		{
+			return view('condecoration.delete', ['condecoration' => $condecoration]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Condecoración no encontrada');
+		}
+
+	}
 }

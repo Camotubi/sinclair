@@ -115,4 +115,18 @@ class TagController extends Controller
 		$tag->delete();
 		return redirect('dashboard')->with('success' , 'Etiqueta eliminada');
   }
+
+	public function showDeleteConfirmation($id)
+	{
+		$tag = Tag::find($id);
+		if(!is_null($tag))
+		{
+			return view('tag.delete', ['tag' => $tag]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Etiqueta no encontrada');
+		}
+
+	}
 }

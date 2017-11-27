@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\ArtPiece;
+use App\Furniture;
+use App\LegalEntity;
+
 class RestorationController extends Controller
 {
     /**
@@ -81,4 +85,38 @@ class RestorationController extends Controller
     {
         //
     }
+
+    public function showDeleteArtPieceConfirmation($id)
+		{
+			$restoration = ;
+			if(!is_null($rent))
+			{
+				$artPiece = ArtPiece::find($restoration->artPieceId);
+				$legalEntity = LegalEntity::find($restoration->legalEntityId);
+				return view('rent.deleteArtPiece', ['restoration' => $restoration, 'artPiece' => $artPiece,
+					'legalEntity' => $legalEntity]);
+			}
+			else
+			{
+				return redirect('dashboard')->with('error' , 'Restauración no encontrada');
+			}
+
+		}
+
+    public function showDeleteFurnitureConfirmation($id)
+		{
+			$restoration = ;
+			if(!is_null($rent))
+			{
+				$furniture = Furniture::find($restoration->furnitureId);
+				$legalEntity = LegalEntity::find($restoration->legalEntityId);
+				return view('rent.deleteFurniture', ['restoration' => $restoration, 'furniture' => $furniture,
+					'legalEntity' => $legalEntity]);
+			}
+			else
+			{
+				return redirect('dashboard')->with('error' , 'Restauración no encontrada');
+			}
+
+		}
 }

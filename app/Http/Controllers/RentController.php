@@ -132,4 +132,21 @@ class RentController extends Controller
 			$rent->delete();
 			return redirect('dashboard')->with('success' , 'Alquiler eliminado');
     }
+
+		public function showDeleteConfirmation($id)
+		{
+			$rent = Rent::find($id);
+			if(!is_null($rent))
+			{
+				$artPiece = ArtPiece::find($rent->artPieceId);
+				$legalEntity = LegalEntity::find($rent->legalEntityId);
+				return view('rent.delete', ['rent' => $rent, 'artPiece' => $artPiece,
+					'legalEntity' => $legalEntity]);
+			}
+			else
+			{
+				return redirect('dashboard')->with('error' , 'Alquiler no encontrado');
+			}
+
+		}
 }

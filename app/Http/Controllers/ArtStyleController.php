@@ -124,4 +124,18 @@ public function test()
 
 	return view('test',['items'=>ArtStyle::paginate(10)]);
 }
+
+public function showDeleteConfirmation($id)
+{
+	$artStyle = ArtStyle::find($id);
+	if(!is_null($artStyle))
+	{
+		return view('artStyle.delete', ['artStyle' => $artStyle]);
+	}
+	else
+	{
+		return redirect('dashboard')->with('error' , 'Estilo de arte no encontrado');
+	}
+
+}
 }

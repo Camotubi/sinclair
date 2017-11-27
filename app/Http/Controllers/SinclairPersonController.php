@@ -125,4 +125,18 @@ class SinclairPersonController extends Controller
 		$sinclairPerson->delete();
 		return redirect('dashboard')->with('success' , 'Persona eliminada');
   }
+
+	public function showDeleteConfirmation($id)
+	{
+		$sinclairPerson = SinclairPerson::find($id);
+		if(!is_null($sinclairPerson))
+		{
+			return view('sinclairPerson.delete', ['sinclairPerson' => $sinclairPerson]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Persona no encontrada');
+		}
+
+	}
 }

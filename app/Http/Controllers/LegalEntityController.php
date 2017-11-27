@@ -139,4 +139,18 @@ class LegalEntityController extends Controller
 
 		return LegalEntity::paginate($amount);
 	}
+
+	public function showDeleteConfirmation($id)
+	{
+		$legalEntity = LegalEntity::find($id);
+		if(!is_null($legalEntity))
+		{
+			return view('legalEntity.delete', ['legalEntity' => $legalEntity]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Entidad Legal no encontrada');
+		}
+
+	}
 }

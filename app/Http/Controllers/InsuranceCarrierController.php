@@ -121,4 +121,18 @@ class InsuranceCarrierController extends Controller
 		$insuranceCarrier->delete();
 		return redirect('dashboard')->with('success' , 'Aseguradora eliminada');
   }
+
+	public function showDeleteConfirmation($id)
+	{
+		$insuranceCarrier = insuranceCarrier::find($id);
+		if(!is_null($insuranceCarrier))
+		{
+			return view('insuranceCarrier.delete', ['insuranceCarrier' => $insuranceCarrier]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Aseguradora no encontrada');
+		}
+
+	}
 }

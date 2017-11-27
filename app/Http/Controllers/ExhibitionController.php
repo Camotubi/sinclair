@@ -120,4 +120,18 @@ class ExhibitionController extends Controller
 		$exhibition->delete();
 		return redirect('dashboard')->with('success' , 'Exhibición eliminada');
   }
+
+	public function showDeleteConfirmation($id)
+	{
+		$exhibition = Exhibition::find($id);
+		if(!is_null($exhibition))
+		{
+			return view('exhibition.delete', ['exhibition' => $exhibition]);
+		}
+		else
+		{
+			return redirect('dashboard')->with('error' , 'Exhibición no encontrada');
+		}
+
+	}
 }
