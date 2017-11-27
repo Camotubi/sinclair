@@ -11,7 +11,7 @@
 				<h3>Actualización de Publicación</h3>
 				<form class="" action="/publication/{{$publication->id}}" method="post">
 					{{ csrf_field() }}
-					<input type="hidden" name="_method" value="PUT/PATCH">
+					{{ method_field('PATCH') }}
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="title">Título:</label>
