@@ -32,13 +32,14 @@ class ArtPiece extends Model
 
 	public function legalEntityPossession()
 	{
-		return $this->belongsToMany('App\LegalEntity','legal_entity_art_piece_possession','artPieceId','legalEntityId')->withPivot('possessionDate');
+		return $this->belongsToMany('App\LegalEntity','legal_entity_art_piece_possession','artPieceId','legalEntityId')
+			->withPivot('id','possessionDate');
 	}
 
 	public function legalEntityRestoration()
 	{
 		return $this->belongsToMany('App\LegalEntity','legal_entity_art_piece_restoration','artPieceId','legalEntityId')
-			->withPivot('restorationDate', 'description');
+			->withPivot('id','restorationDate', 'description');
 	}
 
 	public function rents()
