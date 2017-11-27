@@ -6,20 +6,30 @@
 				<thead class="thead-light">
 					<tr>
 						<th v-if="show_name">Nombre</th>
-						<th v-if="show_technique">Email</th>
-						<th v-if="show_current_location">Telefono</th>
+						<th v-if="show_email">Email</th>
+						<th v-if="show_phone">Telefono</th>
 						<th v-if="show_links">Acciones</th>
 
 					</tr>
 				</thead>
-				<tr v-for="artPiece in laravelData.data">
+				<tr v-for="legalEntity in laravelData.data">
 
-					<td v-if="show_name" ><a :href="'/artPiece/' +artPiece.id">{{artPiece.name}}</a></td>
+					<td v-if="show_name" ><a :href="'/legalEntity/' +legalEntity.id">{{legalEntity.name}}</a></td>
 					<td v-if="show_email" v-text="legalEntity.email"></td>
 					<td v-if="show_phone" v-text="legalEntity.phone"></td>
-					<td v-if="show_links"><a :href="'/legalEntity/'+legalEntity.id+'/show'"><i class="fa fa-pencil" aria-hidden="true"></i>
-Modificar</a>|<a :href="'/legalEntity/'+legalEntity.id+'/delete'"><i style="color:red" class="fa fa-trash" aria-hidden="true"></i>
-Eliminar</a></td>
+					<td v-if="show_links">
+						<a :href="'/legalEntity/'+legalEntity.id">
+							<i class="fa fa-object-ungroup" aria-hidden="true"></i>Ver
+						</a>
+						|
+						<a :href="'/legalEntity/'+legalEntity.id+'/edit'">
+							<i style="color:#f8990e" class="fa fa-pencil" aria-hidden="true"></i>Modificar
+						</a>
+						|
+						<a :href="'/legalEntity/'+legalEntity.id+'/delete'">
+							<i style="color:red" class="fa fa-trash" aria-hidden="true"></i>Eliminar
+						</a>
+					</td>
 				</tr>
 			</table>
 		</ul>

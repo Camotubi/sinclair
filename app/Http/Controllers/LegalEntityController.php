@@ -120,4 +120,9 @@ class LegalEntityController extends Controller
   {
 	  //
   }
+	public function apiPaginate($amount)
+	{
+
+		return LegalEntity::paginate($amount);
+	}
 }
