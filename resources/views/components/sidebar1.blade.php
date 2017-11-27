@@ -31,10 +31,10 @@
 			<div id ="collapse2" class ="collapse">
 				<ul class="nav nav-pills flex-column">
 					<li class="nav-item">
-						<a class="nav-link" href="/Inmobilario">Ver</a>
+						<a class="nav-link" href="/furniture">Ver</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="/Inmobilario/create">Registrar</a>
+						<a class="nav-link" href="/furniture/create">Registrar</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#">Alquileres</a>
