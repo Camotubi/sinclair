@@ -51,8 +51,8 @@ class SinclairPersonController extends Controller
 	  $sinclairPerson->lastname = $request-> input('lastname');
 	  $sinclairPerson->nin = $request-> input('nin');
 	  $sinclairPerson->save();
-		$sinclairPerson->relationshipType()->attach(RelationshipType::where('RelationshipType.id',
-			$request->input ('relationshipTypeId'))->first());
+		$sinclairPerson->relationshipType()->attach($request->input ('relationshipTypeId'));
+		return redirect('dashboard')->with('success' , 'Persona registrada');
   }
 
   /**
@@ -104,7 +104,12 @@ class SinclairPersonController extends Controller
    */
   public function update(Request $request, $id)
   {
-	  //
+		$sinclairPerson = SinclairPerson::find($id);
+		$sinclairPerson->firstname = $request-> input('firstname');
+	  $sinclairPerson->lastname = $request-> input('lastname');
+	  $sinclairPerson->nin = $request-> input('nin');
+	  $sinclairPerson->save();
+		return redirect('sinclairPerson/'.$id);
   }
 
   /**
@@ -115,6 +120,9 @@ class SinclairPersonController extends Controller
    */
   public function destroy($id)
   {
-	  //
+	  $sinclairPerson = SinclairPerson::find($id);
+		$sinclairPerson->relationshipType()->detach();
+		$sinclairPerson->delete();
+		return redirect('dashboard')->with('success' , 'Persona eliminada');
   }
 }

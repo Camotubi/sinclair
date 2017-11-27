@@ -56,8 +56,8 @@ class MultimediaController extends Controller
       $multimedia->description = $request->input ('description');
       $multimedia->fileLocation = $request->input ('fileLocation');
       $multimedia->save();
-      $multimedia->types()->associate(MultimediaType::where('MultimediaType.id',
-		$request->input ('multimediaTypeId'))->first());
+      $multimedia->types()->associate($request->input ('multimediaTypeId'));
+			return redirect('dashboard')->with('success' , 'Memorabilia registrada');
     }
 
     /**
@@ -108,7 +108,15 @@ class MultimediaController extends Controller
      */
     public function update(MultimediaUpdateRequest $request, $id)
     {
-	    //
+	    $multimedia = Multimedia::find($id);
+			if ( $request->input ('sinclairMemorability') ) {
+		    $multimedia->sinclairMemorability = true;
+      }
+      $multimedia->creationDate = $request->input ('creationDate');
+      $multimedia->description = $request->input ('description');
+      $multimedia->fileLocation = $request->input ('fileLocation');
+      $multimedia->save();
+			return redirect('multimedia/'.$id);
     }
 
     /**
@@ -119,6 +127,9 @@ class MultimediaController extends Controller
      */
     public function destroy($id)
     {
-	    //
+	    $multimedia = Multimedia::find($id);
+			$multimedia->types()->dissociate();
+			$multimedia->delete();
+			return redirect('dashboard')->with('success' , 'Memorabilia eliminada');
     }
 }

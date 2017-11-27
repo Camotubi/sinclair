@@ -58,6 +58,7 @@ class LegalEntityController extends Controller
 		  $legalEntity->philanthropy = true;
       }
       $legalEntity->save();
+			return redirect('dashboard')->with('success' , 'Entidad Legal registrada');
   }
 
   /**
@@ -107,7 +108,18 @@ class LegalEntityController extends Controller
    */
   public function update(LegalEntityUpdateRequest $request, $id)
   {
-	  //
+	  $legalEntity = LegalEntity::find($id);
+		$legalEntity->name = $request->input ('name');
+	  $legalEntity->email = $request->input ('email');
+	  $legalEntity->phone = $request->input ('phone');
+	  $legalEntity->address = $request->input ('address');
+	  $legalEntity->ruc = $request->input ('ruc');
+	  $legalEntity->identificationNumber = $request->input ('identificationNumber');
+	  if ( $request->input ('philanthropy') ) {
+		  $legalEntity->philanthropy = true;
+      }
+      $legalEntity->save();
+			return redirect('legalEntity/'.$id);
   }
 
   /**
@@ -118,7 +130,9 @@ class LegalEntityController extends Controller
    */
   public function destroy($id)
   {
-	  //
+	  $legalEntity = LegalEntity::find($id);
+		$legalEntity->delete();
+		return redirect('dashboard')->with('success' , 'Entidad Legal eliminada');
   }
 	public function apiPaginate($amount)
 	{

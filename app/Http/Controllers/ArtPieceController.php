@@ -42,7 +42,8 @@ class ArtPieceController extends Controller
 	{
 		$legalEntities = LegalEntity::all();
 		$artStyles = ArtStyle::all();
-		return view('artPiece.create', ['legalEntities' => $legalEntities, 'artStyles' => $artStyles]);
+		return view('artPiece.create', ['legalEntities' => $legalEntities,
+			'artStyles' => $artStyles]);
 	}
 
 	/**
@@ -64,9 +65,9 @@ class ArtPieceController extends Controller
 			$artPiece->generatePublication = true;
 		}
 		$artPiece->save();
-		$artPiece->donator()->associate(LegalEntity::where('legal_Entity.id',
-			$request->input ('donatorId'))->first());
+		$artPiece->donator()->associate($request->input ('donatorId'));
 		$artPiece->artStyles()->attach($request->input('artStyleId'));
+		return redirect('dashboard')->with('success' , 'Obra registrada');
 	}
 
 	/**
@@ -119,7 +120,18 @@ class ArtPieceController extends Controller
 	 */
 	public function update(ArtPieceUpdateRequest $request, $id)
 	{
-		//
+		$artPiece = ArtPiece::find($id);
+		$artPiece->name = $request->input ('name');
+		$artPiece->currentLocation = $request->input ('currentLocation');
+		$artPiece->technique = $request->input ('technique');
+		$artPiece->criticalAnalisis = $request->input ('criticalAnalisis');
+		$artPiece->creationDate = $request->input ('creationDate');
+		$artPiece->donatorId = $request->input('donatorId');
+		if ( $request->input ('generatePublication') ) {
+			$artPiece->generatePublication = true;
+		}
+		$artPiece->save();
+		return redirect('artPiece/'.$id);
 	}
 
 	/**
@@ -130,10 +142,14 @@ class ArtPieceController extends Controller
 	 */
 	public function destroy($id)
 	{
-		$ArtPiece = ArtPiece::find($id);
-		$ArtPiece->legalEntityRestoration()->detach();
-		$ArtPiece->multimedia()->detach();
-		$ArtPiece->delete();
+		$artPiece = ArtPiece::find($id);
+		$artPiece->donator()->dissociate();
+		$artPiece->artStyles()->detach();
+		$artPiece->exhibitions()->detach();
+		$artPiece->legalEntityRestoration()->detach();
+		$artPiece->legalEntityPossession()->detach();
+		$artPiece->multimedia()->detach();
+		$artPiece->delete();
 		return redirect('dashboard')->with('success' , 'Obra eliminada');
 	}
 

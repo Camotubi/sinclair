@@ -21,15 +21,6 @@
 							<textarea class="form-control" name="body" rows="20"
 								cols="120">{{$publication->body}}</textarea>
 						</div>
-						<div class="form-group col-md-4">
-							<label for="userId">Publicado por:</label>
-							<input type="text" class="form-control" name="userId" value="{{$publication->userId}}" list="users">
-								<datalist id="users">
-									@foreach($users as $user)
-										<option value ="{{$user->id}}"> {{$user->name}}</option>
-									@endforeach
-								</datalist>
-						</div>
 					</div>
 					<input type="submit" name="update" class="btn btn-primary" value="Actualizar">
 				</form>

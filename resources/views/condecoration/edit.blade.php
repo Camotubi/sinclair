@@ -25,16 +25,6 @@
 							<textarea class="form-control" name="description" rows="8"
 								cols="80">{{$condecoration->description}}</textarea>
 						</div>
-						<div class="form-group col-md-4">
-							<label for="condecoratorId">Condecorador:</label>
-							<input class="form-control" type="text" name="condecoratorId"
-								value="{{$condecoration->condecoratorId}}" list="legalEntities">
-							<datalist id="legalEntities">
-								@foreach($legalEntities as $legalEntity)
-									<option value ="{{$legalEntity->id}}"> {{$legalEntity->name}}</option>
-								@endforeach
-							</datalist>
-						</div>
 					</div>
 					<input type="submit" class="btn btn-primary" name="update" value="Actualizar">
 				</form>

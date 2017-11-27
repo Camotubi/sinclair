@@ -49,6 +49,7 @@ class ExhibitionController extends Controller
 	  $exhibition->location = $request-> input('location');
 	  $exhibition->date = $request-> input('date');
 	  $exhibition->save();
+		return redirect('dashboard')->with('success' , 'Exhibición registrada');
   }
 
   /**
@@ -98,7 +99,13 @@ class ExhibitionController extends Controller
    */
   public function update(Request $request, $id)
   {
-	  //
+	  $exhibition = Exhibition::find($id);
+		$exhibition->name = $request-> input('name');
+	  $exhibition->location = $request-> input('location');
+	  $exhibition->date = $request-> input('date');
+	  $exhibition->save();
+		return redirect('exhibition/'.$id);
+
   }
 
   /**
@@ -109,6 +116,8 @@ class ExhibitionController extends Controller
    */
   public function destroy($id)
   {
-	  //
+	  $exhibition = Exhibition::find($id);
+		$exhibition->delete();
+		return redirect('dashboard')->with('success' , 'Exhibición eliminada');
   }
 }

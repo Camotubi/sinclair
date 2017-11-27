@@ -47,6 +47,7 @@ class TagController extends Controller
 	  $tag = new Tag;
 	  $tag->name = $request-> input('name');
 	  $tag->save();
+		return redirect('dashboard')->with('success' , 'Etiqueta registrada');
   }
 
   /**
@@ -96,7 +97,10 @@ class TagController extends Controller
    */
   public function update(Request $request, $id)
   {
-	  //
+	  $tag = Tag::find($id);
+		$tag->name = $request-> input('name');
+	  $tag->save();
+		return redirect('tag/'.$id);
   }
 
   /**
@@ -107,6 +111,8 @@ class TagController extends Controller
    */
   public function destroy($id)
   {
-	  //
+	  $tag = Tag::find($id);
+		$tag->delete();
+		return redirect('dashboard')->with('success' , 'Etiqueta eliminada');
   }
 }

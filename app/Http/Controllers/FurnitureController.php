@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\FurnitureCreateRequest;
 use App\Http\Requests\FurnitureUpdateRequest;
 use App\Furniture;
+use App\FurnitureType;
 use App\LegalEntity;
 
 class FurnitureController extends Controller
@@ -36,7 +37,9 @@ class FurnitureController extends Controller
 	public function create()
 	{
 		$legalEntities = LegalEntity::all();
-		return view('furniture.create', ['legalEntities' => $legalEntities]);
+		$furnitureTypes = FurnitureType::all();
+		return view('furniture.create', ['legalEntities' => $legalEntities,
+			'furnitureTypes' => $furnitureTypes]);
 	}
 
 	/**
@@ -50,10 +53,9 @@ class FurnitureController extends Controller
 		$furniture = new Furniture;
 		$furniture->name = $request-> input('name');
 		$furniture->save();
-		$furniture->donator()->associate(LegalEntity::where('legalEntity.id',
-			$request->input ('donatorId'))->first());
-		$furniture->type()->associate(LegalEntity::where('legalEntity.id',
-			$request-> input('furnitureTypeId'))->first());
+		$furniture->donator()->associate($request->input ('donatorId'));
+		$furniture->type()->associate($request-> input('furnitureTypeId'));
+		return redirect('dashboard')->with('success' , 'Inmobilario registrado');
 	}
 
 	/**
@@ -87,8 +89,9 @@ class FurnitureController extends Controller
 		if(!is_null($furniture))
 		{
 			$legalEntities = LegalEntity::all();
+			$furnitureTypes = FurnitureType::all();
 		  return view('furniture.edit', ['furniture' => $furniture,
-				'legalEntities' => $legalEntities]);
+				'legalEntities' => $legalEntities, 'furnitureTypes' => $furnitureTypes]);
 		}
 		else
 		{
@@ -105,7 +108,10 @@ class FurnitureController extends Controller
 	 */
 	public function update(FurnitureUpdateRequest $request, $id)
 	{
-		//
+		$furniture = Furniture::find($id);
+		$furniture->name = $request-> input('name');
+		$furniture->save();
+		return redirect('furniture/'.$id);
 	}
 
 	/**
@@ -116,6 +122,12 @@ class FurnitureController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
+		$furniture = Furniture::find($id);
+		$furniture->donator()->dissociate();
+		$furniture->furnitureTypes()->dissociate();
+		$furniture->legalEntityPossession()->detach();
+		$furniture->legalEntityRestoration()->detach();
+		$furniture->delete();
+		return redirect('dashboard')->with('success' , 'Inmobilario eliminado');
 	}
 }

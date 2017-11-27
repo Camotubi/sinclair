@@ -49,6 +49,7 @@ class ArtStyleController extends Controller
 	  $artStyle->name = $request-> input('name');
 	  $artStyle->description = $request-> input('description');
 	  $artStyle->save();
+		return redirect('dashboard')->with('success' , 'Estilo registrado');
   }
 
   /**
@@ -98,7 +99,11 @@ class ArtStyleController extends Controller
    */
   public function update(Request $request, $id)
   {
-	  //
+	  $artStyle = ArtStyle::find($id);
+		$artStyle->name = $request-> input('name');
+	  $artStyle->description = $request-> input('description');
+	  $artStyle->save();
+		return redirect('artStyle/'.$id);
   }
 
   /**
@@ -109,7 +114,9 @@ class ArtStyleController extends Controller
    */
   public function destroy($id)
   {
-	  //
+	  $artStyle = ArtStyle::find($id);
+		$artStyle->delete();
+		return redirect('dashboard')->with('success' , 'Estilo eliminado');
   }
 
 public function test()

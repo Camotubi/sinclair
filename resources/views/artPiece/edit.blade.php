@@ -22,15 +22,6 @@
 							<input class="form-control" type="text" name="era" value="{{$artPiece->era}}">
 						</div>
 						<div class="form-group col-md-4">
-							<label for="style">Estilo:</label>
-							<input class="form-control" type="text" name="artStyleId" value="{{$artPiece->artStyleId}}" list="artStyles">
-								<datalist id="artStyles">
-									@foreach($artStyles as $artStyle)
-										<option value ="{{$artStyle->id}}">{{$artStyle->name}}</option>
-									@endforeach
-								</datalist>
-						</div>
-						<div class="form-group col-md-4">
 							<label for="technique">Técnica:</label>
 							<input class="form-control" type="text" name="technique" value="{{$artPiece->technique}}">
 						</div>
@@ -45,15 +36,6 @@
 						<div class="form-group col-md-4">
 							<label for="criticalAnalisis">Analisis Crítico:</label>
 							<textarea class="form-control" name="criticalAnalisis" rows="8" cols="80">{{$artPiece->criticalAnalisis}}</textarea>
-						</div>
-						<div class="form-group col-md-4">
-							<label for="donatorId">Donador:</label>
-							<input class="form-control" type="text" name="donatorId" value="{{$artPiece->donatorId}}" list="legalEntities">
-								<datalist id="legalEntities">
-									@foreach($legalEntities as $legalEntity)
-										<option value ="{{$legalEntity->id}}"> {{$legalEntity->name}}</option>
-									@endforeach
-								</datalist>
 						</div>
 						<div class ="form-check">
 							<label class="form-check-label">
