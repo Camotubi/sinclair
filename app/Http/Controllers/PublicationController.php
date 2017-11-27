@@ -52,8 +52,8 @@ class PublicationController extends Controller
       $publication->title = $request-> input('title');
       $publication->body = $request-> input('body');
       $apublication->save();
-      $publication->user()->associate(User::where('users.id',
-      $request->input ('userId'))->first());
+      $publication->user()->associate($request->input ('userId'));
+			return redirect('dashboard')->with('success' , 'Publicación registrada');
     }
 
     /**
@@ -104,7 +104,11 @@ class PublicationController extends Controller
      */
     public function update(PublicationUpdateRequest $request, $id)
     {
-	    //
+	    $publication = Publication::find($id);
+			$publication->title = $request-> input('title');
+      $publication->body = $request-> input('body');
+      $apublication->save();
+			return redirect('publication/'.$id);
     }
 
     /**
@@ -115,6 +119,9 @@ class PublicationController extends Controller
      */
     public function destroy($id)
     {
-	    //
+	    $publication = Publication::find($id);
+			$publication->user()->dissociate();
+			$publication->delete();
+			return redirect('dashboard')->with('success' , 'Publicación eliminada');
     }
 }

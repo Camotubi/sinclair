@@ -50,6 +50,7 @@ class InsuranceCarrierController extends Controller
 	  $insuranceCarrier->email = $request-> input('email');
 	  $insuranceCarrier->ruc = $request-> input('ruc');
 	  $insuranceCarrier->save();
+		return redirect('dashboard')->with('success' , 'Aseguradora registrada');
   }
 
   /**
@@ -99,7 +100,13 @@ class InsuranceCarrierController extends Controller
    */
   public function update(Request $request, $id)
   {
-	  //
+	  $insuranceCarrier = InsuranceCarrier::find($id);
+		$insuranceCarrier->name = $request-> input('name');
+	  $insuranceCarrier->phone = $request-> input('phone');
+	  $insuranceCarrier->email = $request-> input('email');
+	  $insuranceCarrier->ruc = $request-> input('ruc');
+	  $insuranceCarrier->save();
+		return redirect('insuranceCarrier/'.$id);
   }
 
   /**
@@ -110,6 +117,8 @@ class InsuranceCarrierController extends Controller
    */
   public function destroy($id)
   {
-	  //
+	  $insuranceCarrier = InsuranceCarrier::find($id);
+		$insuranceCarrier->delete();
+		return redirect('dashboard')->with('success' , 'Aseguradora eliminada');
   }
 }

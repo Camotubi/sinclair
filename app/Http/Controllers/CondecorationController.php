@@ -51,8 +51,8 @@ class CondecorationController extends Controller
 		$condecoration->date = $request-> input('date');
 		$condecoration->desription = $request-> input('description');
 		$condecoration->save();
-		$condecoration->condecorator()->associate(LegalEntity::where('legalEntity.id',
-			$request->input ('condecoratorId'))->first());
+		$condecoration->condecorator()->associate($request->input ('condecoratorId'));
+		return redirect('dashboard')->with('success' , 'Condecoración registrada');
 	}
 
 	/**
@@ -104,7 +104,12 @@ class CondecorationController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		//
+		$condecoration = Condecoration::find($id);
+			$condecoration->name = $request-> input('name');
+			$condecoration->date = $request-> input('date');
+			$condecoration->desription = $request-> input('description');
+			$condecoration->save();
+			return redirect('condecoration/'.$id);
 	}
 
 	/**
@@ -115,6 +120,9 @@ class CondecorationController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
+		$condecoration = Condecoration::find($id);
+		$condecoration->condecorator()->dissociate();
+		$condecoration->delete();
+		return redirect('dashboard')->with('success' , 'Condecoración eliminada');
 	}
 }

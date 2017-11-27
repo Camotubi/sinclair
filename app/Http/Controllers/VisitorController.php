@@ -49,6 +49,7 @@ class VisitorController extends Controller
 	  $visitor->lastname = $request-> input('lastname');
 	  $visitor->nin = $request-> input('nin');
 	  $visitor->save();
+		return redirect('dashboard')->with('success' , 'Visitante registrado');
   }
 
   /**
@@ -98,7 +99,12 @@ class VisitorController extends Controller
    */
   public function update(Request $request, $id)
   {
-	  //
+	  $visitor = Visitor::find($id);
+		$visitor->firstname = $request-> input('firstname');
+	 	$visitor->lastname = $request-> input('lastname');
+	 	$visitor->nin = $request-> input('nin');
+	 	$visitor->save();
+		return redirect('visitor/'.$id);
   }
 
   /**
@@ -109,6 +115,8 @@ class VisitorController extends Controller
    */
   public function destroy($id)
   {
-	  //
+	  $visitor = Visitor::find($id);
+		$visitor->delete();
+		return redirect('dashboard')->with('success' , 'Visitante eliminado');
   }
 }

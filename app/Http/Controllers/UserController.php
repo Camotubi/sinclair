@@ -60,7 +60,7 @@ class UserController extends Controller
 
 		    $user->types()->attach(UserType::where('userType.id',config('app.userType.editorId'))->first());
 	    }
-	    return('aiuda');
+	    return redirect('dashboard')->with('success' , 'Usuario registrado');
     }
 
     /**
@@ -94,7 +94,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-	    //
+			$user = User::find($id);
+			$user->name = $request->input('username');
+	    $user->password = bcrypt($request->input('password'));
+	    $user->email = $request->input('email');
+	    $user->firstName = $request->input('firstName');
+	    $user->lastName = $request->input('lastName');
+	    $user->save();
+			return redirect('user/'.$id);
     }
 
     /**
@@ -105,7 +112,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-	    //
+	    $user = User::find($id);
+			$user->types()->detach();
+			$user->delete();
+			return redirect('dashboard')->with('success' , 'Usuario eliminado');
     }
     public function findUsername($username)
     {

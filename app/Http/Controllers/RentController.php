@@ -39,7 +39,8 @@ class RentController extends Controller
     {
 			$artPieces = ArtPiece::all();
 			$legalEntities = LegalEntity::all();
-	    return view('rent.create', ['artPieces' => $artPieces, 'legalEntities' => $legalEntities]);
+	    return view('rent.create', ['artPieces' => $artPieces,
+				'legalEntities' => $legalEntities]);
     }
 
     /**
@@ -55,10 +56,9 @@ class RentController extends Controller
       $rent->effectiveDate = $request-> input('effectiveDate');
       $rent->terminationDate = $request-> input('terminationDate');
       $rent->save();
-      $rent->artPiece()->associate(ArtPiece::where('artPiece.id',
-      $request->input ('artPieceId'))->first());
-      $rent->legalEntity()->associate(LegalEntity::where('legalEntity.id',
-      $request->input ('legalEntityId'))->first());
+      $rent->artPiece()->associate($request->input ('artPieceId'));
+      $rent->legalEntity()->associate($request->input ('legalEntityId'));
+			return redirect('dashboard')->with('success' , 'Alquiler registrado');
     }
 
     /**
@@ -110,7 +110,12 @@ class RentController extends Controller
      */
     public function update(RentUpdateRequest $request, $id)
     {
-	    //
+	    $rent = Rent::find($id);
+			$rent->moneyQuantity = $request-> input('moneyQuantity');
+      $rent->effectiveDate = $request-> input('effectiveDate');
+      $rent->terminationDate = $request-> input('terminationDate');
+      $rent->save();
+			return redirect('rent/'.$id);
     }
 
     /**
@@ -121,6 +126,10 @@ class RentController extends Controller
      */
     public function destroy($id)
     {
-	    //
+	    $rent = Rent::find($id);
+			$rent->artPiece()->dissociate();
+			$rent->legalEntity()->dissociate();
+			$rent->delete();
+			return redirect('dashboard')->with('success' , 'Alquiler eliminado');
     }
 }

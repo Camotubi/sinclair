@@ -54,10 +54,9 @@ class InsuranceController extends Controller
 		$insurance->effectiveDate = $request-> input('effectiveDate');
 		$insurance->terminationDate = $request-> input('terminationDate');
 		$insurance->save();
-		$insurance->artPiece()->attach(ArtPiece::where('artPiece.id',
-			$request->input ('artPieceId'))->first());
-		$insurance->insuranceCarrier()->attach(InsuranceCarrier::where('insuranceCarrier.id',
-			$request->input ('insuranceCarrierId'))->first());
+		$insurance->artPiece()->associate($request->input ('artPieceId'));
+		$insurance->insuranceCarrier()->associate($request->input ('insuranceCarrierId'));
+		return redirect('dashboard')->with('success' , 'Seguro registrado');
 	}
 
 	/**
@@ -111,7 +110,13 @@ class InsuranceController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		//
+		$insurance = Insurance::find($id);
+		$insurance->name = $request-> input('name');
+		$insurance->cost = $request-> input('cost');
+		$insurance->effectiveDate = $request-> input('effectiveDate');
+		$insurance->terminationDate = $request-> input('terminationDate');
+		$insurance->save();
+		return redirect('insurance/'.$id);
 	}
 
 	/**
@@ -122,6 +127,10 @@ class InsuranceController extends Controller
 	 */
 	public function destroy($id)
 	{
-		//
+		$insurance = Insurance::find($id);
+		$insurance->artPiece()->dissociate();
+		$insurance->insuranceCarrier()->dissociate();
+		$insurance->delete();
+		return redirect('dashboard')->with('success' , 'Seguro eliminado');
 	}
 }
