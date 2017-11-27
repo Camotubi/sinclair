@@ -44,4 +44,5 @@ Restauraciones
 </ul>
 <a href="/artPiece/{{$artPiece->id}}/addImage">Agregar Imagen</a>
 </div>
+<restorations-table obj_id={{$artPiece->id}}></restorations-table>
 @endsection
