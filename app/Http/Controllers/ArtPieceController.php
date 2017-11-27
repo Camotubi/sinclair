@@ -143,6 +143,12 @@ class ArtPieceController extends Controller
 		$artPieces = ArtPiece::paginate($amount);
 		return $artPieces;
 	}
+	public function apiRestorationPaginate($id,$amount)
+	{
+
+		$restorations = ArtPiece::find($id)->legalEntityRestoration()->paginate($amount);
+		return $restorations;
+	}
 	public function getArtPiece($id)
 	{
 		$artPiece = ArtPiece::where('id',$id)->first();
