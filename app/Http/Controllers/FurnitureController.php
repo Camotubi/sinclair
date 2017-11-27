@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\FurnitureCreateRequest;
 use App\Http\Requests\FurnitureUpdateRequest;
 use App\Furniture;
+use App\FurnitureType;
 use App\LegalEntity;
 
 class FurnitureController extends Controller
@@ -36,7 +37,9 @@ class FurnitureController extends Controller
 	public function create()
 	{
 		$legalEntities = LegalEntity::all();
-		return view('furniture.create', ['legalEntities' => $legalEntities]);
+		$furnitureTypes = FurnitureType::all();
+		return view('furniture.create', ['legalEntities' => $legalEntities,
+			'furnitureTypes' => $furnitureTypes]);
 	}
 
 	/**
@@ -52,7 +55,7 @@ class FurnitureController extends Controller
 		$furniture->save();
 		$furniture->donator()->associate(LegalEntity::where('legalEntity.id',
 			$request->input ('donatorId'))->first());
-		$furniture->type()->associate(LegalEntity::where('legalEntity.id',
+		$furniture->type()->associate(FurnitureType::where('furnitureType.id',
 			$request-> input('furnitureTypeId'))->first());
 	}
 
@@ -87,8 +90,9 @@ class FurnitureController extends Controller
 		if(!is_null($furniture))
 		{
 			$legalEntities = LegalEntity::all();
+			$furnitureTypes = FurnitureType::all();
 		  return view('furniture.edit', ['furniture' => $furniture,
-				'legalEntities' => $legalEntities]);
+				'legalEntities' => $legalEntities, 'furnitureTypes' => $furnitureTypes]);
 		}
 		else
 		{
