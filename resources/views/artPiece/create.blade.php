@@ -22,14 +22,12 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="style">Estilo:</label>
-							<select class="form-control" name="artStylesId" multiple>
-    								<option disabled selected value></option>
-								@foreach($artStyles as $artStyle)
-									<option value ="{{$artStyle->id}}">{{$artStyle->name}}</option>
-
-								@endforeach
-
-							</select>
+							<input class="form-control" name="artStyleId" type="text" list="artStyles">
+    								<datalist id="artStyles">
+											@foreach($artStyles as $artStyle)
+												<option value ="{{$artStyle->id}}">{{$artStyle->name}}</option>
+											@endforeach
+    								</datalist>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="technique">Técnica:</label>
@@ -49,13 +47,12 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="donatorId">Donador:</label>
-							<select class="form-control" name="donatorId" value="">
-    								<option disabled selected value></option>
-								@foreach($legalEntities as $legalEntity)
-									<option value ="{{$legalEntity->id}}"> {{$legalEntity->name}}</option>
-
-								@endforeach
-							</select>
+							<input type="text" class="form-control" name="donatorId" value="" list="legalEntities">
+								<datalist id="legalEntities">
+									@foreach($legalEntities as $legalEntity)
+										<option value ="{{$legalEntity->id}}"> {{$legalEntity->name}}</option>
+									@endforeach
+								</datalist>
 						</div>
 						<div class ="form-check">
 							<label class="form-check-label">

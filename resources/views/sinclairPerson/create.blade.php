@@ -24,6 +24,17 @@
 							<label for="nin">Cédula:</label>
 							<input class="form-control" type="text" name="nin" value="">
 						</div>
+						<div class="form-group col-md-4">
+							<label for="nin">Tipo de Relaciones:</label>
+							<input class="form-control" type="text" name="relationshipTypeId"
+								value="" list="relationshipTypes">
+							<datalist id="relationshipTypes">
+								@foreach($relationshipTypes as $relationshipType)
+									<option value ="{{$relationshipType->id}}">
+											{{$relationshipType->name}}</option>
+								@endforeach
+							</datalist>
+						</div>
 					</div>
 					<input type="submit" class="btn btn-primary" name="register" value="Registrar">
 				</form>

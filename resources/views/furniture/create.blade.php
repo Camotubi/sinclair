@@ -22,7 +22,12 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="donatorId">Donador:</label>
-							<input class="form-control" type="text" name="donatorId" value="">
+							<input class="form-control" type="text" name="donatorId" value="" list="legalEntities">
+							<datalist id="legalEntities">
+								@foreach($legalEntities as $legalEntity)
+									<option value ="{{$legalEntity->id}}"> {{$legalEntity->name}}</option>
+								@endforeach
+							</datalist>
 						</div>
 					</div>
 					<input type="submit" name="register" class="btn btn-primary" value="Registrar">

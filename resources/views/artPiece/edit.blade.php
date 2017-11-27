@@ -11,6 +11,7 @@
 			<article>
 				<h3>Actualización de obra de arte</h3>
 				<form class=""  action= "/artPiece/{{$artPiece->id}}" method="post">
+					{{ csrf_field() }}
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="name">Nombre:</label>
@@ -22,7 +23,12 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="style">Estilo:</label>
-							<input class="form-control" type="text" name="style" value="{{$artPiece->era}}">
+							<input class="form-control" type="text" name="artStyleId" value="{{$artPiece->artStyleId}}" list="artStyles">
+								<datalist id="artStyles">
+									@foreach($artStyles as $artStyle)
+										<option value ="{{$artStyle->id}}">{{$artStyle->name}}</option>
+									@endforeach
+								</datalist>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="technique">Técnica:</label>
@@ -42,7 +48,12 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="donatorId">Donador:</label>
-							<input class="form-control" type="text" name="donatorId" value="">
+							<input class="form-control" type="text" name="donatorId" value="{{$artPiece->donatorId}}" list="legalEntities">
+								<datalist id="legalEntities">
+									@foreach($legalEntities as $legalEntity)
+										<option value ="{{$legalEntity->id}}"> {{$legalEntity->name}}</option>
+									@endforeach
+								</datalist>
 						</div>
 						<div class ="form-check">
 							<label class="form-check-label">

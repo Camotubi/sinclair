@@ -10,6 +10,7 @@
 			<article>
 				<h3>Actualización de Memorabilia</h3>
 				<form class="" action="/multimedia/{{$multimedia->id}}" method="post">
+					{{ csrf_field() }}
 					<div class="form-row">
 						<div class ="form-check">
 							<label class="form-check-label">
@@ -32,11 +33,12 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="multimediaTypeId">Tipo de Memorabilia:</label>
-							//Falta ver como hacemos para mostrar la opcion que ya esta puesta por default
-							<select class="form-control" name="multimediaTypeId">
-								<option value="1">Foto</option>
-								<option value="2">Video</option>
-							</select>
+							<input type="text" class="form-control" name="multimediaTypeId" value="{{$multimedia->multimediaTypeId}}" list="multimediaTypes">
+								<datalist id="multimediaTypes">
+									@foreach($multimediaTypes as $multimediaType)
+										<option value ="{{$multimediaType->id}}"> {{$multimediaType->name}}</option>
+									@endforeach
+								</datalist>
 						</div>
 					</div>
 					<input type="submit" name="update" class="btn btn-primary" value="Actualizar">

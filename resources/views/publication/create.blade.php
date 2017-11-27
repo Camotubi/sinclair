@@ -23,11 +23,12 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="userId">Publicado por:</label>
-							<select class="form-control" class="" name="userId">
-								<option value="1">Ruben</option>
-								<option value="2">Simon</option>
-							</select>
-						</div>
+							<input type="text" class="form-control" name="userId" value="" list="users">
+								<datalist id="users">
+									@foreach($users as $user)
+										<option value ="{{$user->id}}"> {{$user->name}}</option>
+									@endforeach
+								</datalist>
 					</div>
 					<input type="submit" name="register" class="btn btn-primary" value="Publicar">
 				</form>

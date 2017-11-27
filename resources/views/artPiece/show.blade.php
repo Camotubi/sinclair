@@ -14,7 +14,8 @@
 @foreach($artPiece->artStyles as $artStyle)
 
 artStyles
-<h3>{{$artStyle}}</h3>
+<h3>{{$artStyle->name}}</h3>
+<p>{{$artStyle->description}}</p>
 @endforeach
 
 Restauraciones

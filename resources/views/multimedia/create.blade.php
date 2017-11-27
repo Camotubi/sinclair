@@ -33,10 +33,12 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="multimediaTypeId">Tipo de Memorabilia:</label>
-							<select class="form-control" name="multimediaTypeId">
-								<option value="1">Foto</option>
-								<option value="2">Video</option>
-							</select>
+							<input type="text" class="form-control" name="multimediaTypeId" value="" list="multimediaTypes">
+								<datalist id="multimediaTypes">
+									@foreach($multimediaTypes as $multimediaType)
+										<option value ="{{$multimediaType->id}}"> {{$multimediaType->name}}</option>
+									@endforeach
+								</datalist>
 						</div>
 					</div>
 					<input type="submit" name="register" class="btn btn-primary" value="Registrar">

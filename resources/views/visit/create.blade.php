@@ -14,7 +14,12 @@
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="visitorId">Visitante:</label>
-							<input class="form-control" type="text" name="visitorId" value="">
+							<input type="text" class="form-control" name="visitorId" value="" list="visitors">
+								<datalist id="visitors">
+									@foreach($visitors as $visitor)
+										<option value ="{{$visitor->id}}"> {{$visitor->name}}</option>
+									@endforeach
+								</datalist>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="date">Fecha:</label>

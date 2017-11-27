@@ -10,7 +10,6 @@
 			<article>
 				<h3>Registro de Seguro de una Obra</h3>
 				<form class=""  action= "/insurance" method="post">
-					{{ csrf_field() }}
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="name">Nombre:</label>
@@ -18,11 +17,23 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="artPieceId">Obra:</label>
-							<input class="form-control" type="text" name="artPieceId" value="">
+							<input class="form-control" type="text" name="artPieceId"
+								value="" list="artPieces">
+							<datalist id="artPieces">
+							  @foreach($artPieces as $artPiece)
+							    <option value ="{{$artPiece->id}}"> {{$artPiece->name}}</option>
+							  @endforeach
+							</datalist>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="insuranceCarrierId">Aseguradora:</label>
-							<input class="form-control" type="text" name="insuranceCarrierId" value="">
+							<input class="form-control" type="text" name="insuranceCarrierId"
+								value="" list="insuranceCarriers">
+							<datalist id="insuranceCarriers">
+							  @foreach($insuranceCarriers as $insuranceCarrier)
+							    <option value ="{{$insuranceCarrier->id}}"> {{$insuranceCarrier->name}}</option>
+							  @endforeach
+							</datalist>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="description">Descripción:</label>

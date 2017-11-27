@@ -10,6 +10,7 @@
 			<article>
 				<h3>Actualización de Familiar Sinclair</h3>
 				<form class=""  action= "/sinclairPerson/{{$sinclairPerson->id}}" method="post">
+					{{ csrf_field() }}
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="firstname">Nombre:</label>
@@ -22,6 +23,17 @@
 						<div class="form-group col-md-4">
 							<label for="nin">Cédula:</label>
 							<input class="form-control" type="text" name="nin" value="{{$sinclairPerson->nin}}">
+						</div>
+						<div class="form-group col-md-4">
+							<label for="nin">Tipo de Relaciones:</label>
+							<input class="form-control" type="text" name="relationshipTypeId"
+								value="{{$sinclairPerson->relationshipTypeId}}" list="relationshipTypes">
+							<datalist id="relationshipTypes">
+								@foreach($relationshipTypes as $relationshipType)
+									<option value ="{{$relationshipType->id}}">
+											{{$relationshipType->name}}</option>
+								@endforeach
+							</datalist>
 						</div>
 					</div>
 					<input type="submit" class="btn btn-primary" name="update" value="Actualizar">

@@ -10,6 +10,7 @@
 			<article>
 				<h3>Actualización de Aseguradora</h3>
 				<form class=""  action= "/insuranceCarrier/{{$insuranceCarrier->id}}" method="post">
+					{{ csrf_field() }}
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="name">Nombre:</label>

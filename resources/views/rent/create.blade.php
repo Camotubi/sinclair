@@ -14,17 +14,21 @@
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="artPieceId">Obra:</label>
-							<select class="form-control" class="" name="artPieceId">
-								<option value="1">La tulivieja</option>
-								<option value="2">La bella durmiente</option>
-							</select>
+							<input class="form-control" type="text" name="artPieceId"
+								value="" list="artPieces">
+							<datalist id="artPieces">
+							  @foreach($artPieces as $artPiece)
+							    <option value ="{{$artPiece->id}}"> {{$artPiece->name}}</option>
+							  @endforeach
+							</datalist>
 						</div>
 						<div class="form-group col-md-4">
-							<label for="legalEntityId">Entidad Legal:</label>
-							<select class="form-control" name="legalEntityId">
-								<option value="1">Rodrigo Inc.</option>
-								<option value="2">E Corp.</option>
-							</select>
+							<input type="text" class="form-control" name="legalEntityId" value="" list="legalEntities">
+								<datalist id="legalEntities">
+									@foreach($legalEntities as $legalEntity)
+										<option value ="{{$legalEntity->id}}"> {{$legalEntity->name}}</option>
+									@endforeach
+								</datalist>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="moneyQuantity">Cantidad de dinero:</label>

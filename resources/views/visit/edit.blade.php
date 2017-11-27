@@ -10,10 +10,16 @@
 			<article>
 				<h3>Actualización de Visita</h3>
 				<form class=""  action= "/visit/{{$visit->id}}" method="post">
+					{{ csrf_field() }}
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="visitorId">Visitante:</label>
-							<input class="form-control" type="text" name="visitorId" value="{{$visit->visitorId}}">
+							<input type="text" class="form-control" name="visitorId" value="{{$visit->visitorId}}" list="visitors">
+								<datalist id="visitors">
+									@foreach($visitors as $visitor)
+										<option value ="{{$visitor->id}}"> {{$visitor->name}}</option>
+									@endforeach
+								</datalist>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="date">Fecha:</label>

@@ -27,7 +27,12 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="condecoratorId">Condecorador:</label>
-							<input class="form-control" type="text" name="condecoratorId" value="">
+							<input class="form-control" type="text" name="condecoratorId" value="" list="legalEntities">
+							<datalist id="legalEntities">
+								@foreach($legalEntities as $legalEntity)
+									<option value ="{{$legalEntity->id}}"> {{$legalEntity->name}}</option>
+								@endforeach
+							</datalist>
 						</div>
 					</div>
 					<input type="submit" class="btn btn-primary" name="register" value="Registrar">

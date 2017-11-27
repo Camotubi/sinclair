@@ -17,11 +17,23 @@
 						</div>
 						<div class="form-group col-md-4">
 							<label for="artPieceId">Obra:</label>
-							<input class="form-control" type="text" name="artPieceId" value="{{$insurance->artPieceId}}">
+							<input class="form-control" type="text" name="artPieceId"
+								value="{{$insurance->artPieceId}}" list="artPieces">
+							<datalist id="artPieces">
+							  @foreach($artPieces as $artPiece)
+							    <option value ="{{$artPiece->id}}"> {{$artPiece->name}}</option>
+							  @endforeach
+							</datalist>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="insuranceCarrierId">Aseguradora:</label>
-							<input class="form-control" type="text" name="insuranceCarrierId" value="{{$insurance->insuranceCarrierId}}">
+							<input class="form-control" type="text" name="insuranceCarrierId"
+								value="{{$insurance->insuranceCarrierId}}" list="insuranceCarriers">
+							<datalist id="insuranceCarriers">
+							  @foreach($insuranceCarriers as $insuranceCarrier)
+							    <option value ="{{$insuranceCarrier->id}}"> {{$insuranceCarrier->name}}</option>
+							  @endforeach
+							</datalist>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="description">Descripción:</label>
