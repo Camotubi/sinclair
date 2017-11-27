@@ -35,7 +35,8 @@ class FurnitureController extends Controller
 	 */
 	public function create()
 	{
-		return view('furniture.create');
+		$legalEntities = LegalEntity::all();
+		return view('furniture.create', ['legalEntities' => $legalEntities]);
 	}
 
 	/**
@@ -85,7 +86,9 @@ class FurnitureController extends Controller
 		$furniture = Furniture::find($id);
 		if(!is_null($furniture))
 		{
-		  return view('furniture.edit', ['furniture' => $furniture]);
+			$legalEntities = LegalEntity::all();
+		  return view('furniture.edit', ['furniture' => $furniture,
+				'legalEntities' => $legalEntities]);
 		}
 		else
 		{

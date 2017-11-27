@@ -34,7 +34,8 @@ class CondecorationController extends Controller
 	 */
 	public function create()
 	{
-		return view('condecoration.create');
+		$legalEntities = LegalEntity::all();
+		return view('condecoration.create', ['legalEntities' => $legalEntities]);
 	}
 
 	/**
@@ -84,7 +85,9 @@ class CondecorationController extends Controller
 		$condecoration = Condecoration::find($id);
 		if(!is_null($condecoration))
 		{
-		  return view('condecoration.edit', ['condecoration' => $condecoration]);
+			$legalEntities = LegalEntity::all();
+		  return view('condecoration.edit', ['condecoration' => $condecoration,
+				'legalEntities' => $legalEntities]);
 		}
 		else
 		{

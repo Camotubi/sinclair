@@ -64,7 +64,7 @@ class ArtPieceController extends Controller
 			$artPiece->generatePublication = true;
 		}
 		$artPiece->save();
-		$artPiece->donator()->associate(LegalEntity::where('legalEntity.id',
+		$artPiece->donator()->associate(LegalEntity::where('legal_Entity.id',
 			$request->input ('donatorId'))->first());
 		$artPiece->artStyles()->attach($request->input('artStyleId'));
 	}
@@ -189,6 +189,6 @@ class ArtPieceController extends Controller
 		{
 			return redirect('dashboard')->with('error' , 'Obra de arte no encontrada');
 		}
-		
+
 	}
 }

@@ -34,7 +34,8 @@ class SinclairPersonController extends Controller
    */
   public function create()
   {
-	  return view('sinclairPerson.create');
+		$relationshipTypes = RelationshipType::all();
+	  return view('sinclairPerson.create', ['relationshipTypes' => $relationshipTypes]);
   }
 
   /**
@@ -50,8 +51,8 @@ class SinclairPersonController extends Controller
 	  $sinclairPerson->lastname = $request-> input('lastname');
 	  $sinclairPerson->nin = $request-> input('nin');
 	  $sinclairPerson->save();
-		$multimedia->relationshipType()->associate(RelationshipType::where('RelationshipType.id',
-			$request->input ('RelationshipTypeId'))->first());
+		$sinclairPerson->relationshipType()->attach(RelationshipType::where('RelationshipType.id',
+			$request->input ('relationshipTypeId'))->first());
   }
 
   /**
@@ -84,7 +85,9 @@ class SinclairPersonController extends Controller
 		$sinclairPerson = SinclairPerson::find($id);
 		if(!is_null($sinclairPerson))
 		{
-		  return view('sinclairPerson.edit', ['sinclairPerson' => $sinclairPerson]);
+			$relationshipTypes = RelationshipType::all();
+		  return view('sinclairPerson.edit', ['sinclairPerson' => $sinclairPerson,
+				'relationshipTypes' => $relationshipTypes]);
 		}
 		else
 		{

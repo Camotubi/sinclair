@@ -37,7 +37,9 @@ class RentController extends Controller
      */
     public function create()
     {
-	    return view('rent.create');
+			$artPieces = ArtPiece::all();
+			$legalEntities = LegalEntity::all();
+	    return view('rent.create', ['artPieces' => $artPieces, 'legalEntities' => $legalEntities]);
     }
 
     /**
@@ -89,7 +91,9 @@ class RentController extends Controller
 			$rent = Rent::find($id);
 			if(!is_null($rent))
 			{
-			  return view('rent.edit', ['rent' => $rent]);
+				$artPieces = ArtPiece::all();
+				$legalEntities = LegalEntity::all();
+			  return view('rent.edit', ['rent' => $rent, 'artPieces' => $artPieces, 'legalEntities' => $legalEntities]);
 			}
 			else
 			{

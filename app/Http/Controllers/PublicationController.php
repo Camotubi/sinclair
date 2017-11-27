@@ -36,7 +36,8 @@ class PublicationController extends Controller
      */
     public function create()
     {
-	    return view('publication.create');
+			$users = User::all();
+	    return view('publication.create', ['users' => $users]);
     }
 
     /**
@@ -85,7 +86,8 @@ class PublicationController extends Controller
 			$publication = Publication::find($id);
 			if(!is_null($publication))
 			{
-			  return view('publication.edit', ['publication' => $publication]);
+				$users = User::all();
+			  return view('publication.edit', ['publication' => $publication, 'users' => $users]);
 			}
 			else
 			{

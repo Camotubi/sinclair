@@ -34,7 +34,8 @@ class VisitController extends Controller
    */
   public function create()
   {
-	  return view('visit.create');
+		$visitors = Visitor::all();
+	  return view('visit.create', ['visitors' => $visitors]);
   }
 
   /**
@@ -82,7 +83,8 @@ class VisitController extends Controller
 		$visit = Visit::find($id);
 		if(!is_null($visit))
 		{
-		  return view('visit.edit', ['visit' => $visit]);
+			$visitors = Visitor::all();
+		  return view('visit.edit', ['visit' => $visit, 'visitors' => $visitors]);
 		}
 		else
 		{
