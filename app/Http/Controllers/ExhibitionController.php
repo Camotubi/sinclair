@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Exhibition;
 
+use App\ArtPiece;
+use App\LegalEntity;
 class ExhibitionController extends Controller
 {
 	public function __construct()
@@ -31,9 +33,48 @@ class ExhibitionController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function create()
+  public function create(Request $request)
   {
-	  return view('exhibition.create');
+	  $artPieces = ArtPiece::all();
+	  $legalEntities = LegalEntity::all();
+	  $numArtPieces = $request->input('numArtPieces');
+	  $numLegalEntities = $request->input('numLegalEntities');
+	  if(is_null($numArtPieces))
+	  {
+		$numArtPieces = 1;
+	  }
+	  if(is_null($numLegalEntities))
+	  {
+		$numLegalEntities = 1;
+	  }
+	  $modArtPieceFields = $request->input('modArtPieceFields');
+	  $modLegalEntityFields = $request->input('modLegalEntityFields');
+	  if($modLegalEntityFields == 'p')
+	  {
+		$numLegalEntities++;
+	  }elseif($modLegalEntityFields == 'm')
+	  {
+		$numLegalEntities--;
+	  }
+	  if($modArtPieceFields == 'p')
+	  {
+		$numArtPieces++;
+	  }elseif($modArtPieceFields == 'm')
+	  {
+		$numArtPieces--;
+	  }
+	  
+	  return view('exhibition.create',
+		  [
+		  	'numArtPieces' => $numArtPieces,
+			'numLegalEntities' => $numLegalEntities,
+			'modLegalEntityFields' => $modLegalEntityFields,
+			'modArtPieceFields' => $modArtPieceFields,
+			'artPieces' => $artPieces,
+			'legalEntities' => $legalEntities
+
+		  ]
+	  );
   }
 
   /**
@@ -48,6 +89,13 @@ class ExhibitionController extends Controller
 	  $exhibition->name = $request-> input('name');
 	  $exhibition->location = $request-> input('location');
 	  $exhibition->date = $request-> input('date');
+
+	$res   = array();
+foreach($strings as $key=>$string){
+  preg_match('/^(?P<number>\d)/',$string,$match);
+  $res[$key] = $match['number'];
+}
+
 	  $exhibition->save();
 		return redirect('dashboard')->with('success' , 'Exhibición registrada');
   }

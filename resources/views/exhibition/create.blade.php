@@ -11,6 +11,16 @@
 				<h3>Registro de Exhibición</h3>
 				<form class=""  action= "/exhibition" method="post">
 					{{ csrf_field() }}
+				<datalist id="artPieces">
+					@foreach($artPieces as $artPiece)
+						<option value="{{$artPiece->id}}">{{$artPiece->id.'-'.$artPiece->name}}</option>
+					@endforeach
+				</datalist>
+				<datalist id="legalEntities">
+					@foreach($legalEntities as $legalEntity)
+						<option value="{{$legalEntity->id}}">{{$legalEntity->id.'-'.$legalEntity->name}}</option>
+					@endforeach
+				</datalist>
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="name">Nombre:</label>
@@ -23,6 +33,28 @@
 						<div class="form-group col-md-4">
 							<label for="date">Fecha:</label>
 							<input class="form-control" type="date" name="date" value="">
+						</div>
+					</div>
+					<div class ="form-row">
+						<div class="col">
+							<label>Piezas de Arte</label>
+							@for($i = 0; $i < $numArtPieces; $i++)
+								<div class="form-group">
+								<input class ="form-control" list="artPieces" name="artPieces[]">	
+								</div>
+							@endfor
+							<a href="/exhibition/create?numLegalEntities={{$numLegalEntities}}&numArtPieces={{$numArtPieces}}&modArtPieceFields=p">Agregar</a>
+							<a href="/exhibition/create?numLegalEntities={{$numLegalEntities}}&numArtPieces={{$numArtPieces}}&modArtPieceFields=m">Quitar</a>
+						</div>
+						<div class="col">
+							<label>Organizadores</label>
+							@for($i = 0; $i < $numLegalEntities; $i++)
+							<div class="form-group">
+							<input class="form-control" list="legalEntities" name="legalEntities[]">	
+								</div>
+						@endfor
+							<a href="/exhibition/create?numLegalEntities={{$numLegalEntities}}&numArtPieces={{$numArtPieces}}&modLegalEntityFields=p">Agregar</a>
+							<a href="/exhibition/create?numLegalEntities={{$numLegalEntities}}&numArtPieces={{$numArtPieces}}&modLegalEntityFields=m">Quitar</a>
 						</div>
 					</div>
 					<input type="submit" class="btn btn-primary" name="register" value="Registrar">
