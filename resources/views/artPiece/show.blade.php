@@ -35,10 +35,11 @@
 <h5>Localización Actual</h5>
 <p>{{$artPiece->currentLocation}}</p>
 <hr>
-
+@isset($donator)
 <h5>Donado por:</h5>
 <p>{{$donator->name}}</p>
 <hr>
+@endisset
 
 <h3>Restauraciones</h3>
 <restorations-table obj_id={{$artPiece->id}}></restorations-table>
