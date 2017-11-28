@@ -1403,6 +1403,7 @@ Vue.component('pagination', __webpack_require__(42));
 Vue.component('art-piece-table', __webpack_require__(43));
 Vue.component('legal-entity-table', __webpack_require__(49));
 Vue.component('restorations-table', __webpack_require__(54));
+Vue.component('images-table', __webpack_require__(71));
 Vue.component('user-create-form', __webpack_require__(59));
 var app = new Vue({ el: '#app' });
 
@@ -48221,6 +48222,293 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 63 */,
+/* 64 */,
+/* 65 */,
+/* 66 */,
+/* 67 */,
+/* 68 */,
+/* 69 */,
+/* 70 */,
+/* 71 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(72)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(74)
+/* template */
+var __vue_template__ = __webpack_require__(75)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ImageTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-8b9424a0", Component.options)
+  } else {
+    hotAPI.reload("data-v-8b9424a0", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 72 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(73);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(5)("4279d3ff", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8b9424a0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./ImageTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-8b9424a0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./ImageTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 73 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(4)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\nimg\n{\n\tmax-width:128px;\n\theight:auto;\n}\ntd\n{\n    text-align:center; \n    vertical-align:middle;\n}\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 74 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+			laravelData: {}
+		};
+	},
+
+	props: {
+		show_image: { default: true },
+		show_description: { default: true },
+		page_amount: { default: 10 },
+		show_links: { default: true },
+		obj_id: { default: 0 }
+
+	},
+
+	created: function created() {
+		// Fetch initial results
+		this.getResults();
+	},
+
+
+	methods: {
+		// Our method to GET results from a Laravel endpoint
+		getResults: function getResults(page) {
+			var self = this;
+			if (typeof page === 'undefined') {
+				page = 1;
+			}
+			// Using vue-resource as an example
+			axios.get('/api/artPiece/' + self.obj_id + '/images/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+				self.laravelData = response.data;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("ul", [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-sm" },
+          [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _vm.show_image ? _c("th", [_vm._v("Imagen")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_description
+                  ? _c("th", [_vm._v("Descripccion")])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.laravelData.data, function(image) {
+              return _c("tr", [
+                _vm.show_image
+                  ? _c("td", [
+                      _c("img", {
+                        attrs: { src: "/storage/" + image.fileLocation }
+                      })
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_description
+                  ? _c("td", {
+                      domProps: { textContent: _vm._s(image.description) }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c("a", { attrs: { href: "/image/" + image.id } }, [
+                        _c("i", {
+                          staticClass: "fa fa-object-ungroup",
+                          attrs: { "aria-hidden": "true" }
+                        }),
+                        _vm._v("Ver\n\t\t\t\t\t")
+                      ]),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        { attrs: { href: "/image/" + image.id + "/edit" } },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#f8990e" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Modificar\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        { attrs: { href: "/image/" + image.id + "/delete" } },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Eliminar\n\t\t\t\t\t")
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { data: _vm.laravelData },
+        on: { "pagination-change-page": _vm.getResults }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-8b9424a0", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

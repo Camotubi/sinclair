@@ -180,6 +180,12 @@ class ArtPieceController extends Controller
 		return redirect('/artPiece/'.$artPiece->id)->with('success' , 'Restauracion registrada');
 
 	}
+	public function apiImagesPaginate($id,$amount)
+	{
+
+		$images = ArtPiece::find($id)->multimedia()->paginate($amount);
+		return $images;
+	}
 	public function apiRestorationPaginate($id,$amount)
 	{
 
