@@ -30,7 +30,7 @@
 <hr>
 
 <h5>Entidad Filantrópica?</h5>
-@if({{$legalEntity->philanthropy}} == 1)
+@if($legalEntity->philanthropy == 1)
 <p>Sí</p>
 @else
 <p>No</p>
