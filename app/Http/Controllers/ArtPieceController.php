@@ -81,7 +81,8 @@ class ArtPieceController extends Controller
 		$artPiece = ArtPiece::find($id);
 		if(!is_null($artPiece))
 		{
-			return view('artPiece.show', ['artPiece' => $artPiece]);
+			$donator = LegalEntity::find($artPiece->donatorId);
+			return view('artPiece.show', ['artPiece' => $artPiece, 'donator' => $donator,]);
 		}
 		else
 		{
