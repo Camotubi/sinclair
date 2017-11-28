@@ -48,7 +48,7 @@ Route::post('/login','Auth\LoginController@authenticate');
 Route::get('/dashboard','DashboardController@index');
 Route::get('/dashboard/p','DashboardController@test');
 
-//		ArtPice
+//		ArtPiece
 //
 Route::get('artPiece/{id}/delete','ArtPieceController@showDeleteConfirmation');
 Route::get('artPiece/{id}/restoration/create','ArtPieceController@createRestoration');
@@ -99,4 +99,3 @@ Route::get('visit/{id}/delete','VisitController@showDeleteConfirmation');
 //		Visitor
 //
 Route::get('visitor/{id}/delete','VisitorController@showDeleteConfirmation');
-
