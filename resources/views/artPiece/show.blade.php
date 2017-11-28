@@ -36,12 +36,11 @@
 <p>{{$artPiece->currentLocation}}</p>
 <hr>
 
-@if($artPiece->donatorId == null)
-@else
+@isset($donator)
 <h5>Donado por:</h5>
 <p>{{$donator->name}}</p>
 <hr>
-@endif
+@endisset
 
 <h3>Restauraciones</h3>
 <restorations-table obj_id={{$artPiece->id}}></restorations-table>

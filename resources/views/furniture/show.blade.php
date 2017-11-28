@@ -12,13 +12,11 @@
 <h5>Tipo de inmobiliario</h5>
 <p>{{$furnitureType->name}}</p>
 
-
-@if($furniture->donatorId == null)
-@else
+@isset
 <hr>
 <h5>Donado por:</h5>
 <p>{{$donator->name}}</p>
-@endif
+@endisset
 <br>
 
 <a href="/furniture/{{$furniture->id}}/edit" class="btn btn-info">
