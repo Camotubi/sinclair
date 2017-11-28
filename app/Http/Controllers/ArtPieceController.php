@@ -146,7 +146,7 @@ class ArtPieceController extends Controller
 		$artPiece->donator()->dissociate();
 		$artPiece->artStyles()->detach();
 		$artPiece->exhibitions()->detach();
-		$artPiece->legalEntityRestoration()->detach();
+		$artPiece->legalEntityRestorations()->detach();
 		$artPiece->legalEntityPossession()->detach();
 		$artPiece->multimedia()->detach();
 		$artPiece->delete();
@@ -171,7 +171,7 @@ class ArtPieceController extends Controller
 		$restorationDescription = $request->input('description');
 		$restorationDate = $request->input('restorationDate');
 		$restorerId = $request->input('restorerId');
-		$artPiece->legalEntityRestoration()->attach($restorerId,
+		$artPiece->legalEntityRestorations()->attach($restorerId,
 			[
 				'restorationDate' => $restorationDate,
 				'description' => $restorationDescription
@@ -189,7 +189,7 @@ class ArtPieceController extends Controller
 	public function apiRestorationPaginate($id,$amount)
 	{
 
-		$restorations = ArtPiece::find($id)->legalEntityRestoration()->paginate($amount);
+		$restorations = ArtPiece::find($id)->legalEntityRestorations()->paginate($amount);
 		return $restorations;
 	}
 	public function getArtPiece($id)

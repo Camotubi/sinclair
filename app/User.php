@@ -38,7 +38,7 @@ class User extends Authenticatable
 
     }
 
-    public function publication()
+    public function publications()
     {
 	    return $this->hasMany('App\Publication', 'userId', 'id');
     }

@@ -8,7 +8,7 @@ class Visit extends Model
 {
 	protected $table = "visit";
 
-	public function visitor()
+	public function visitors()
 	{
 		return $this->belongsTo('App\Visitors', 'visitorId');
     }

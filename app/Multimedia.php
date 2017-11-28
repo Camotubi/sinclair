@@ -14,7 +14,7 @@ class Multimedia extends Model
 			'multimediaId', 'artPieceId');
   }
 
-  public function types()
+  public function type()
   {
 	  return $this->belongsTo('App\MultimediaType', 'multimediaTypeId');
   }

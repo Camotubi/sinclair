@@ -8,7 +8,7 @@ class Publication extends Model
 {
 	protected $table = "publication";
 
-	public function tag()
+	public function tags()
 	{
 		return $this->belongsToMany('App\Tag');
   }

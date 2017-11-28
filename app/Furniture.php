@@ -13,12 +13,12 @@ class Furniture extends Model
 		return $this->belongsTo('App\FurnitureType');
   }
 
-  public function legalEntityPossession()
+  public function legalEntityPossessions()
   {
 	  return $this->belongsToMany('App\LegalEntity')->withPivot('possessionDate');
   }
 
-  public function legalEntityRestoration()
+  public function legalEntityRestorations()
   {
 	  return $this->belongsToMany('App\LegalEntity')->withPivot('restorationDate', 'description');
   }

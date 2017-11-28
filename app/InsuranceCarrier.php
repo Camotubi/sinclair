@@ -8,7 +8,7 @@ class InsuranceCarrier extends Model
 {
 	protected $table = "insurance_carrier";
 
-	public function insurance()
+	public function insurances()
 	{
 		return $this->hasMany('App\Insurance', 'insuranceCarrierId', 'id');
     }
