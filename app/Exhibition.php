@@ -10,11 +10,12 @@ class Exhibition extends Model
 
 	public function artPieces()
 	{
-		return $this->belongsToMany('App\ArtPiece');
+		return $this->belongsToMany('App\ArtPiece','art_piece_exhibition','exhibitionId','artPieceId');
     }
 
     public function legalEntities()
     {
-	    return $this->belongsToMany('App\LegalEntity');
+	    return $this->belongsToMany('App\LegalEntity','legal_entity_exhibition','exhibitionId','legalEntityId');
+
     }
 }

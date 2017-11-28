@@ -13,12 +13,12 @@
 					{{ csrf_field() }}
 				<datalist id="artPieces">
 					@foreach($artPieces as $artPiece)
-						<option value="{{$artPiece->id}}">{{$artPiece->id.'-'.$artPiece->name}}</option>
+						<option value="{{$artPiece->id.'-'.$artPiece->name}}">
 					@endforeach
 				</datalist>
 				<datalist id="legalEntities">
 					@foreach($legalEntities as $legalEntity)
-						<option value="{{$legalEntity->id}}">{{$legalEntity->id.'-'.$legalEntity->name}}</option>
+						<option value="{{$legalEntity->id.'-'.$legalEntity->name}}">
 					@endforeach
 				</datalist>
 					<div class="form-row">

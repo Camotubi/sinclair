@@ -25,7 +25,7 @@ class ExhibitionController extends Controller
   public function index()
   {
 		$exhibitions = exhibition::paginate(10);
-		return view('exhibition.index', ['exhibitions' => $exhibitions]);
+		return view('exhibition.index');
   }
 
   /**
@@ -89,14 +89,23 @@ class ExhibitionController extends Controller
 	  $exhibition->name = $request-> input('name');
 	  $exhibition->location = $request-> input('location');
 	  $exhibition->date = $request-> input('date');
-
-	$res   = array();
-foreach($strings as $key=>$string){
-  preg_match('/^(?P<number>\d)/',$string,$match);
-  $res[$key] = $match['number'];
-}
-
 	  $exhibition->save();
+	  $artPiecesString = $request->input('artPieces');
+	  $legalEntityString = $request->input('legalEntities');
+	  $artPiecesId   = array();
+	  foreach($artPiecesString as $key=>$string)
+	  {
+		$artPiecesId[$key] = explode('-',$string)[0];
+	  }
+
+	  $legalEntitiesId   = array();
+	  foreach($legalEntityString as $key=>$string)
+	  {
+		$legalEntitiesId[$key] = explode('-',$string)[0];
+	  }
+
+	  $exhibition->artPieces()->attach($artPiecesId);
+	  $exhibition->legalEntities()->attach($legalEntitiesId);
 		return redirect('dashboard')->with('success' , 'Exhibición registrada');
   }
 
@@ -184,5 +193,11 @@ foreach($strings as $key=>$string){
 			return redirect('dashboard')->with('error' , 'Exhibición no encontrada');
 		}
 
+	}
+	public function apiPaginate($amount)
+	{
+
+		$exhibitions = Exhibition::paginate($amount);
+		return $exhibitions;
 	}
 }
