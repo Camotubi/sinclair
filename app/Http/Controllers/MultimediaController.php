@@ -71,7 +71,9 @@ class MultimediaController extends Controller
 			$multimedia = Multimedia::find($id);
 			if(!is_null($multimedia))
 			{
-			  return view('multimedia.show', ['multimedia' => $multimedia]);
+				$multimediaType = MultimediaType::find($id);
+			  return view('multimedia.show', ['multimedia' => $multimedia,
+					'multimediaType' => $multimediaType]);
 			}
 			else
 			{
@@ -91,7 +93,8 @@ class MultimediaController extends Controller
 			if(!is_null($multimedia))
 			{
 				$multimediaTypes = MultimediaType::all();
-			  return view('multimedia.edit', ['multimedia' => $multimedia, 'multimediaTypes' => $multimediaTypes]);
+			  return view('multimedia.edit', ['multimedia' => $multimedia,
+					'multimediaTypes' => $multimediaTypes]);
 			}
 			else
 			{

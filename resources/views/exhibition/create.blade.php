@@ -40,7 +40,7 @@
 							<label>Piezas de Arte</label>
 							@for($i = 0; $i < $numArtPieces; $i++)
 								<div class="form-group">
-								<input class ="form-control" list="artPieces" name="artPieces[]">	
+								<input class ="form-control" list="artPieces" name="artPieces[]">
 								</div>
 							@endfor
 							<a href="/exhibition/create?numLegalEntities={{$numLegalEntities}}&numArtPieces={{$numArtPieces}}&modArtPieceFields=p">Agregar</a>
@@ -50,7 +50,7 @@
 							<label>Organizadores</label>
 							@for($i = 0; $i < $numLegalEntities; $i++)
 							<div class="form-group">
-							<input class="form-control" list="legalEntities" name="legalEntities[]">	
+							<input class="form-control" list="legalEntities" name="legalEntities[]">
 								</div>
 						@endfor
 							<a href="/exhibition/create?numLegalEntities={{$numLegalEntities}}&numArtPieces={{$numArtPieces}}&modLegalEntityFields=p">Agregar</a>
