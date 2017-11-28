@@ -129,6 +129,7 @@ class MultimediaController extends Controller
     {
 	    $multimedia = Multimedia::find($id);
 			$multimedia->types()->dissociate();
+			$multimedia->artPieces()->detach();
 			$multimedia->delete();
 			return redirect('dashboard')->with('success' , 'Memorabilia eliminada');
     }

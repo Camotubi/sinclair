@@ -48450,7 +48450,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm.show_links
                   ? _c("td", [
-                      _c("a", { attrs: { href: "/image/" + image.id } }, [
+                      _c("a", { attrs: { href: "/multimedia/" + image.id } }, [
                         _c("i", {
                           staticClass: "fa fa-object-ungroup",
                           attrs: { "aria-hidden": "true" }
@@ -48460,7 +48460,9 @@ var render = function() {
                       _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
                       _c(
                         "a",
-                        { attrs: { href: "/image/" + image.id + "/edit" } },
+                        {
+                          attrs: { href: "/multimedia/" + image.id + "/edit" }
+                        },
                         [
                           _c("i", {
                             staticClass: "fa fa-pencil",
@@ -48473,7 +48475,9 @@ var render = function() {
                       _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
                       _c(
                         "a",
-                        { attrs: { href: "/image/" + image.id + "/delete" } },
+                        {
+                          attrs: { href: "/multimedia/" + image.id + "/delete" }
+                        },
                         [
                           _c("i", {
                             staticClass: "fa fa-trash",

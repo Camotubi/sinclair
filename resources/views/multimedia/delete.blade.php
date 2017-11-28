@@ -8,7 +8,7 @@
 @section('content')
 <div id = "deleteConfirmation">
 <div class="alert alert-danger" role="alert">
-	<p> Esta seguro que desea eliminar la memorabilia <strong>"{{$multimedia->name}}"</strong> del sistema?</p>
+	<p> ¿Esta seguro que desea eliminar la memorabilia <strong>"{{$multimedia->fileLocation}}"</strong> del sistema?</p>
 </div>
 <form action="/multimedia/{{$multimedia->id}}" method="post">
 	{{csrf_field()}}

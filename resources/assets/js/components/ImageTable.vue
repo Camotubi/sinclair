@@ -14,15 +14,15 @@
 					<td v-if="show_image" ><img :src="'/storage/'+image.fileLocation"></td>
 					<td v-if="show_description" v-text="image.description"></td>
 					<td v-if="show_links">
-						<a :href="'/image/'+image.id">
+						<a :href="'/multimedia/'+image.id">
 							<i class="fa fa-object-ungroup" aria-hidden="true"></i>Ver
 						</a>
 						|
-						<a :href="'/image/'+image.id+'/edit'">
+						<a :href="'/multimedia/'+image.id+'/edit'">
 							<i style="color:#138496" class="fa fa-pencil" aria-hidden="true"></i>Modificar
 						</a>
 						|
-						<a :href="'/image/'+image.id+'/delete'">
+						<a :href="'/multimedia/'+image.id+'/delete'">
 							<i style="color:red" class="fa fa-trash" aria-hidden="true"></i>Eliminar
 						</a>
 					</td>
