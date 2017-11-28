@@ -13,12 +13,12 @@
 					{{ csrf_field() }}
 				<datalist id="artPieces">
 					@foreach($artPieces as $artPiece)
-						<option value="{{$artPiece->id}}">{{$artPiece->id.'-'.$artPiece->name}}</option>
+						<option value="{{$artPiece->id}}">{{$artPiece->name}}</option>
 					@endforeach
 				</datalist>
 				<datalist id="legalEntities">
 					@foreach($legalEntities as $legalEntity)
-						<option value="{{$legalEntity->id}}">{{$legalEntity->id.'-'.$legalEntity->name}}</option>
+						<option value="{{$legalEntity->id}}">{{$legalEntity->name}}</option>
 					@endforeach
 				</datalist>
 					<div class="form-row">
@@ -40,7 +40,7 @@
 							<label>Piezas de Arte</label>
 							@for($i = 0; $i < $numArtPieces; $i++)
 								<div class="form-group">
-								<input class ="form-control" list="artPieces" name="artPieces[]">	
+								<input class ="form-control" list="artPieces" name="artPieces[]">
 								</div>
 							@endfor
 							<a href="/exhibition/create?numLegalEntities={{$numLegalEntities}}&numArtPieces={{$numArtPieces}}&modArtPieceFields=p">Agregar</a>
@@ -50,7 +50,7 @@
 							<label>Organizadores</label>
 							@for($i = 0; $i < $numLegalEntities; $i++)
 							<div class="form-group">
-							<input class="form-control" list="legalEntities" name="legalEntities[]">	
+							<input class="form-control" list="legalEntities" name="legalEntities[]">
 								</div>
 						@endfor
 							<a href="/exhibition/create?numLegalEntities={{$numLegalEntities}}&numArtPieces={{$numArtPieces}}&modLegalEntityFields=p">Agregar</a>

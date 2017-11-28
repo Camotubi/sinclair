@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-{{$legalEntity->name}}
+{{$legalEntity->name}} - Detalles
 @endsection
 
 @section('content')

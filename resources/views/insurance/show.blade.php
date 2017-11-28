@@ -10,11 +10,11 @@
 
 <h3>Detalles</h3>
 <h5>Obra</h5>
-<p>{{artPiece->name}}</p>
+<p>{{$artPiece->name}}</p>
 <hr>
 
 <h5>Aseguradora</h5>
-<p>{{insuranceCarrier->name}}</p>
+<p>{{$insuranceCarrier->name}}</p>
 <hr>
 
 <h5>Descripción</h5>

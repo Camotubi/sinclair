@@ -11,10 +11,14 @@
 <h3>Detalles</h3>
 <h5>Tipo de inmobiliario</h5>
 <p>{{$furnitureType->name}}</p>
-<hr>
 
+
+@if($furniture->donatorId == null)
+@else
+<hr>
 <h5>Donado por:</h5>
 <p>{{$donator->name}}</p>
+@endif
 <br>
 
 <a href="/furniture/{{$furniture->id}}/edit" class="btn btn-info">
