@@ -8,7 +8,7 @@ class ArtStyle extends Model
 {
 	protected $table = "art_style";
 
-	public function artPiece()
+	public function artPieces()
 	{
 		return $this->belongsToMany('App\ArtPiece');
     }

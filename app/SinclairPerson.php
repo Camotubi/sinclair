@@ -8,7 +8,7 @@ class SinclairPerson extends Model
 {
 	protected $table = "sinclair_person";
 
-	public function relationshipType()
+	public function relationshipTypes()
 	{
 		return $this->belongsToMany('App\RelationshipType');
     }

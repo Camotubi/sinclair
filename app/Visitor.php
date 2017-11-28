@@ -8,7 +8,7 @@ class Visitor extends Model
 {
 	protected $table = "visitor";
 
-	public function visitor()
+	public function visitors()
 	{
 		return $this->hasMany('App\Visit', 'visitorId', 'id');
 	}

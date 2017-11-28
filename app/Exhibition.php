@@ -8,12 +8,12 @@ class Exhibition extends Model
 {
 	protected $table = "exhibition";
 
-	public function artPiece()
+	public function artPieces()
 	{
 		return $this->belongsToMany('App\ArtPiece');
     }
 
-    public function legalEntity()
+    public function legalEntities()
     {
 	    return $this->belongsToMany('App\LegalEntity');
     }
