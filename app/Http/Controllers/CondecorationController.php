@@ -66,7 +66,9 @@ class CondecorationController extends Controller
 		$condecoration = Condecoration::find($id);
 		if(!is_null($condecoration))
 		{
-		  return view('condecoration.show', ['condecoration' => $condecoration]);
+			$condecorator = LegalEntity::find($condecoration->condecoratorId);
+		  return view('condecoration.show', ['condecoration' => $condecoration,
+				'condecorator' => $condecorator]);
 		}
 		else
 		{

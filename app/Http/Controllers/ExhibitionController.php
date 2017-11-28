@@ -130,7 +130,10 @@ foreach($strings as $key=>$string){
 		$exhibition = Exhibition::find($id);
 		if(!is_null($exhibition))
 		{
-		  return view('exhibition.edit', ['exhibition' => $exhibition]);
+			$artPieces = $exhibition->artPieces();
+			$exhibitionists = $exhibition->legalEntities();
+		  return view('exhibition.edit', ['exhibition' => $exhibition,
+				'artPieces' => $artPieces, 'exhibitionists' => $exhibitionists]);
 		}
 		else
 		{
