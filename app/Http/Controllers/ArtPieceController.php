@@ -23,9 +23,9 @@ class ArtPieceController extends Controller
 	}
 
 	/**
-	 * Display a listing of the resource.
+	 *	Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * 	@return \Illuminate\Http\Response
 	 */
 	public function index()
 	{
@@ -159,18 +159,25 @@ class ArtPieceController extends Controller
 		$artPieces = ArtPiece::paginate($amount);
 		return $artPieces;
 	}
+	public function createRestoration($id)
+	{
+		$artPiece = ArtPiece::find($id);
+		$legalEntities = LegalEntity::all();
+		return view('restoration.create', ['legalEntities' => $legalEntities,'artPiece' => $artPiece]);
+	}
 	public function addRestoration($id,Request $request)
 	{
 		$artPiece = ArtPiece::find($id);
-		$restorationDescription = $request->input('restorationDescription');
+		$restorationDescription = $request->input('description');
 		$restorationDate = $request->input('restorationDate');
 		$restorerId = $request->input('restorerId');
 		$artPiece->legalEntityRestoration()->attach($restorerId,
 			[
-				'restorationDate' => $restorationData,
-				'restorationDescription' => $restorationDescription
+				'restorationDate' => $restorationDate,
+				'description' => $restorationDescription
 			]
 		);
+		return redirect('/artPiece/'.$artPiece->id)->with('success' , 'Restauracion registrada');
 
 	}
 	public function apiRestorationPaginate($id,$amount)

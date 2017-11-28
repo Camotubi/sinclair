@@ -52,6 +52,7 @@ Route::get('/dashboard/p','DashboardController@test');
 //
 Route::get('artPiece/{id}/delete','ArtPieceController@showDeleteConfirmation');
 Route::get('artPiece/{id}/restoration/create','ArtPieceController@createRestoration');
+Route::post('/artPiece/{id}/restoration','ArtPieceController@addRestoration');
 Route::get('restoration/artPiece/{id}/delete','RestorationController@showDeleteArtPieceConfirmation');
 Route::get('/artPiece/{id}/addImage' ,'ArtPieceController@addImage');
 Route::post('/artPiece/{id}/addImage' ,'ArtPieceController@storeImage');

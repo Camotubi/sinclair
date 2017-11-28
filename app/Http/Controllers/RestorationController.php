@@ -8,7 +8,7 @@ use App\ArtPiece;
 use App\Furniture;
 use App\LegalEntity;
 
-class RestorationController extends Controller
+class ArtPieceRestorationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,9 +25,9 @@ class RestorationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($Id)
     {
-        //
+        return view('restoration.create'
     }
 
     /**
