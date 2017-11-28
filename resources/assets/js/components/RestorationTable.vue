@@ -12,7 +12,7 @@
 					</tr>
 				</thead>
 				<tr v-for="restoration in laravelData.data">
-					<td v-if="show_restorerName" ><a :href="'/artPiece/' +restoration.id">{{artPiece.name}}</a></td>
+					<td v-if="show_restorerName" ><a :href="'/artPiece/' +restoration.id">{{restoration.name}}</a></td>
 					<td v-if="show_date" v-text="restoration.pivot.restorationDate"></td>
 					<td v-if="show_description" v-text="restoration.pivot.description"></td>
 					<td v-if="show_links">

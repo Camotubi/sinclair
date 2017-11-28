@@ -47758,7 +47758,7 @@ var render = function() {
                       _c(
                         "a",
                         { attrs: { href: "/artPiece/" + restoration.id } },
-                        [_vm._v(_vm._s(_vm.artPiece.name))]
+                        [_vm._v(_vm._s(restoration.name))]
                       )
                     ])
                   : _vm._e(),
