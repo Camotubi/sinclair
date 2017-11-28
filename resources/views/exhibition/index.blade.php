@@ -5,10 +5,5 @@ Exhibición
 @endsection
 
 @section('content')
-@foreach( $exhibitions as $exhibition )
-  <a href="/exhibition/{{@$exhibition->id}}">
-    <h4>{{ @$exhibition->name }}</h4>
-  </a>
-  @endforeach
-{{$exhibitions->links()}}
+	<exhibition-table></exhibition-table>
 @endsection

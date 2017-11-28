@@ -18,6 +18,7 @@ window.Vue = require('vue');
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('art-piece-table', require('./components/ArtPieceTable.vue'));
+Vue.component('exhibition-table', require('./components/ExhibitionTable.vue'));
 Vue.component('legal-entity-table', require('./components/LegalEntityTable.vue'));
 Vue.component('restorations-table', require('./components/RestorationTable.vue'));
 Vue.component('images-table', require('./components/ImageTable.vue'));
