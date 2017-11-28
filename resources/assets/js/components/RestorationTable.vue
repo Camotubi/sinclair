@@ -21,7 +21,7 @@
 						</a>
 						|
 						<a :href="'/restoration/'+restoration.pivot.id+'/edit'">
-							<i style="color:#f8990e" class="fa fa-pencil" aria-hidden="true"></i>Modificar
+							<i style="color:#138496" class="fa fa-pencil" aria-hidden="true"></i>Modificar
 						</a>
 						|
 						<a :href="'/artPiece/'+restoration.pivot.id+'/delete'">

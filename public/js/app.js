@@ -47190,7 +47190,7 @@ var render = function() {
                         [
                           _c("i", {
                             staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#f8990e" },
+                            staticStyle: { color: "#138496" },
                             attrs: { "aria-hidden": "true" }
                           }),
                           _vm._v("Modificar\n\t\t\t\t\t")
@@ -47494,7 +47494,7 @@ var render = function() {
                         [
                           _c("i", {
                             staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#f8990e" },
+                            staticStyle: { color: "#138496" },
                             attrs: { "aria-hidden": "true" }
                           }),
                           _vm._v("Modificar\n\t\t\t\t\t")
@@ -47809,7 +47809,7 @@ var render = function() {
                         [
                           _c("i", {
                             staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#f8990e" },
+                            staticStyle: { color: "#138496" },
                             attrs: { "aria-hidden": "true" }
                           }),
                           _vm._v("Modificar\n\t\t\t\t\t")
@@ -48464,7 +48464,7 @@ var render = function() {
                         [
                           _c("i", {
                             staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#f8990e" },
+                            staticStyle: { color: "#138496" },
                             attrs: { "aria-hidden": "true" }
                           }),
                           _vm._v("Modificar\n\t\t\t\t\t")
