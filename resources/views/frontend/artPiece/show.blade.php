@@ -23,8 +23,8 @@
 				{{$artPiece->criticalAnalisis}}
 				</p>
 				@if(count($artPiece->multimedia) > 0)
-				<div class ="container">
-					<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+				<div style ="width:100%; text-align:center;" class ="container">
+					<div style="display:inline-block;"id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
 						<ol class="carousel-indicators">
 							@foreach($artPiece->multimedia as $image)
 								@if($loop->first)
@@ -34,14 +34,14 @@
 								@endif
 							@endforeach
 						</ol>
-					<div class ="carousel-inner">
+					<div style= "display:inline-block;" class ="carousel-inner">
 						@foreach($artPiece->multimedia as $image)
 							@if($loop->first)
 								<div class = "carousel-item active">
 							@else
 								<div class = "carousel-item">
 									@endif
-							<img class="d-block img-fluid" src='{{ asset("storage/".$image->fileLocation)}} '>
+							<img class="d-block img-fluid" style="height:400px;"; src='{{ asset("storage/".$image->fileLocation)}} '>
 							<div class = "carousel-caption d-none d-md-block">
 							</div>
 							</div>
