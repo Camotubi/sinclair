@@ -70,7 +70,9 @@ class InsuranceController extends Controller
 		$insurance = Insurance::find($id);
 		if(!is_null($insurance))
 		{
-		  return view('insurance.show', ['insurance' => $insurance]);
+			$artPiece = $insurance->artPiece();
+			$insuranceCarrier = $insurance->insuranceCarrier();
+		  return view('insurance.show', ['insurance' => $insurance, ]);
 
 		}
 		else
@@ -91,9 +93,9 @@ class InsuranceController extends Controller
 		if(!is_null($insurance))
 		{
 			$artPieces = artPiece::all();
-			$insuranceCarriers = InsuranceCarrier::all();
+			$insuranceCarrier = InsuranceCarrier::all();
 		  return view('insurance.edit', ['insurance' => $insurance,
-				'artPieces' => $artPieces, 'insuranceCarriers' => $insuranceCarriers]);
+				'artPiece' => $artPiece, 'insuranceCarrier' => $insuranceCarrier]);
 
 		}
 		else

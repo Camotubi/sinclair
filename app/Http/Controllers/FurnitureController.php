@@ -69,7 +69,10 @@ class FurnitureController extends Controller
 		$furniture = Furniture::find($id);
 		if(!is_null($furniture))
 		{
-		  return view('furniture.show', ['furniture' => $furniture]);
+			$donator = LegalEntity::find($furniture->donatorId);
+			$furnitureType = FurnitureType::find($furniture->furnitureTypeId);
+		  return view('furniture.show', ['furniture' => $furniture, 'donator' => $donator,
+				'furnitureType' => $furnitureType]);
 		}
 		else
 		{
