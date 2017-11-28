@@ -66,7 +66,9 @@ class SinclairPersonController extends Controller
 		$sinclairPerson = SinclairPerson::find($id);
 		if(!is_null($sinclairPerson))
 		{
-		  return view('sinclairPerson.show', ['sinclairPerson' => $sinclairPerson]);
+			$relationshipTypes = $sinclairPerson->relationshipTypes();
+		  return view('sinclairPerson.show', ['sinclairPerson' => $sinclairPerson,
+				'relationshipTypes' => $relationshipTypes]);
 		}
 		else
 		{

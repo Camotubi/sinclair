@@ -67,7 +67,9 @@ class PublicationController extends Controller
 			$publication = Publication::find($id);
 			if(!is_null($publication))
 			{
-			  return view('publication.show', ['publication' => $publication]);
+				$user = User::find($publication->userId);
+			  return view('publication.show', ['publication' => $publication],
+					'user' => $user);
 			}
 			else
 			{
