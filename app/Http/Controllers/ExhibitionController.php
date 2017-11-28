@@ -117,10 +117,17 @@ class ExhibitionController extends Controller
    */
   public function show($id)
   {
-		$exhibition = Exhibition::find($id);
+	  $exhibition = Exhibition::find($id);
+	  $organizers = $exhibition->legalEntities()->get();
+	  $artPieces = $exhibition->artPieces()->get();
 		if(!is_null($exhibition))
 		{
-		  return view('exhibition.show', ['exhibition' => $exhibition]);
+			return view('exhibition.show',
+				[
+					'exhibition'	=> $exhibition,
+					'artPieces' => $artPieces,
+					'organizers' =>$organizers
+				]);
 		}
 		else
 		{

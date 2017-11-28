@@ -16,18 +16,21 @@
 <h5>Ubicación</h5>
 <p>{{$exhibition->location}}</p>
 <hr>
-
+@isset($artPieces)
 <h5>Obras de arte exhibidas</h5>
 @foreach($artPieces as $artPiece)
 <p>{{$artPiece->name}}</p>
 @endforeach
 <hr>
+@endisset
 
-<h5>Exhibicionistas</h5>
-@foreach($exhibitionists as $exhibitionist)
-<p>{{$exhibitionist->name}}</p>
+@isset($organizers)
+<h5>Organizadores</h5>
+@foreach($organizers as $organizers)
+<p>{{$organizers->name}}</p>
 @endforeach
 <br>
+@endisset
 
 <a href="/exhibition/{{$exhibition->id}}/edit" class="btn btn-info">
   <i class="fa fa-pencil" aria-hidden="true"></i> Modificar
