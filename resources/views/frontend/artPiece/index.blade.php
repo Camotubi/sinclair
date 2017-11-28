@@ -15,14 +15,28 @@ $a = 0
 $artPiece = $artPieces[$a];
 @endphp
   <div class="col-sm">
+	  <div stlye=" display: flex;flex-direction: column;justify-content: space-between;">
+		  <div>
     <a href="/f/artPiece/show/{{@$artPiece->id}}" class="thumbnail">
-      <img class ="img-thumbnail" src="/img/thumbnail.jpg">
+
+@isset($artPiece->multimedia()->first()->fileLocation)
+
+      <img class ="img-thumbnail gallery" src="/storage/{{$artPiece->multimedia()->first()->fileLocation}}">
+@else
+      <img class ="img-thumbnail gallery" src="/img/thumbnail.jpg">
+@endisset
+
+
+    </a>
+    </div>
       <div class="caption">
+    <a href="/f/artPiece/show/{{@$artPiece->id}}" class="thumbnail">
         <h3>{{@$artPiece->name}}</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse ut un
           de, excepturi ipsum molestiae, quia atque sunt officiis ab delectus totam adipisci vel doloremque ea odit itaque vero iusto placeat.</p>
+  </a>
       </div>
-    </a>
+  </div>
   </div>
 	@php
 	$a++
