@@ -46,14 +46,17 @@ Route::resources([
 Route::post('/login','Auth\LoginController@authenticate');
 //		Dashboard
 Route::get('/dashboard','DashboardController@index');
-Route::get('/dashboard/p','DashboardController@test');
-
 //		ArtPiece
 //
 Route::get('artPiece/{id}/delete','ArtPieceController@showDeleteConfirmation');
 Route::get('artPiece/{id}/restoration/create','ArtPieceController@createRestoration');
 Route::post('/artPiece/{id}/restoration','ArtPieceController@addRestoration');
-Route::get('restoration/artPiece/{id}/delete','RestorationController@showDeleteArtPieceConfirmation');
+
+
+Route::post('/artPiece/restoration/{id}/delete','RestorationController@destroyArtPieceRestoration');
+Route::post('/furniture/restoration/{id}/delete','RestorationController@destroyFurnitureRestoration');
+Route::get('/artPiece/restoration/{id}/delete','RestorationController@showDeleteArtPieceRestorationConfirmation');
+Route::get('/furniture/restoration/{id}/delete','RestorationController@showDeleteFurnitureRestorationConfirmation');
 Route::get('/artPiece/{id}/addImage' ,'ArtPieceController@addImage');
 Route::get('/artPiece/{id}/addRent' ,'ArtPieceController@addRent');
 Route::post('/artPiece/{id}/addRent' ,'ArtPieceController@storeRent');
