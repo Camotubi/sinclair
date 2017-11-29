@@ -174,7 +174,14 @@ class ArtPieceController extends Controller
 		$artPiece->artStyles()->detach();
 		$artPiece->exhibitions()->detach();
 		$artPiece->legalEntityRestorations()->detach();
-		$artPiece->legalEntityPossession()->detach();
+		$artPiece->legalEntityPossessions()->detach();
+		$rents = $artPiece->rents()->get();
+		foreach($rents as $rent)
+		{
+			$rent->artPiece()->dissociate();
+			$rent->legalEntity()->dissociate();
+			$rent->delete();
+		}
 		$artPiece->multimedia()->detach();
 		$artPiece->delete();
 		return redirect('dashboard')->with('success' , 'Obra eliminada');
