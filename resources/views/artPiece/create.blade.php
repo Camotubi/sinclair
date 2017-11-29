@@ -11,6 +11,11 @@
 				<h3>Registro de obra de arte</h3>
 				<form class=""  action= "/artPiece" method="post">
 					{{ csrf_field() }}
+					<datalist id="artStyles">
+						@foreach($artStyles as $artStyle)
+							<option value ="{{$artStyle->id.'-'.$artStyle->name}}"></option>
+						@endforeach
+					</datalist>
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="name">Nombre:</label>
@@ -21,13 +26,14 @@
 							<input class="form-control" type="text" name="era" value="">
 						</div>
 						<div class="form-group col-md-4">
-							<label for="style">Estilo:</label>
-							<input class="form-control" name="artStyleId" type="text" list="artStyles">
-    								<datalist id="artStyles">
-											@foreach($artStyles as $artStyle)
-												<option value ="{{$artStyle->id}}">{{$artStyle->name}}</option>
-											@endforeach
-    								</datalist>
+							<label for="style">Estilos:</label>
+							@for($i = 0; $i < $numArtStyles; $i++)
+							<div class="form-group">
+								<input class="form-control" name="artStyles[]" type="text" list="artStyles">
+							</div>
+    					@endfor
+							<a href="/artPiece/create?numArtStyles={{$numArtStyles}}&modArtStyleFields=p">Agregar</a>
+							<a href="/artPiece/create?numArtStyles={{$numArtStyles}}&modArtStyleFields=m">Quitar</a>
 						</div>
 						<div class="form-group col-md-4">
 							<label for="technique">Técnica:</label>
