@@ -39,3 +39,23 @@ background-color:#fff;
   float: left;
   margin-top: 35px;
 }
+
+.sidebar{
+  background-color: #343a40;
+  margin: 0;
+}
+
+li a{
+  text-decoration: none;
+  color: #FFF;
+}
+
+li a:hover{
+  text-decoration: none;
+  color: #e6e6e6;
+}
+
+li a:active{
+  text-decoration: none;
+  color: #cccccc;
+}
