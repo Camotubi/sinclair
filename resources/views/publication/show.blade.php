@@ -11,11 +11,11 @@
 <h3>Detalles</h3>
 
 <h5>Contenido</h5>
-<p>{{$publication->body}}</p>
+<p>{!! $publication->body !!}</p>
 <hr>
 
 <h5>Publicado por:</h5>
-<p>{{$user->firstName}} {{$user->lastName}}</p>
+<p>{{$publication->user->firstName}} {{$publication->user->lastName}}</p>
 <br>
 
 <a href="/publication/{{$publication->id}}/edit" class="btn btn-info">
