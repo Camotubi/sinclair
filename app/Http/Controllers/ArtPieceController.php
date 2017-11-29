@@ -7,6 +7,7 @@ use App\Http\Requests\ArtPieceCreateRequest;
 use App\Http\Requests\ArtPieceUpdateRequest;
 use App\ArtPiece;
 use App\ArtStyle;
+use App\Rent;
 use App\Multimedia;
 use App\LegalEntity;
 use Illuminate\Support\Facades\DB;
@@ -264,6 +265,28 @@ class ArtPieceController extends Controller
 		{
 			return redirect('dashboard')->with('error' , 'Obra de arte no encontrada');
 		}
+
+	}
+
+	public function addRent($id)
+	{
+			$artPiece = ArtPiece::find($id);
+			$legalEntities = LegalEntity::all();
+	    return view('artPiece.add_rent', ['artPiece' => $artPiece,
+				'legalEntities' => $legalEntities]);
+
+	}
+	public function storeRent($id,Request $request)
+	{
+
+	      $rent = new Rent;
+	      $rent->moneyQuantity = $request-> input('moneyQuantity');
+	      $rent->effectiveDate = $request-> input('effectiveDate');
+	      $rent->terminationDate = $request-> input('terminationDate');
+	      $rent->artPiece()->associate($id);
+	      $rent->legalEntity()->associate(explode('-',$request->input('legalEntityId'))[0]);
+	      $rent->save();
+				return redirect('dashboard')->with('success' , 'Alquiler registrado');
 
 	}
 }

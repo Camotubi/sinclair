@@ -9,10 +9,7 @@
 				<a class="nav-link" href="/dashboard">Dashboard</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#">Pagina Principal</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link disabled" href="#">Disabled</a>
+				<a class="nav-link" href="/">Pagina Principal</a>
 			</li>
 		</ul>
 		<form class="form-inline my-2 my-lg-0">

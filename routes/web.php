@@ -55,6 +55,8 @@ Route::get('artPiece/{id}/restoration/create','ArtPieceController@createRestorat
 Route::post('/artPiece/{id}/restoration','ArtPieceController@addRestoration');
 Route::get('restoration/artPiece/{id}/delete','RestorationController@showDeleteArtPieceConfirmation');
 Route::get('/artPiece/{id}/addImage' ,'ArtPieceController@addImage');
+Route::get('/artPiece/{id}/addRent' ,'ArtPieceController@addRent');
+Route::post('/artPiece/{id}/addRent' ,'ArtPieceController@storeRent');
 Route::post('/artPiece/{id}/addImage' ,'ArtPieceController@storeImage');
 //		ArtStyle
 //
