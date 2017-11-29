@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\ArtPiece;
 use App\Furniture;
 use App\LegalEntity;
-
-class ArtPieceRestorationController extends Controller
+use App\ArtPieceRestoration;
+class RestorationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class ArtPieceRestorationController extends Controller
      */
     public function create($Id)
     {
-        return view('restoration.create'
+        return view('restoration.create');
     }
 
     /**
@@ -86,13 +86,13 @@ class ArtPieceRestorationController extends Controller
         //
     }
 
-    public function showDeleteArtPieceConfirmation($id)
+    public function showDeleteArtPieceRestorationConfirmation($id)
 		{
-			$restoration = ;
-			if(!is_null($rent))
+			$restoration = ArtPieceRestoration::find($id);
+			if(!is_null($restoration))
 			{
-				$artPiece = ArtPiece::find($restoration->artPieceId);
-				$legalEntity = LegalEntity::find($restoration->legalEntityId);
+				$artPiece = ArtPiece::find($restoration->artPiece()->id);
+				$legalEntity = LegalEntity::find($restoration->legalEntity()->id);
 				return view('rent.deleteArtPiece', ['restoration' => $restoration, 'artPiece' => $artPiece,
 					'legalEntity' => $legalEntity]);
 			}
@@ -105,8 +105,8 @@ class ArtPieceRestorationController extends Controller
 
     public function showDeleteFurnitureConfirmation($id)
 		{
-			$restoration = ;
-			if(!is_null($rent))
+			$restoration = FurnitureRestoration::find($id);
+			if(!is_null($restoration))
 			{
 				$furniture = Furniture::find($restoration->furnitureId);
 				$legalEntity = LegalEntity::find($restoration->legalEntityId);

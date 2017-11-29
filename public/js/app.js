@@ -47934,7 +47934,7 @@ exports = module.exports = __webpack_require__(2)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -47997,7 +47997,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		show_description: { default: true },
 		page_amount: { default: 10 },
 		show_links: { default: true },
-		obj_id: { default: 0 }
+		obj_id: { default: 0 },
+		obj_class: { default: 'artPiece' }
 
 	},
 
@@ -48015,7 +48016,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 				page = 1;
 			}
 			// Using vue-resource as an example
-			axios.get('/api/artPiece/' + self.obj_id + '/restorations/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+			axios.get('/api/' + self.obj_class + '/' + self.obj_id + '/restorations/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
 				self.laravelData = response.data;
 			});
 		}
@@ -48061,7 +48062,11 @@ var render = function() {
                   ? _c("td", [
                       _c(
                         "a",
-                        { attrs: { href: "/artPiece/" + restoration.id } },
+                        {
+                          attrs: {
+                            href: "/" + _vm.obj_class + "/" + restoration.id
+                          }
+                        },
                         [_vm._v(_vm._s(restoration.name))]
                       )
                     ])
@@ -48124,7 +48129,11 @@ var render = function() {
                         {
                           attrs: {
                             href:
-                              "/artPiece/" + restoration.pivot.id + "/delete"
+                              "/" +
+                              _vm.obj_class +
+                              "/restoration/" +
+                              restoration.pivot.id +
+                              "/delete"
                           }
                         },
                         [

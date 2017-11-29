@@ -46,14 +46,12 @@ Route::resources([
 Route::post('/login','Auth\LoginController@authenticate');
 //		Dashboard
 Route::get('/dashboard','DashboardController@index');
-Route::get('/dashboard/p','DashboardController@test');
-
 //		ArtPiece
 //
 Route::get('artPiece/{id}/delete','ArtPieceController@showDeleteConfirmation');
 Route::get('artPiece/{id}/restoration/create','ArtPieceController@createRestoration');
 Route::post('/artPiece/{id}/restoration','ArtPieceController@addRestoration');
-Route::get('restoration/artPiece/{id}/delete','RestorationController@showDeleteArtPieceConfirmation');
+Route::get('/artPiece/restoration/{id}/delete','RestorationController@showDeleteArtPieceConfirmation');
 Route::get('/artPiece/{id}/addImage' ,'ArtPieceController@addImage');
 Route::get('/artPiece/{id}/addRent' ,'ArtPieceController@addRent');
 Route::post('/artPiece/{id}/addRent' ,'ArtPieceController@storeRent');
