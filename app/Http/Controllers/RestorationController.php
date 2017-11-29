@@ -83,7 +83,19 @@ class RestorationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+    }
+    public function destroyArtPieceRestoration($id)
+    {
+
+			$restoration = ArtPieceRestoration::find($id)->delete();
+			return redirect('/dashboard')->with('success' , 'Restauración no eliminada');
+    }
+
+    public function destroyFurnitureRestoration($id)
+    {
+			$restoration = FurnitureRestoration::find($id)->delete();
+			return redirect('/dashboard')->with('success' , 'Restauración no eliminada');
     }
 
     public function showDeleteArtPieceRestorationConfirmation($id)
@@ -91,9 +103,9 @@ class RestorationController extends Controller
 			$restoration = ArtPieceRestoration::find($id);
 			if(!is_null($restoration))
 			{
-				$artPiece = ArtPiece::find($restoration->artPiece()->id);
-				$legalEntity = LegalEntity::find($restoration->legalEntity()->id);
-				return view('rent.deleteArtPiece', ['restoration' => $restoration, 'artPiece' => $artPiece,
+				$artPiece = $restoration->artPiece;
+				$legalEntity = $restoration->legalEntity;
+				return view('restoration.deleteArtPiece', ['restoration' => $restoration, 'artPiece' => $artPiece,
 					'legalEntity' => $legalEntity]);
 			}
 			else
@@ -103,14 +115,14 @@ class RestorationController extends Controller
 
 		}
 
-    public function showDeleteFurnitureConfirmation($id)
+    public function showDeleteFurnitureRestorationConfirmation($id)
 		{
 			$restoration = FurnitureRestoration::find($id);
 			if(!is_null($restoration))
 			{
-				$furniture = Furniture::find($restoration->furnitureId);
-				$legalEntity = LegalEntity::find($restoration->legalEntityId);
-				return view('rent.deleteFurniture', ['restoration' => $restoration, 'furniture' => $furniture,
+				$furniture = $restoration->furniture;
+				$legalEntity = $restoration->legalEntity;
+				return view('restoration.deleteFurniture', ['restoration' => $restoration, 'furniture' => $furniture,
 					'legalEntity' => $legalEntity]);
 			}
 			else
