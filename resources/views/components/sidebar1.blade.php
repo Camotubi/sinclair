@@ -125,10 +125,10 @@
 
 		</li>
 		<li>
-			<a class="nav-fill" data-toggle="collapse" href="#collapse7" aria-expanded="false" aria-controls="collapseExample">
+			<a class="nav-fill" data-toggle="collapse" href="#collapse8" aria-expanded="false" aria-controls="collapseExample">
 				Memorabilia
 			</a>
-			<div id ="collapse7" class ="collapse">
+			<div id ="collapse8" class ="collapse">
 				<ul class="nav nav-pills flex-column">
 					<li class="nav-item">
 						<a class="nav-link" href="/multimedia">Ver</a>
