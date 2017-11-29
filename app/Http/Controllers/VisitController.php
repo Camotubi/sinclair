@@ -48,8 +48,8 @@ class VisitController extends Controller
   {
       $visit = new Visit;
       $visit->date = $request-> input('date');
+			$visit->visitors()->associate($request->input ('visitorId'));
       $visit->save();
-      $visit->visitors()->associate($request->input ('visitorId'));
 			return redirect('dashboard')->with('success' , 'Visita registrada');
   }
 

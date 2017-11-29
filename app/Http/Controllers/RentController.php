@@ -55,9 +55,9 @@ class RentController extends Controller
       $rent->moneyQuantity = $request-> input('moneyQuantity');
       $rent->effectiveDate = $request-> input('effectiveDate');
       $rent->terminationDate = $request-> input('terminationDate');
+			$rent->artPiece()->associate($request->input ('artPieceId'));
+			$rent->legalEntity()->associate($request->input ('legalEntityId'));
       $rent->save();
-      $rent->artPiece()->associate($request->input ('artPieceId'));
-      $rent->legalEntity()->associate($request->input ('legalEntityId'));
 			return redirect('dashboard')->with('success' , 'Alquiler registrado');
     }
 

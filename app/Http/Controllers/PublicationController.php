@@ -88,21 +88,23 @@ class PublicationController extends Controller
       $publication = new Publication;
       $publication->title = $request-> input('title');
       $publication->body = $request-> input('body');
-      $publication->save();
-			$usersString = $request->input('users');
-		  $tagsString = $request->input('tags');
+			$publication->user()->associate($request->input('users'));
+			/*$usersString = $request->input('users');
+
 		  $usersId   = array();
-		  foreach($UsersString as $key=>$string)
+		  foreach($usersString as $key=>$string)
 		  {
 			$usersId[$key] = explode('-',$string)[0];
-		  }
+		}*/
 
-		  $tagsId   = array();
+
+      $publication->save();
+			$tagsString = $request->input('tags');
+			$tagsId   = array();
 		  foreach($tagsString as $key=>$string)
 		  {
 			$tagsId[$key] = explode('-',$string)[0];
 		  }
-      $publication->user()->associate($usersId);
 			$publication->tags()->attach($tagsId);
 			return redirect('dashboard')->with('success' , 'Publicación registrada');
     }
@@ -118,9 +120,10 @@ class PublicationController extends Controller
 			$publication = Publication::find($id);
 			if(!is_null($publication))
 			{
-				$user = User::find($publication->userId);
+				$user = $publication->user;
+				$tags = $publication->tags()->get();
 			  return view('publication.show', ['publication' => $publication,
-					'user' => $user]);
+					'user' => $user, 'tags' => $tags]);
 			}
 			else
 			{
@@ -191,5 +194,37 @@ class PublicationController extends Controller
 				return redirect('dashboard')->with('error' , 'Publicación no encontrada');
 			}
 
+		}
+
+		public function apiPaginate($amount)
+		{
+
+			$publications = Publication::paginate($amount);
+			return $publications;
+		}
+
+		public function getpublication($id)
+		{
+			$publication = Publication::where('id',$id)->first();
+			return $publication;
+		}
+
+		public function frontIndex()
+		{
+			return view('frontend.publication.index', ['publications'=> $this->apiPaginate(10)]);
+		}
+
+		public function frontShow($id)
+		{
+			$publication = Publication::find($id);
+			$user = $publication->user()->get();
+			$tags = $publication->tags()->get();
+			return view('frontend.publication.show',
+				[
+					'publication' => $this->getpublication($id),
+					'user' => $user,
+					'tags' => $tags
+				]
+			);
 		}
 }

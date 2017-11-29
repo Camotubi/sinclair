@@ -45,7 +45,7 @@ class TagController extends Controller
   public function store(Request $request)
   {
 	  $tag = new Tag;
-	  $tag->name = $request-> input('name');
+	  $tag->tag = $request-> input('tag');
 	  $tag->save();
 		return redirect('dashboard')->with('success' , 'Etiqueta registrada');
   }

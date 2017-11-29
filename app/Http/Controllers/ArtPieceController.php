@@ -182,7 +182,7 @@ class ArtPieceController extends Controller
 			$rent->legalEntity()->dissociate();
 			$rent->delete();
 		}
-		$insurances = $artPiece->insurances()->get()
+		$insurances = $artPiece->insurances()->get();
 		foreach($insurances as $insurance)
 		{
 			$insurance->artPiece()->dissociate();

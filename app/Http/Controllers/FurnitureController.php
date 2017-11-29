@@ -52,9 +52,9 @@ class FurnitureController extends Controller
 	{
 		$furniture = new Furniture;
 		$furniture->name = $request-> input('name');
-		$furniture->save();
 		$furniture->donator()->associate($request->input ('donatorId'));
 		$furniture->furnitureType()->associate($request-> input('furnitureTypeId'));
+		$furniture->save();
 		return redirect('dashboard')->with('success' , 'Inmobiliario registrado');
 	}
 

@@ -55,8 +55,8 @@ class MultimediaController extends Controller
       $multimedia->creationDate = $request->input ('creationDate');
       $multimedia->description = $request->input ('description');
       $multimedia->fileLocation = $request->input ('fileLocation');
+			$multimedia->types()->associate($request->input ('multimediaTypeId'));
       $multimedia->save();
-      $multimedia->types()->associate($request->input ('multimediaTypeId'));
 			return redirect('dashboard')->with('success' , 'Memorabilia registrada');
     }
 
