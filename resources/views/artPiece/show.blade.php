@@ -50,6 +50,10 @@
 <a href="/artPiece/{{$artPiece->id}}/addRent">Agregar Alquiler</a>
 <rent-table obj_class="artPiece" obj_id={{$artPiece->id}}></rent-table>
 <br>
+<h3>Seguros</h3>
+<a href="/artPiece/{{$artPiece->id}}/addInsurance">Agregar Alquiler</a>
+<insurance-table obj_id={{$artPiece->id}}></insurance-table>
+<br>
 <h3>Imagenes</h3>
 <div>
 <a href="/artPiece/{{$artPiece->id}}/addImage">Agregar Imagen</a>

@@ -33,5 +33,6 @@ Vue.component('insurance-carrier-table', require('./components/InsuranceCarrierT
 Vue.component('legal-entity-table', require('./components/LegalEntityTable.vue'));
 Vue.component('restorations-table', require('./components/RestorationTable.vue'));
 Vue.component('images-table', require('./components/ImageTable.vue'));
+Vue.component('insurance-table', require('./components/InsuranceTable.vue'));
 Vue.component('user-create-form', require('./components/UserCreateForm.vue'));
 const app = new Vue({ el: '#app' });

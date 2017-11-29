@@ -70,9 +70,15 @@ class RentController extends Controller
     public function show($id)
     {
 			$rent = Rent::find($id);
+			$artPiece = $rent->artPiece;
+			$legalEntity = $rent->legalEntity;
 			if(!is_null($rent))
 			{
-			  return view('rent.show', ['rent' => $rent]);
+				return view('rent.show', ['rent' => $rent,
+					'artPiece' => $artPiece,
+					'legalEntity' => $legalEntity
+				
+				]);
 			}
 			else
 			{

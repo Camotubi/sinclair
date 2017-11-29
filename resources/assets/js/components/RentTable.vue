@@ -7,6 +7,7 @@
 						<th v-if="show_rent_effective_date">Fecha efectiva</th>
 						<th v-if="show_rent_termination_date">Fecha de Terminacion</th>
 						<th v-if="show_money">Monto</th>
+						<th>Acciones</th>
 					</tr>
 				</thead>
 				<tr v-for="rent in laravelData.data">
@@ -14,6 +15,19 @@
 					<td  v-text="rent.effectiveDate"></td>
 					<td v-if="show_rent_termination_date" v-text="rent.terminationDate"></td>
 					<td v-if="show_money" v-text="rent.moneyQuantity"></td>
+					<td>
+						<a :href="'/rent/'+rent.id">
+							<i class="fa fa-object-ungroup" aria-hidden="true"></i>Ver
+						</a>
+						|
+						<a :href="'/rent/'+rent.id+'/edit'">
+							<i style="color:#138496" class="fa fa-pencil" aria-hidden="true"></i>Modificar
+						</a>
+						|
+						<a :href="'/rent/'+rent.id+'/delete'">
+							<i style="color:red" class="fa fa-trash" aria-hidden="true"></i>Eliminar
+						</a>
+					</td>
 				</tr>
 			</table>
 		</ul>

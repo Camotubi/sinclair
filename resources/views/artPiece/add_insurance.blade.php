@@ -10,8 +10,8 @@
 		<section>
 			<article>
 				<h3>Registro de Seguro de una Obra</h3>
-				<form class=""  action= "/insurance" method="post">
-					{{ csrf_field }}
+				<form class=""  action= "/artPiece/{{$artPiece->id}}/addInsurance" method="post">
+					{{ csrf_field() }}
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="name">Nombre:</label>
