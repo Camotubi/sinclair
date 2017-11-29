@@ -43,13 +43,14 @@
 @endisset
 
 <h3>Restauraciones</h3>
+<a href="/artPiece/{{$artPiece->id}}/addRent">Agregar Alquiler</a>
 <restorations-table obj_id={{$artPiece->id}}></restorations-table>
 <br>
 
 <h3>Imagenes</h3>
 <div>
-<images-table obj_id={{$artPiece->id}}></images-table>
 <a href="/artPiece/{{$artPiece->id}}/addImage">Agregar Imagen</a>
+<images-table obj_id={{$artPiece->id}}></images-table>
 </div>
 <br>
 <a href="/artPiece/{{$artPiece->id}}/edit" class="btn btn-info">
