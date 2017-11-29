@@ -15,7 +15,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="tag">Nombre:</label>
-							<input class="form-control" type="tag" name="name" value="{{$tag->name}}">
+							<input class="form-control" type="tag" name="tag" value="{{$tag->tag}}">
 						</div>
 					</div>
 					<input type="submit" class="btn btn-primary" name="update" value="Actualizar">

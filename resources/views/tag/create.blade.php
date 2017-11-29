@@ -14,7 +14,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-4">
 							<label for="tag">Nombre:</label>
-							<input class="form-control" type="tag" name="name" value="">
+							<input class="form-control" type="tag" name="tag" value="">
 						</div>
 					</div>
 					<input type="submit" class="btn btn-primary" name="register" value="Registrar">
