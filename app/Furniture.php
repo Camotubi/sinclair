@@ -8,19 +8,19 @@ class Furniture extends Model
 {
 	protected $table = "furniture";
 
-	public function type()
+	public function furnitureType()
 	{
-		return $this->belongsTo('App\FurnitureType');
+		return $this->belongsTo('App\FurnitureType', 'furnitureTypeId');
   }
 
   public function legalEntityPossessions()
   {
-	  return $this->belongsToMany('App\LegalEntity')->withPivot('possessionDate');
+	  return $this->belongsToMany('App\LegalEntity', 'legal_entity_furniture_possession', 'furnitureId', 'legalEntityId')->withPivot('possessionDate');
   }
 
   public function legalEntityRestorations()
   {
-	  return $this->belongsToMany('App\LegalEntity')->withPivot('restorationDate', 'description');
+	  return $this->belongsToMany('App\LegalEntity', 'legal_entity_furniture_restoration', 'furnitureId', 'legalEntityId')->withPivot('restorationDate', 'description');
   }
 
   public function donator()

@@ -10,7 +10,7 @@ class Publication extends Model
 
 	public function tags()
 	{
-		return $this->belongsToMany('App\Tag');
+		return $this->belongsToMany('App\Tag', 'tag_publication', 'publicationId', 'tagId');
   }
 
   public function user()

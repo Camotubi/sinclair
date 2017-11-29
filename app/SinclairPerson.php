@@ -10,6 +10,6 @@ class SinclairPerson extends Model
 
 	public function relationshipTypes()
 	{
-		return $this->belongsToMany('App\RelationshipType');
+		return $this->belongsToMany('App\RelationshipType', 'relationship_type_sinclair_person', 'sinclairPersonId', 'relationshipTypeId');
     }
 }

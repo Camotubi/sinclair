@@ -10,6 +10,7 @@ class ArtStyle extends Model
 
 	public function artPieces()
 	{
-		return $this->belongsToMany('App\ArtPiece');
+		return $this->belongsToMany('App\ArtPiece', 'art_style_art_piece', 'artStyleId',
+		'artPieceId');
     }
 }
