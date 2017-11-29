@@ -60,12 +60,6 @@
 									@endforeach
 								</datalist>
 						</div>
-						<div class ="form-check">
-							<label class="form-check-label">
-								Generar Publicación
-								<input class="form-check-input" name="genaratePublication" type="checkbox" value="true">
-							</label>
-						</div>
 						<div class="form-group col-md-6">
 							<input class="form-control" type="file" name="file" accept="*">
 						</div>

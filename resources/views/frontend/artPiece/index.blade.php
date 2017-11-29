@@ -19,7 +19,7 @@ $artPiece = $artPieces[$a];
 		  <div>
     <a href="/f/artPiece/show/{{@$artPiece->id}}" class="thumbnail">
 
-@isset($artPiece->multimedia()->first()->fileLocation)
+@if(!is_null($artPiece->multimedia()->first()))
 
       <img class ="img-thumbnail gallery" src="/storage/{{$artPiece->multimedia()->first()->fileLocation}}">
 @else

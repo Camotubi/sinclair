@@ -9,9 +9,10 @@
 <hr>
 <br>
 <article class="">
-  <p>{{$publication->body}}</p>
+  <p>{!!$publication->body!!}</p>
 </article>
 <br>
+<hr>
 <h4>Publicado por:</h4>
 <p>{{$publication->user->firstName.' '.$publication->user->lastName}}</p>
 <br>

@@ -5,24 +5,30 @@
 			<table class="table table-bordered table-sm">
 				<thead class="thead-light">
 					<tr>
-						<th v-if="show_name">Nombre</th>
-						<th v-if="show_links">Acciones</th>
+						<th>Nombre</th>
+						<th>Fecha Efectiva</th>
+						<th>Fecha Terminal</th>
+						<th>Costo</th>
+						<th>Acciones</th>
 
 					</tr>
 				</thead>
-				<tr v-for="furniture in laravelData.data">
+				<tr v-for="insurance in laravelData.data">
 
-					<td v-if="show_name" ><a :href="'/furniture/' +furniture.id">{{furniture.name}}</a></td>
-					<td v-if="show_links">
-						<a :href="'/furniture/'+furniture.id">
+					<td><a :href="'/insurance/' +insurance.id">{{insurance.name}}</a></td>
+					<td>{{insurance.effectiveDate}}</td>
+					<td>{{insurance.terminationDate}}</td>
+					<td>{{insurance.cost}}</td>
+					<td>
+						<a :href="'/insurance/'+insurance.id">
 							<i class="fa fa-object-ungroup" aria-hidden="true"></i>Ver
 						</a>
 						|
-						<a :href="'/furniture/'+furniture.id+'/edit'">
+						<a :href="'/insurance/'+insurance.id+'/edit'">
 							<i style="color:#138496" class="fa fa-pencil" aria-hidden="true"></i>Modificar
 						</a>
 						|
-						<a :href="'/furniture/'+furniture.id+'/delete'">
+						<a :href="'/insurance/'+insurance.id+'/delete'">
 							<i style="color:red" class="fa fa-trash" aria-hidden="true"></i>Eliminar
 						</a>
 					</td>
@@ -42,9 +48,9 @@ export default {
 		}
 	},
 	props:{
-		show_name:{default:true},
 		page_amount:{default:10},
 		show_links:{default:true},
+		obj_id:{default:0},
 
 	},
 
@@ -63,7 +69,7 @@ export default {
 			}
 
 			// Using vue-resource as an example
-			axios.get('api/furniture/paginate/'+ self.page_amount +'?page=' + page).then(
+			axios.get('/api/artPiece/'+self.obj_id+'/insurance/paginate/'+ self.page_amount +'?page=' + page).then(
 				function(response){
 					self.laravelData = response.data;
 				});
