@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "40e094e66b74bd8872376151cf110e45",
+    "content-hash": "f544ef3be075645a08835c17f16655c9",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -1039,6 +1039,54 @@
                 "storage"
             ],
             "time": "2017-08-06T17:41:04+00:00"
+        },
+        {
+            "name": "loilo/fuse",
+            "version": "3.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Loilo/Fuse.git",
+                "reference": "da08cf3ca1c92240e9328c81f3089154c93d08fe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Loilo/Fuse/zipball/da08cf3ca1c92240e9328c81f3089154c93d08fe",
+                "reference": "da08cf3ca1c92240e9328c81f3089154c93d08fe",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Fuse\\": "src/"
+                },
+                "files": [
+                    "src/Bitap/matched_indices.php",
+                    "src/Bitap/pattern_alphabet.php",
+                    "src/Bitap/regex_search.php",
+                    "src/Bitap/score.php",
+                    "src/Bitap/search.php",
+                    "src/Helpers/deep_value.php",
+                    "src/Helpers/is_list.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Florian Reuschel",
+                    "email": "florian@loilo.de"
+                }
+            ],
+            "description": "Fuzzy search for PHP based on Bitap algorithm",
+            "time": "2017-11-21T22:25:39+00:00"
         },
         {
             "name": "monolog/monolog",
