@@ -10,6 +10,9 @@
 			<article>
 				<h1>{{$artPiece->name}}</h1>
 				<hr>
+				@isset($artPiece->multimedia()->first()->fileLocatio)n
+				<img src="{{"/storage/".$artPiece->multimedia()->first()->fileLocation}}">
+				@endisset
 				<p>
 				<b>Técnica:</b> {{$artPiece->technique}}
 				<br>
