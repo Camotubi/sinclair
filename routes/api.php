@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 
 Route::get('/exhibition/paginate/{amount}','ExhibitionController@apiPaginate');
 Route::get('/artPiece/paginate/{amount}','ArtPieceController@apiPaginate');
+Route::get('/condecoration/paginate/{amount}','CondecorationController@apiPaginate');
+Route::get('/artStyle/paginate/{amount}','ArtStyleController@apiPaginate');
 Route::get('/user/findUsername/{username}','UserController@findUsername');
 Route::get('/user/findEmail/{email}','UserController@findEmail');
 
