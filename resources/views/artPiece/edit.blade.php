@@ -38,12 +38,6 @@
 							<label for="criticalAnalisis">Analisis Crítico:</label>
 							<textarea class="form-control" name="criticalAnalisis" rows="8" cols="80">{{$artPiece->criticalAnalisis}}</textarea>
 						</div>
-						<div class ="form-check">
-							<label class="form-check-label">
-								Generar Publicación
-								<input class="form-check-input" name="genaratePublication" type="checkbox" value="true">
-							</label>
-						</div>
 						<div class="form-group col-md-6">
 							<input class="form-control" type="file" name="file" accept="*">
 						</div>
