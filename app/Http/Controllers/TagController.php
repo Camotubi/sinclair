@@ -129,4 +129,11 @@ class TagController extends Controller
 		}
 
 	}
+
+	public function apiPaginate($amount)
+	{
+
+		$tags = Tag::paginate($amount);
+		return $tags;
+	}
 }

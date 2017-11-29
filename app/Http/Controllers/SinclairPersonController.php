@@ -166,4 +166,11 @@ class SinclairPersonController extends Controller
 		}
 
 	}
+
+	public function apiPaginate($amount)
+	{
+
+		$sinclairPersons = SinclairPerson::paginate($amount);
+		return $sinclairPersons;
+	}
 }

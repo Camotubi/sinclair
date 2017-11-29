@@ -64,7 +64,8 @@ class VisitController extends Controller
 		$visit = Visit::find($id);
 		if(!is_null($visit))
 		{
-		  return view('visit.show', ['visit' => $visit]);
+			$visitor = Visitor::find($visit->visitorId);
+		  return view('visit.show', ['visit' => $visit, 'visitor' => $visitor]);
 		}
 		else
 		{
@@ -134,5 +135,12 @@ class VisitController extends Controller
 			return redirect('dashboard')->with('error' , 'Visita no encontrada');
 		}
 
+	}
+
+	public function apiPaginate($amount)
+	{
+
+		$visits = Visit::paginate($amount);
+		return $visits;
 	}
 }

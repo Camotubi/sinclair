@@ -10,6 +10,6 @@ class Visit extends Model
 
 	public function visitors()
 	{
-		return $this->belongsTo('App\Visitors', 'visitorId');
+		return $this->belongsTo('App\Visitor', 'visitorId');
     }
 }

@@ -16,6 +16,11 @@ use Illuminate\Http\Request;
 
 Route::get('/exhibition/paginate/{amount}','ExhibitionController@apiPaginate');
 Route::get('/artPiece/paginate/{amount}','ArtPieceController@apiPaginate');
+Route::get('/visitor/paginate/{amount}','VisitorController@apiPaginate');
+Route::get('/visit/paginate/{amount}','VisitController@apiPaginate');
+Route::get('/tag/paginate/{amount}','TagController@apiPaginate');
+Route::get('/sinclairPerson/paginate/{amount}','SinclairPersonController@apiPaginate');
+Route::get('/publication/paginate/{amount}','PublicationController@apiPaginate');
 Route::get('/insuranceCarrier/paginate/{amount}','InsuranceCarrierController@apiPaginate');
 Route::get('/condecoration/paginate/{amount}','CondecorationController@apiPaginate');
 Route::get('/furniture/paginate/{amount}','FurnitureController@apiPaginate');
