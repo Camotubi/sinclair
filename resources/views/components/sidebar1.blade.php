@@ -13,6 +13,9 @@
 						<li class="nav-item">
 							<a class="nav-link" href="/artPiece/create">Registrar</a>
 						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="api/artPiece/filter">Filtro</a>
+						</li>
 					</ul>
 				</div>
 			</li>
