@@ -27,3 +27,5 @@ Route::get('/artPiece/{id}/rents/paginate/{amount}','ArtPieceController@apiRentP
 Route::get('/artPiece/{id}/images/paginate/{amount}','ArtPieceController@apiImagesPaginate');
 Route::get('/artPiece/{id}/restorations/paginate/{amount}','ArtPieceController@apiRestorationPaginate');
 Route::get('/legalEntity/paginate/{amount}','LegalEntityController@apiPaginate');
+Route::get('/artPiece/filter',function(){return view('artPiece.filter');});
+Route::get('/artPiece/filter/execute','QueriesController@artPieceFilter');
