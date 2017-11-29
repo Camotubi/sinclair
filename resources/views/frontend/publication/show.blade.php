@@ -13,7 +13,7 @@
 </article>
 <br>
 <h4>Publicado por:</h4>
-<p>{{$user->firstName.' '.$user->lastName}}</p>
+<p>{{$publication->user->firstName.' '.$publication->user->lastName}}</p>
 <br>
 <h4>Etiquetas:</h4>
 @foreach($tags as $tag)

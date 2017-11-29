@@ -46,6 +46,14 @@ Route::resources([
 //	Custom routes
 //		Login
 //
+Route::get('/login',function() {
+	return view('auth.login');
+})->name('login');
+Route::get('/logout',function()
+{
+	Auth::logout();
+	return view('/');
+});
 Route::post('/login','Auth\LoginController@authenticate');
 //		Dashboard
 Route::get('/dashboard','DashboardController@index');
@@ -60,6 +68,7 @@ Route::post('/artPiece/restoration/{id}/delete','RestorationController@destroyAr
 Route::post('/furniture/restoration/{id}/delete','RestorationController@destroyFurnitureRestoration');
 Route::get('/artPiece/restoration/{id}/delete','RestorationController@showDeleteArtPieceRestorationConfirmation');
 Route::get('/furniture/restoration/{id}/delete','RestorationController@showDeleteFurnitureRestorationConfirmation');
+Route::get('/artPiece/{id}/addInsurance' ,'ArtPieceController@addInsurance');
 Route::get('/artPiece/{id}/addImage' ,'ArtPieceController@addImage');
 Route::get('/artPiece/{id}/addRent' ,'ArtPieceController@addRent');
 Route::post('/artPiece/{id}/addRent' ,'ArtPieceController@storeRent');

@@ -45,7 +45,5 @@ $artPiece = $artPieces[$a];
 </div>
 @endfor
 {{$artPieces->links()}}
-<div>
 
-	</div>
 @endsection

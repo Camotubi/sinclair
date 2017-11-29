@@ -53,8 +53,8 @@ class InsuranceController extends Controller
 		$insurance->cost = $request-> input('cost');
 		$insurance->effectiveDate = $request-> input('effectiveDate');
 		$insurance->terminationDate = $request-> input('terminationDate');
-		$insurance->artPiece()->associate($request->input ('artPieceId'));
-		$insurance->insuranceCarrier()->associate($request->input ('insuranceCarrierId'));
+		$insurance->artPiece()->associate(explode('-',$request->input('artPiece'))[0]);
+		$insurance->insuranceCarrier()->associate(explode('-',$request->input('insuranceCarrier'))[0]);
 		$insurance->save();
 		return redirect('dashboard')->with('success' , 'Seguro registrado');
 	}
