@@ -17,6 +17,8 @@ Route::get('/quienes_somos', function () {return view('frontend.quienes_somos');
 Route::get('/alfredo', function () {return view('frontend.alfredo');});
 Route::get('/f/artPiece/index', 'ArtPieceController@frontIndex');
 Route::get('/f/artPiece/show/{id}', 'ArtPieceController@frontShow');
+Route::get('/f/publication/index', 'PublicationController@frontIndex');
+Route::get('/f/publication/show/{id}', 'PublicationController@frontShow');
 Route::get('/contacto', function () {return view('frontend.contacto');});
 Route::get('/cita', function () {return view('frontend.cita');});
 
@@ -37,6 +39,7 @@ Route::resources([
 	'insuranceCarrier' => 'InsuranceCarrierController',
 	'insurance' => 'InsuranceController',
 	'sinclairPerson' => 'SinclairPersonController',
+	'tag' => 'TagController',
 	'visit' => 'VisitController',
 	'visitor' => 'VisitorController'
 ]);

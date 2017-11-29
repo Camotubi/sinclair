@@ -50,8 +50,8 @@ class CondecorationController extends Controller
 		$condecoration->name = $request-> input('name');
 		$condecoration->date = $request-> input('date');
 		$condecoration->desription = $request-> input('description');
-		$condecoration->save();
 		$condecoration->condecorator()->associate($request->input ('condecoratorId'));
+		$condecoration->save();
 		return redirect('dashboard')->with('success' , 'Condecoración registrada');
 	}
 

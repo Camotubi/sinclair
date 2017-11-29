@@ -1,7 +1,7 @@
 @extends('layouts.frontend.main')
 
 @section('title')
-	Mostrar Obra de arte
+	{{$artPiece->name}}
 @endsection
 
 @section('content')

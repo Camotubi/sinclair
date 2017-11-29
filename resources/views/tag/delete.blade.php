@@ -8,7 +8,7 @@
 @section('content')
 <div id = "deleteConfirmation">
 <div class="alert alert-danger" role="alert">
-	<p> Esta seguro que desea eliminar la etiqueta <strong>"{{$tag->name}}"</strong> del sistema?</p>
+	<p> Esta seguro que desea eliminar la etiqueta <strong>"{{$tag->tag}}"</strong> del sistema?</p>
 </div>
 <form action="/tag/{{$tag->id}}" method="post">
 	{{csrf_field()}}
