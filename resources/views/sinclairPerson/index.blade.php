@@ -5,10 +5,7 @@ Personas Relacionadas a Sinclair
 @endsection
 
 @section('content')
-@foreach( $sinclairPersons as $sinclairPerson )
-  <a href="/sinclairPersons/{{@$sinclairPerson->id}}">
-    <h4>{{ @$sinclairPerson->name }}</h4>
-  </a>
-  @endforeach
-{{$sinclairPersons->links()}}
+<div class="container">
+  <sinclair-person-table :show_name="true"></sinclair-person-table>
+</div>
 @endsection

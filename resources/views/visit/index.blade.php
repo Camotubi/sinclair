@@ -5,10 +5,7 @@ Visitas
 @endsection
 
 @section('content')
-@foreach( $visits as $visit )
-  <a href="/visit/{{@$visit->id}}">
-    <h4>{{ @$visit->name }}</h4>
-  </a>
-  @endforeach
-{{$visits->links()}}
+<div class="container">
+  <visit-table :show_name="true"></visit-table>
+</div>
 @endsection

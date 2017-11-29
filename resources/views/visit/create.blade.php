@@ -17,7 +17,7 @@
 							<input type="text" class="form-control" name="visitorId" value="" list="visitors">
 								<datalist id="visitors">
 									@foreach($visitors as $visitor)
-										<option value ="{{$visitor->id}}"> {{$visitor->name}}</option>
+										<option value ="{{$visitor->id}}"> {{$visitor->fisrtName.' '.$visitor->lastName}}</option>
 									@endforeach
 								</datalist>
 						</div>

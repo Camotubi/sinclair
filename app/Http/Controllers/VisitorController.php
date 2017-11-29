@@ -45,8 +45,8 @@ class VisitorController extends Controller
   public function store(Request $request)
   {
 	  $visitor = new Visitor;
-	  $visitor->firstname = $request-> input('firstname');
-	  $visitor->lastname = $request-> input('lastname');
+	  $visitor->fisrtName = $request-> input('firstname');
+	  $visitor->lastName = $request-> input('lastname');
 	  $visitor->nin = $request-> input('nin');
 	  $visitor->save();
 		return redirect('dashboard')->with('success' , 'Visitante registrado');
@@ -137,5 +137,12 @@ class VisitorController extends Controller
 			return redirect('dashboard')->with('error' , 'Visitante no encontrado');
 		}
 
+	}
+
+	public function apiPaginate($amount)
+	{
+
+		$visitors = Visitor::paginate($amount);
+		return $visitors;
 	}
 }

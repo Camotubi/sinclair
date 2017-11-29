@@ -5,10 +5,7 @@ Etiquetas
 @endsection
 
 @section('content')
-@foreach( $tags as $tag )
-  <a href="/tag/{{@$tag->id}}">
-    <h4>{{ @$tag->tag }}</h4>
-  </a>
-  @endforeach
-{{$tags->links()}}
+<div class="container">
+  <tag-table :show_name="true"></tag-table>
+</div>
 @endsection
