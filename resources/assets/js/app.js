@@ -18,6 +18,8 @@ window.Vue = require('vue');
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 Vue.component('art-piece-table', require('./components/ArtPieceTable.vue'));
+Vue.component('rent-table', require('./components/RentTable.vue'));
+
 Vue.component('visitor-table', require('./components/VisitorTable.vue'));
 Vue.component('visit-table', require('./components/VisitTable.vue'));
 Vue.component('tag-table', require('./components/TagTable.vue'));

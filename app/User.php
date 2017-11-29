@@ -34,7 +34,7 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-	    return	$this->types()->where('userType.id',config('app.userType.adminId'))->exists();
+	    return	$this->types()->where('user_type.id',config('app.userType.adminId'))->exists();
 
     }
 

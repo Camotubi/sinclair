@@ -53,12 +53,12 @@ class UserController extends Controller
 	    $user->save();
 	    if($request->input('adminType'))
 	    {
-		    $user->types()->attach(UserType::where('userType.id',config('app.userType.adminId'))->first());
+		    $user->types()->attach(UserType::where('user_type.id',config('app.userType.adminId'))->first());
 	    }
 	    if($request->input('editorType'))
 	    {
 
-		    $user->types()->attach(UserType::where('userType.id',config('app.userType.editorId'))->first());
+		    $user->types()->attach(UserType::where('user_type.id',config('app.userType.editorId'))->first());
 	    }
 	    return redirect('dashboard')->with('success' , 'Usuario registrado');
     }
