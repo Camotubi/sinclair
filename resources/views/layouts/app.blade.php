@@ -32,8 +32,6 @@
 	</div>
 	<footer class="footer">
 		<div class="containter">
-			El footer
-		</div>
 	</footer>
 	<script type="text/javascript" src="/js/app.js"></script>
 	</body>
