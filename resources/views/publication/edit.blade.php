@@ -15,7 +15,7 @@
 					<div class="form-row">
 						<div class="form-group col-md-6">
 							<label for="title">Título:</label>
-							<input class="form-control" type="text" name="name" value="{{$publication->name}}">
+							<input class="form-control" type="text" name="title" value="{{$publication->title}}">
 						</div>
 						<div class="form-group col-md-6">
 							<label for="body">Contenido:</label>

@@ -24,6 +24,7 @@
 					<li><a href="/quienes_somos">¿QUIÉNES SOMOS?</a></li>
 					<li><a href="/alfredo">ALFREDO SINCLAIR B.</a></li>
 					<li><a href="/f/artPiece/index">GALERIA</a></li>
+					<li><a href="/f/publication/index">PUBLICACIONES</a></li>
 					<li><a href="/cita">VISITAR MUSEO</a></li>
 					<li><a href="/contacto">CONTACTO</a></li>
 				</ul>
