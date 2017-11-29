@@ -32,10 +32,29 @@ class SinclairPersonController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function create()
+  public function create(Request $request)
   {
 		$relationshipTypes = RelationshipType::all();
-	  return view('sinclairPerson.create', ['relationshipTypes' => $relationshipTypes]);
+		$numRelationshipTypes = $request->input('numRelationshipTypes');
+		if(is_null($numRelationshipTypes))
+	  {
+		$numRelationshipTypes = 1;
+	  }
+		$modRelationshipTypeFields = $request->input('modRelationshipTypeFields');
+		if($modRelationshipTypeFields == 'p')
+	  {
+		$numRelationshipTypes++;
+	}elseif($modRelationshipTypeFields == 'm')
+	  {
+		$numRelationshipTypes--;
+	  }
+	  return view('sinclairPerson.create',
+			[
+				'numRelationshipTypes' => $numRelationshipTypes,
+				'modRelationshipTypeFields' => $modRelationshipTypeFields,
+				'relationshipTypes' => $relationshipTypes
+			]
+		);
   }
 
   /**
@@ -51,7 +70,13 @@ class SinclairPersonController extends Controller
 	  $sinclairPerson->lastname = $request-> input('lastname');
 	  $sinclairPerson->nin = $request-> input('nin');
 	  $sinclairPerson->save();
-		$sinclairPerson->relationshipType()->attach($request->input ('relationshipTypeId'));
+		$relationshipTypesString = $request->input('relationshipTypes');
+		$relationshipTypesId   = array();
+	  foreach($relationshipTypesString as $key=>$string)
+	  {
+		$relationshipTypesId[$key] = explode('-',$string)[0];
+	  }
+		$sinclairPerson->relationshipType()->attach($relationshipTypesId);
 		return redirect('dashboard')->with('success' , 'Persona registrada');
   }
 

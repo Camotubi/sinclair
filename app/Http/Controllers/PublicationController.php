@@ -8,6 +8,7 @@ use App\Http\Requests\PublicationUpdateRequest;
 
 use App\Publication;
 use App\User;
+use App\Tag;
 
 class PublicationController extends Controller
 {
@@ -34,10 +35,46 @@ class PublicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
 			$users = User::all();
-	    return view('publication.create', ['users' => $users]);
+			$tags = Tag::all();
+			$numUsers = $request->input('numUsers');
+		  $numTags = $request->input('numTags');
+		  if(is_null($numUsers))
+		  {
+			$numUsers = 1;
+		  }
+		  if(is_null($numTags))
+		  {
+			$numTags = 1;
+		  }
+		  $modUserFields = $request->input('modUserFields');
+		  $modTagFields = $request->input('modTagFields');
+		  if($modTagFields == 'p')
+		  {
+			$numTags++;
+		  }elseif($modTagFields == 'm')
+		  {
+			$numTags--;
+		  }
+		  if($modUserFields == 'p')
+		  {
+			$numUsers++;
+		  }elseif($modUserFields == 'm')
+		  {
+			$numUsers--;
+		  }
+	    return view('publication.create',
+				[
+					'numUsers' => $numUsers,
+					'numTags' => $numTags,
+					'modTagFields' => $modTagFields,
+					'modUserFields' => $modUserFields,
+					'users' => $users,
+					'tags' => $tags
+				]
+			);
     }
 
     /**
@@ -51,8 +88,22 @@ class PublicationController extends Controller
       $publication = new Publication;
       $publication->title = $request-> input('title');
       $publication->body = $request-> input('body');
-      $apublication->save();
-      $publication->user()->associate($request->input ('userId'));
+      $publication->save();
+			$usersString = $request->input('users');
+		  $tagsString = $request->input('tags');
+		  $usersId   = array();
+		  foreach($UsersString as $key=>$string)
+		  {
+			$usersId[$key] = explode('-',$string)[0];
+		  }
+
+		  $tagsId   = array();
+		  foreach($tagsString as $key=>$string)
+		  {
+			$tagsId[$key] = explode('-',$string)[0];
+		  }
+      $publication->user()->associate($usersId);
+			$publication->tags()->attach($tagsId);
 			return redirect('dashboard')->with('success' , 'Publicación registrada');
     }
 
@@ -68,8 +119,8 @@ class PublicationController extends Controller
 			if(!is_null($publication))
 			{
 				$user = User::find($publication->userId);
-			  return view('publication.show', ['publication' => $publication],
-					'user' => $user);
+			  return view('publication.show', ['publication' => $publication,
+					'user' => $user]);
 			}
 			else
 			{

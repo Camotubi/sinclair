@@ -63,10 +63,10 @@ class ExhibitionController extends Controller
 	  {
 		$numArtPieces--;
 	  }
-	  
+
 	  return view('exhibition.create',
 		  [
-		  	'numArtPieces' => $numArtPieces,
+		  'numArtPieces' => $numArtPieces,
 			'numLegalEntities' => $numLegalEntities,
 			'modLegalEntityFields' => $modLegalEntityFields,
 			'modArtPieceFields' => $modArtPieceFields,

@@ -38,12 +38,31 @@ class ArtPieceController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create()
+	public function create(Request $request)
 	{
 		$legalEntities = LegalEntity::all();
 		$artStyles = ArtStyle::all();
-		return view('artPiece.create', ['legalEntities' => $legalEntities,
-			'artStyles' => $artStyles]);
+		$numArtStyles = $request->input('numArtStyles');
+		if(is_null($numArtStyles))
+	  {
+		$numArtStyles = 1;
+	  }
+		$modArtStyleFields = $request->input('modArtStyleFields');
+		if($modArtStyleFields == 'p')
+	  {
+		$numArtStyles++;
+	  }elseif($modArtStyleFields == 'm')
+	  {
+		$numArtStyles--;
+	  }
+		return view('artPiece.create',
+			[
+				'legalEntities' => $legalEntities,
+				'artStyles' => $artStyles,
+				'numArtStyles' => $numArtStyles,
+				'modArtStyleFields' => $modArtStyleFields,
+			]
+		);
 	}
 
 	/**
@@ -65,8 +84,14 @@ class ArtPieceController extends Controller
 			$artPiece->generatePublication = true;
 		}
 		$artPiece->save();
+		$artStylesString = $request->input('artStyles');
+		$artStylesId   = array();
+	  foreach($artStylesString as $key=>$string)
+	  {
+		$artStylesId[$key] = explode('-',$string)[0];
+	  }
 		$artPiece->donator()->associate($request->input ('donatorId'));
-		$artPiece->artStyles()->attach($request->input('artStyleId'));
+		$artPiece->artStyles()->attach($artStylesId);
 		return redirect('dashboard')->with('success' , 'Obra registrada');
 	}
 
