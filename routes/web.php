@@ -64,7 +64,6 @@ Route::get('/artPiece/{id}/addImage' ,'ArtPieceController@addImage');
 Route::get('/artPiece/{id}/addRent' ,'ArtPieceController@addRent');
 Route::post('/artPiece/{id}/addRent' ,'ArtPieceController@storeRent');
 Route::post('/artPiece/{id}/addImage' ,'ArtPieceController@storeImage');
-Route::get('/artPiece/filter/execute','QueriesController@artPieceFilter');
 //		ArtStyle
 //
 Route::get('artStyle/{id}/delete','ArtStyleController@showDeleteConfirmation');
@@ -109,5 +108,8 @@ Route::get('visit/{id}/delete','VisitController@showDeleteConfirmation');
 //
 Route::get('visitor/{id}/delete','VisitorController@showDeleteConfirmation');
 
+//		stats
+//
+Route::get('stats','statsController@statPage');
 
 

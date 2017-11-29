@@ -251,6 +251,9 @@ class ArtPieceController extends Controller
 
 	public function frontShow($id)
 	{
+		$artPiece = ArtPiece::find($id);
+		$artPiece->quantityOfTraffic = $artPiece->quantityOfTraffic +1;
+		$artPiece->save();
 		return view('frontend.artPiece.show',['artPiece'=>$this->getArtPiece($id)]);
 	}
 

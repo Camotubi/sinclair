@@ -65,6 +65,418 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__(46)
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction) {
+  isProduction = _isProduction
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -374,418 +786,6 @@ module.exports = {
 
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function(useSourceMap) {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		return this.map(function (item) {
-			var content = cssWithMappingToString(item, useSourceMap);
-			if(item[2]) {
-				return "@media " + item[2] + "{" + content + "}";
-			} else {
-				return content;
-			}
-		}).join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-function cssWithMappingToString(item, useSourceMap) {
-	var content = item[1] || '';
-	var cssMapping = item[3];
-	if (!cssMapping) {
-		return content;
-	}
-
-	if (useSourceMap && typeof btoa === 'function') {
-		var sourceMapping = toComment(cssMapping);
-		var sourceURLs = cssMapping.sources.map(function (source) {
-			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
-		});
-
-		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
-	}
-
-	return [content].join('\n');
-}
-
-// Adapted from convert-source-map (MIT)
-function toComment(sourceMap) {
-	// eslint-disable-next-line no-undef
-	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
-	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
-
-	return '/*# ' + data + ' */';
-}
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*
-  MIT License http://www.opensource.org/licenses/mit-license.php
-  Author Tobias Koppers @sokra
-  Modified by Evan You @yyx990803
-*/
-
-var hasDocument = typeof document !== 'undefined'
-
-if (typeof DEBUG !== 'undefined' && DEBUG) {
-  if (!hasDocument) {
-    throw new Error(
-    'vue-style-loader cannot be used in a non-browser environment. ' +
-    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
-  ) }
-}
-
-var listToStyles = __webpack_require__(46)
-
-/*
-type StyleObject = {
-  id: number;
-  parts: Array<StyleObjectPart>
-}
-
-type StyleObjectPart = {
-  css: string;
-  media: string;
-  sourceMap: ?string
-}
-*/
-
-var stylesInDom = {/*
-  [id: number]: {
-    id: number,
-    refs: number,
-    parts: Array<(obj?: StyleObjectPart) => void>
-  }
-*/}
-
-var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
-var singletonElement = null
-var singletonCounter = 0
-var isProduction = false
-var noop = function () {}
-
-// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-// tags it will allow on a page
-var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
-
-module.exports = function (parentId, list, _isProduction) {
-  isProduction = _isProduction
-
-  var styles = listToStyles(parentId, list)
-  addStylesToDom(styles)
-
-  return function update (newList) {
-    var mayRemove = []
-    for (var i = 0; i < styles.length; i++) {
-      var item = styles[i]
-      var domStyle = stylesInDom[item.id]
-      domStyle.refs--
-      mayRemove.push(domStyle)
-    }
-    if (newList) {
-      styles = listToStyles(parentId, newList)
-      addStylesToDom(styles)
-    } else {
-      styles = []
-    }
-    for (var i = 0; i < mayRemove.length; i++) {
-      var domStyle = mayRemove[i]
-      if (domStyle.refs === 0) {
-        for (var j = 0; j < domStyle.parts.length; j++) {
-          domStyle.parts[j]()
-        }
-        delete stylesInDom[domStyle.id]
-      }
-    }
-  }
-}
-
-function addStylesToDom (styles /* Array<StyleObject> */) {
-  for (var i = 0; i < styles.length; i++) {
-    var item = styles[i]
-    var domStyle = stylesInDom[item.id]
-    if (domStyle) {
-      domStyle.refs++
-      for (var j = 0; j < domStyle.parts.length; j++) {
-        domStyle.parts[j](item.parts[j])
-      }
-      for (; j < item.parts.length; j++) {
-        domStyle.parts.push(addStyle(item.parts[j]))
-      }
-      if (domStyle.parts.length > item.parts.length) {
-        domStyle.parts.length = item.parts.length
-      }
-    } else {
-      var parts = []
-      for (var j = 0; j < item.parts.length; j++) {
-        parts.push(addStyle(item.parts[j]))
-      }
-      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
-    }
-  }
-}
-
-function createStyleElement () {
-  var styleElement = document.createElement('style')
-  styleElement.type = 'text/css'
-  head.appendChild(styleElement)
-  return styleElement
-}
-
-function addStyle (obj /* StyleObjectPart */) {
-  var update, remove
-  var styleElement = document.querySelector('style[data-vue-ssr-id~="' + obj.id + '"]')
-
-  if (styleElement) {
-    if (isProduction) {
-      // has SSR styles and in production mode.
-      // simply do nothing.
-      return noop
-    } else {
-      // has SSR styles but in dev mode.
-      // for some reason Chrome can't handle source map in server-rendered
-      // style tags - source maps in <style> only works if the style tag is
-      // created and inserted dynamically. So we remove the server rendered
-      // styles and inject new ones.
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  if (isOldIE) {
-    // use singleton mode for IE9.
-    var styleIndex = singletonCounter++
-    styleElement = singletonElement || (singletonElement = createStyleElement())
-    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
-    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
-  } else {
-    // use multi-style-tag mode in all other cases
-    styleElement = createStyleElement()
-    update = applyToTag.bind(null, styleElement)
-    remove = function () {
-      styleElement.parentNode.removeChild(styleElement)
-    }
-  }
-
-  update(obj)
-
-  return function updateStyle (newObj /* StyleObjectPart */) {
-    if (newObj) {
-      if (newObj.css === obj.css &&
-          newObj.media === obj.media &&
-          newObj.sourceMap === obj.sourceMap) {
-        return
-      }
-      update(obj = newObj)
-    } else {
-      remove()
-    }
-  }
-}
-
-var replaceText = (function () {
-  var textStore = []
-
-  return function (index, replacement) {
-    textStore[index] = replacement
-    return textStore.filter(Boolean).join('\n')
-  }
-})()
-
-function applyToSingletonTag (styleElement, index, remove, obj) {
-  var css = remove ? '' : obj.css
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = replaceText(index, css)
-  } else {
-    var cssNode = document.createTextNode(css)
-    var childNodes = styleElement.childNodes
-    if (childNodes[index]) styleElement.removeChild(childNodes[index])
-    if (childNodes.length) {
-      styleElement.insertBefore(cssNode, childNodes[index])
-    } else {
-      styleElement.appendChild(cssNode)
-    }
-  }
-}
-
-function applyToTag (styleElement, obj) {
-  var css = obj.css
-  var media = obj.media
-  var sourceMap = obj.sourceMap
-
-  if (media) {
-    styleElement.setAttribute('media', media)
-  }
-
-  if (sourceMap) {
-    // https://developer.chrome.com/devtools/docs/javascript-debugging
-    // this makes source maps inside style tags work properly in Chrome
-    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
-    // http://stackoverflow.com/a/26603875
-    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
-  }
-
-  if (styleElement.styleSheet) {
-    styleElement.styleSheet.cssText = css
-  } else {
-    while (styleElement.firstChild) {
-      styleElement.removeChild(styleElement.firstChild)
-    }
-    styleElement.appendChild(document.createTextNode(css))
-  }
-}
-
-
-/***/ }),
 /* 4 */
 /***/ (function(module, exports) {
 
@@ -819,7 +819,7 @@ module.exports = g;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 var normalizeHeaderName = __webpack_require__(24);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -1127,7 +1127,7 @@ process.umask = function() { return 0; };
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 var settle = __webpack_require__(25);
 var buildURL = __webpack_require__(27);
 var parseHeaders = __webpack_require__(28);
@@ -1375,7 +1375,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(13);
-module.exports = __webpack_require__(72);
+module.exports = __webpack_require__(117);
 
 
 /***/ }),
@@ -1401,20 +1401,20 @@ window.Vue = __webpack_require__(39);
 
 Vue.component('pagination', __webpack_require__(42));
 Vue.component('art-piece-table', __webpack_require__(43));
-Vue.component('visitor-table', __webpack_require__(121));
-Vue.component('visit-table', __webpack_require__(116));
-Vue.component('tag-table', __webpack_require__(111));
-Vue.component('sinclair-person-table', __webpack_require__(106));
-Vue.component('exhibition-table', __webpack_require__(49));
-Vue.component('art-style-table', __webpack_require__(81));
-Vue.component('condecoration-table', __webpack_require__(86));
-Vue.component('furniture-table', __webpack_require__(91));
-Vue.component('publication-table', __webpack_require__(101));
-Vue.component('insurance-carrier-table', __webpack_require__(96));
-Vue.component('legal-entity-table', __webpack_require__(54));
-Vue.component('restorations-table', __webpack_require__(59));
-Vue.component('images-table', __webpack_require__(64));
-Vue.component('user-create-form', __webpack_require__(69));
+Vue.component('visitor-table', __webpack_require__(49));
+Vue.component('visit-table', __webpack_require__(54));
+Vue.component('tag-table', __webpack_require__(59));
+Vue.component('sinclair-person-table', __webpack_require__(64));
+Vue.component('exhibition-table', __webpack_require__(69));
+Vue.component('art-style-table', __webpack_require__(74));
+Vue.component('condecoration-table', __webpack_require__(79));
+Vue.component('furniture-table', __webpack_require__(84));
+Vue.component('publication-table', __webpack_require__(89));
+Vue.component('insurance-carrier-table', __webpack_require__(94));
+Vue.component('legal-entity-table', __webpack_require__(99));
+Vue.component('restorations-table', __webpack_require__(104));
+Vue.component('images-table', __webpack_require__(109));
+Vue.component('user-create-form', __webpack_require__(114));
 var app = new Vue({ el: '#app' });
 
 /***/ }),
@@ -35167,7 +35167,7 @@ module.exports = __webpack_require__(21);
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 var bind = __webpack_require__(6);
 var Axios = __webpack_require__(23);
 var defaults = __webpack_require__(5);
@@ -35254,7 +35254,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(5);
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 var InterceptorManager = __webpack_require__(32);
 var dispatchRequest = __webpack_require__(33);
 var isAbsoluteURL = __webpack_require__(35);
@@ -35346,7 +35346,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -35426,7 +35426,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -35501,7 +35501,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 
 /**
  * Parse headers into an object
@@ -35545,7 +35545,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -35663,7 +35663,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -35723,7 +35723,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -35782,7 +35782,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 var transformData = __webpack_require__(34);
 var isCancel = __webpack_require__(10);
 var defaults = __webpack_require__(5);
@@ -35868,7 +35868,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(0);
+var utils = __webpack_require__(3);
 
 /**
  * Transform the data for a request or a response
@@ -46927,7 +46927,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(44)
 }
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(47)
 /* template */
@@ -46981,7 +46981,7 @@ var content = __webpack_require__(45);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("d77d98bc", content, false);
+var update = __webpack_require__(2)("d77d98bc", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -47000,7 +47000,7 @@ if(false) {
 /* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(1)(undefined);
 // imports
 
 
@@ -47259,11 +47259,1135 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(50)
 }
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(52)
 /* template */
 var __vue_template__ = __webpack_require__(53)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/VisitorTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-681162bd", Component.options)
+  } else {
+    hotAPI.reload("data-v-681162bd", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(51);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("0660eeb0", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-681162bd\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./VisitorTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-681162bd\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./VisitorTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+			laravelData: {}
+		};
+	},
+
+	props: {
+		show_firstName: { default: true },
+		show_lastName: { default: true },
+		show_nin: { default: true },
+		page_amount: { default: 10 },
+		show_links: { default: true }
+
+	},
+
+	created: function created() {
+		// Fetch initial results
+		this.getResults();
+	},
+
+
+	methods: {
+		// Our method to GET results from a Laravel endpoint
+		getResults: function getResults(page) {
+			var self = this;
+			if (typeof page === 'undefined') {
+				page = 1;
+			}
+
+			// Using vue-resource as an example
+			axios.get('api/visitor/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+				self.laravelData = response.data;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("ul", [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-sm" },
+          [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _vm.show_firstName ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_lastName ? _c("th", [_vm._v("Apellido")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_nin ? _c("th", [_vm._v("Cédula")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.laravelData.data, function(visitor) {
+              return _c("tr", [
+                _vm.show_firstName
+                  ? _c("td", {
+                      domProps: { textContent: _vm._s(visitor.fisrtName) }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_lastName
+                  ? _c("td", {
+                      domProps: { textContent: _vm._s(visitor.lastName) }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_nin
+                  ? _c("td", { domProps: { textContent: _vm._s(visitor.nin) } })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c("a", { attrs: { href: "/visitor/" + visitor.id } }, [
+                        _c("i", {
+                          staticClass: "fa fa-object-ungroup",
+                          attrs: { "aria-hidden": "true" }
+                        }),
+                        _vm._v("Ver\n\t\t\t\t\t")
+                      ]),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        { attrs: { href: "/visitor/" + visitor.id + "/edit" } },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#138496" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Modificar\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "/visitor/" + visitor.id + "/delete" }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Eliminar\n\t\t\t\t\t")
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { data: _vm.laravelData },
+        on: { "pagination-change-page": _vm.getResults }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-681162bd", module.exports)
+  }
+}
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(55)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(57)
+/* template */
+var __vue_template__ = __webpack_require__(58)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/VisitTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7d01b7c0", Component.options)
+  } else {
+    hotAPI.reload("data-v-7d01b7c0", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(56);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("45e67855", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7d01b7c0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./VisitTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7d01b7c0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./VisitTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+			laravelData: {}
+		};
+	},
+
+	props: {
+		show_date: { default: true },
+		page_amount: { default: 10 },
+		show_links: { default: true }
+
+	},
+
+	created: function created() {
+		// Fetch initial results
+		this.getResults();
+	},
+
+
+	methods: {
+		// Our method to GET results from a Laravel endpoint
+		getResults: function getResults(page) {
+			var self = this;
+			if (typeof page === 'undefined') {
+				page = 1;
+			}
+
+			// Using vue-resource as an example
+			axios.get('api/visit/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+				self.laravelData = response.data;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("ul", [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-sm" },
+          [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _vm.show_date ? _c("th", [_vm._v("Fecha")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.laravelData.data, function(visit) {
+              return _c("tr", [
+                _vm.show_date
+                  ? _c("td", [
+                      _c("a", { attrs: { href: "/visit/" + visit.id } }, [
+                        _vm._v(_vm._s(visit.date))
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c("a", { attrs: { href: "/visit/" + visit.id } }, [
+                        _c("i", {
+                          staticClass: "fa fa-object-ungroup",
+                          attrs: { "aria-hidden": "true" }
+                        }),
+                        _vm._v("Ver\n\t\t\t\t\t")
+                      ]),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        { attrs: { href: "/visit/" + visit.id + "/edit" } },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#138496" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Modificar\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        { attrs: { href: "/visit/" + visit.id + "/delete" } },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Eliminar\n\t\t\t\t\t")
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { data: _vm.laravelData },
+        on: { "pagination-change-page": _vm.getResults }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7d01b7c0", module.exports)
+  }
+}
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(60)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(62)
+/* template */
+var __vue_template__ = __webpack_require__(63)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/TagTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-30d78391", Component.options)
+  } else {
+    hotAPI.reload("data-v-30d78391", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(61);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("cecba3de", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-30d78391\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./TagTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-30d78391\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./TagTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+			laravelData: {}
+		};
+	},
+
+	props: {
+		show_tag: { default: true },
+		page_amount: { default: 10 },
+		show_links: { default: true }
+
+	},
+
+	created: function created() {
+		// Fetch initial results
+		this.getResults();
+	},
+
+
+	methods: {
+		// Our method to GET results from a Laravel endpoint
+		getResults: function getResults(page) {
+			var self = this;
+			if (typeof page === 'undefined') {
+				page = 1;
+			}
+
+			// Using vue-resource as an example
+			axios.get('api/tag/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+				self.laravelData = response.data;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("ul", [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-sm" },
+          [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _vm.show_tag ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.laravelData.data, function(tag) {
+              return _c("tr", [
+                _vm.show_tag ? _c("td", [_vm._v(_vm._s(tag.tag))]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c("a", { attrs: { href: "/tag/" + tag.id } }, [
+                        _c("i", {
+                          staticClass: "fa fa-object-ungroup",
+                          attrs: { "aria-hidden": "true" }
+                        }),
+                        _vm._v("Ver\n\t\t\t\t\t")
+                      ]),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c("a", { attrs: { href: "/tag/" + tag.id + "/edit" } }, [
+                        _c("i", {
+                          staticClass: "fa fa-pencil",
+                          staticStyle: { color: "#138496" },
+                          attrs: { "aria-hidden": "true" }
+                        }),
+                        _vm._v("Modificar\n\t\t\t\t\t")
+                      ]),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        { attrs: { href: "/tag/" + tag.id + "/delete" } },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Eliminar\n\t\t\t\t\t")
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { data: _vm.laravelData },
+        on: { "pagination-change-page": _vm.getResults }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-30d78391", module.exports)
+  }
+}
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(65)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(67)
+/* template */
+var __vue_template__ = __webpack_require__(68)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/SinclairPersonTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-76030a23", Component.options)
+  } else {
+    hotAPI.reload("data-v-76030a23", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 65 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(66);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("a9d4e560", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-76030a23\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./SinclairPersonTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-76030a23\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./SinclairPersonTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 66 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 67 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+			laravelData: {}
+		};
+	},
+
+	props: {
+		show_first_name: { default: true },
+		show_last_name: { default: true },
+		show_nin: { default: true },
+		page_amount: { default: 10 },
+		show_links: { default: true }
+
+	},
+
+	created: function created() {
+		// Fetch initial results
+		this.getResults();
+	},
+
+
+	methods: {
+		// Our method to GET results from a Laravel endpoint
+		getResults: function getResults(page) {
+			var self = this;
+			if (typeof page === 'undefined') {
+				page = 1;
+			}
+
+			// Using vue-resource as an example
+			axios.get('api/sinclairPerson/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+				self.laravelData = response.data;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 68 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("ul", [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-sm" },
+          [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _vm.show_first_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_last_name ? _c("th", [_vm._v("Apellido")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_nin ? _c("th", [_vm._v("Cédula")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.laravelData.data, function(sinclairPerson) {
+              return _c("tr", [
+                _vm.show_first_name
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/sinclairPerson/" + sinclairPerson.id
+                          }
+                        },
+                        [_vm._v(_vm._s(sinclairPerson.firstName))]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_last_name
+                  ? _c("td", {
+                      domProps: { textContent: _vm._s(sinclairPerson.lastName) }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_nin
+                  ? _c("td", {
+                      domProps: { textContent: _vm._s(sinclairPerson.nin) }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/sinclairPerson/" + sinclairPerson.id
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-object-ungroup",
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Ver\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href:
+                              "/sinclairPerson/" + sinclairPerson.id + "/edit"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#138496" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Modificar\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href:
+                              "/sinclairPerson/" + sinclairPerson.id + "/delete"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Eliminar\n\t\t\t\t\t")
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { data: _vm.laravelData },
+        on: { "pagination-change-page": _vm.getResults }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-76030a23", module.exports)
+  }
+}
+
+/***/ }),
+/* 69 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(70)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(72)
+/* template */
+var __vue_template__ = __webpack_require__(73)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -47303,17 +48427,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 50 */
+/* 70 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(51);
+var content = __webpack_require__(71);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("c1fe4bf2", content, false);
+var update = __webpack_require__(2)("c1fe4bf2", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -47329,10 +48453,10 @@ if(false) {
 }
 
 /***/ }),
-/* 51 */
+/* 71 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(1)(undefined);
 // imports
 
 
@@ -47343,7 +48467,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 52 */
+/* 72 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47426,7 +48550,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 53 */
+/* 73 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -47553,19 +48677,1458 @@ if (false) {
 }
 
 /***/ }),
-/* 54 */
+/* 74 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(55)
+  __webpack_require__(75)
 }
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(57)
+var __vue_script__ = __webpack_require__(77)
 /* template */
-var __vue_template__ = __webpack_require__(58)
+var __vue_template__ = __webpack_require__(78)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ArtStyleTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1be6e31a", Component.options)
+  } else {
+    hotAPI.reload("data-v-1be6e31a", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 75 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(76);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("2fd25a2c", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1be6e31a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./ArtStyleTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1be6e31a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./ArtStyleTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 76 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 77 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+			laravelData: {}
+		};
+	},
+
+	props: {
+		show_name: { default: true },
+		show_description: { default: true },
+		page_amount: { default: 10 },
+		show_links: { default: true }
+
+	},
+
+	created: function created() {
+		// Fetch initial results
+		this.getResults();
+	},
+
+
+	methods: {
+		// Our method to GET results from a Laravel endpoint
+		getResults: function getResults(page) {
+			var self = this;
+			if (typeof page === 'undefined') {
+				page = 1;
+			}
+
+			// Using vue-resource as an example
+			axios.get('api/artStyle/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+				self.laravelData = response.data;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 78 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("ul", [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-sm" },
+          [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _vm.show_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.laravelData.data, function(artStyle) {
+              return _c("tr", [
+                _vm.show_name
+                  ? _c("td", [
+                      _c("a", { attrs: { href: "/artStyle/" + artStyle.id } }, [
+                        _vm._v(_vm._s(artStyle.name))
+                      ])
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c("a", { attrs: { href: "/artStyle/" + artStyle.id } }, [
+                        _c("i", {
+                          staticClass: "fa fa-object-ungroup",
+                          attrs: { "aria-hidden": "true" }
+                        }),
+                        _vm._v("Ver\n\t\t\t\t\t")
+                      ]),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "/artStyle/" + artStyle.id + "/edit" }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#138496" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Modificar\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/artStyle/" + artStyle.id + "/delete"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Eliminar\n\t\t\t\t\t")
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { data: _vm.laravelData },
+        on: { "pagination-change-page": _vm.getResults }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-1be6e31a", module.exports)
+  }
+}
+
+/***/ }),
+/* 79 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(80)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(82)
+/* template */
+var __vue_template__ = __webpack_require__(83)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/CondecorationTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-74be578e", Component.options)
+  } else {
+    hotAPI.reload("data-v-74be578e", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 80 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(81);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("f5191d06", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-74be578e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./CondecorationTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-74be578e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./CondecorationTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 81 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 82 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+			laravelData: {}
+		};
+	},
+
+	props: {
+		show_name: { default: true },
+		show_date: { default: true },
+		page_amount: { default: 10 },
+		show_links: { default: true }
+
+	},
+
+	created: function created() {
+		// Fetch initial results
+		this.getResults();
+	},
+
+
+	methods: {
+		// Our method to GET results from a Laravel endpoint
+		getResults: function getResults(page) {
+			var self = this;
+			if (typeof page === 'undefined') {
+				page = 1;
+			}
+
+			// Using vue-resource as an example
+			axios.get('api/condecoration/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+				self.laravelData = response.data;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 83 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("ul", [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-sm" },
+          [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _vm.show_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_date ? _c("th", [_vm._v("Fecha")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.laravelData.data, function(condecoration) {
+              return _c("tr", [
+                _vm.show_name
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "/condecoration/" + condecoration.id }
+                        },
+                        [_vm._v(_vm._s(condecoration.name))]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_date
+                  ? _c("td", {
+                      domProps: { textContent: _vm._s(condecoration.technique) }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "/condecoration/" + condecoration.id }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-object-ungroup",
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Ver\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/condecoration/" + condecoration.id + "/edit"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#138496" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Modificar\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href:
+                              "/condecoration/" + condecoration.id + "/delete"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Eliminar\n\t\t\t\t\t")
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { data: _vm.laravelData },
+        on: { "pagination-change-page": _vm.getResults }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-74be578e", module.exports)
+  }
+}
+
+/***/ }),
+/* 84 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(85)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(87)
+/* template */
+var __vue_template__ = __webpack_require__(88)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/FurnitureTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e2fd030e", Component.options)
+  } else {
+    hotAPI.reload("data-v-e2fd030e", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 85 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(86);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("c46fd9ee", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-e2fd030e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./FurnitureTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-e2fd030e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./FurnitureTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 86 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 87 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+			laravelData: {}
+		};
+	},
+
+	props: {
+		show_name: { default: true },
+		page_amount: { default: 10 },
+		show_links: { default: true }
+
+	},
+
+	created: function created() {
+		// Fetch initial results
+		this.getResults();
+	},
+
+
+	methods: {
+		// Our method to GET results from a Laravel endpoint
+		getResults: function getResults(page) {
+			var self = this;
+			if (typeof page === 'undefined') {
+				page = 1;
+			}
+
+			// Using vue-resource as an example
+			axios.get('api/furniture/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+				self.laravelData = response.data;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("ul", [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-sm" },
+          [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _vm.show_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.laravelData.data, function(furniture) {
+              return _c("tr", [
+                _vm.show_name
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        { attrs: { href: "/furniture/" + furniture.id } },
+                        [_vm._v(_vm._s(furniture.name))]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        { attrs: { href: "/furniture/" + furniture.id } },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-object-ungroup",
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Ver\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/furniture/" + furniture.id + "/edit"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#138496" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Modificar\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/furniture/" + furniture.id + "/delete"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Eliminar\n\t\t\t\t\t")
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { data: _vm.laravelData },
+        on: { "pagination-change-page": _vm.getResults }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e2fd030e", module.exports)
+  }
+}
+
+/***/ }),
+/* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(90)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(92)
+/* template */
+var __vue_template__ = __webpack_require__(93)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/PublicationTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-6f481f82", Component.options)
+  } else {
+    hotAPI.reload("data-v-6f481f82", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(91);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("22cc0e63", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6f481f82\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./PublicationTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6f481f82\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./PublicationTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 92 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+			laravelData: {}
+		};
+	},
+
+	props: {
+		show_title: { default: true },
+		page_amount: { default: 10 },
+		show_links: { default: true }
+
+	},
+
+	created: function created() {
+		// Fetch initial results
+		this.getResults();
+	},
+
+
+	methods: {
+		// Our method to GET results from a Laravel endpoint
+		getResults: function getResults(page) {
+			var self = this;
+			if (typeof page === 'undefined') {
+				page = 1;
+			}
+
+			// Using vue-resource as an example
+			axios.get('api/publication/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+				self.laravelData = response.data;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 93 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("ul", [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-sm" },
+          [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _vm.show_title ? _c("th", [_vm._v("Titulo")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.laravelData.data, function(publication) {
+              return _c("tr", [
+                _vm.show_title
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        { attrs: { href: "/publication/" + publication.id } },
+                        [_vm._v(_vm._s(publication.title))]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        { attrs: { href: "/publication/" + publication.id } },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-object-ungroup",
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Ver\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/publication/" + publication.id + "/edit"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#138496" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Modificar\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/publication/" + publication.id + "/delete"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Eliminar\n\t\t\t\t\t")
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { data: _vm.laravelData },
+        on: { "pagination-change-page": _vm.getResults }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-6f481f82", module.exports)
+  }
+}
+
+/***/ }),
+/* 94 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(95)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(97)
+/* template */
+var __vue_template__ = __webpack_require__(98)
+/* template functional */
+  var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/InsuranceCarrierTable.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-3f2abbc3", Component.options)
+  } else {
+    hotAPI.reload("data-v-3f2abbc3", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 95 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(96);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(2)("22b89464", content, false);
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3f2abbc3\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./InsuranceCarrierTable.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3f2abbc3\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./InsuranceCarrierTable.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 96 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(1)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 97 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			// Our data object that holds the Laravel paginator data
+			laravelData: {}
+		};
+	},
+
+	props: {
+		show_name: { default: true },
+		show_email: { default: true },
+		page_amount: { default: 10 },
+		show_links: { default: true }
+
+	},
+
+	created: function created() {
+		// Fetch initial results
+		this.getResults();
+	},
+
+
+	methods: {
+		// Our method to GET results from a Laravel endpoint
+		getResults: function getResults(page) {
+			var self = this;
+			if (typeof page === 'undefined') {
+				page = 1;
+			}
+
+			// Using vue-resource as an example
+			axios.get('api/insuranceCarrier/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
+				self.laravelData = response.data;
+			});
+		}
+	}
+});
+
+/***/ }),
+/* 98 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("ul", [
+        _c(
+          "table",
+          { staticClass: "table table-bordered table-sm" },
+          [
+            _c("thead", { staticClass: "thead-light" }, [
+              _c("tr", [
+                _vm.show_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_email ? _c("th", [_vm._v("Email")]) : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
+              ])
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.laravelData.data, function(insuranceCarrier) {
+              return _c("tr", [
+                _vm.show_name
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/insuranceCarrier/" + insuranceCarrier.id
+                          }
+                        },
+                        [_vm._v(_vm._s(insuranceCarrier.name))]
+                      )
+                    ])
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_email
+                  ? _c("td", {
+                      domProps: { textContent: _vm._s(insuranceCarrier.email) }
+                    })
+                  : _vm._e(),
+                _vm._v(" "),
+                _vm.show_links
+                  ? _c("td", [
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href: "/insuranceCarrier/" + insuranceCarrier.id
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-object-ungroup",
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Ver\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href:
+                              "/insuranceCarrier/" +
+                              insuranceCarrier.id +
+                              "/edit"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-pencil",
+                            staticStyle: { color: "#138496" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Modificar\n\t\t\t\t\t")
+                        ]
+                      ),
+                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
+                      _c(
+                        "a",
+                        {
+                          attrs: {
+                            href:
+                              "/insuranceCarrier/" +
+                              insuranceCarrier.id +
+                              "/delete"
+                          }
+                        },
+                        [
+                          _c("i", {
+                            staticClass: "fa fa-trash",
+                            staticStyle: { color: "red" },
+                            attrs: { "aria-hidden": "true" }
+                          }),
+                          _vm._v("Eliminar\n\t\t\t\t\t")
+                        ]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            })
+          ],
+          2
+        )
+      ]),
+      _vm._v(" "),
+      _c("pagination", {
+        attrs: { data: _vm.laravelData },
+        on: { "pagination-change-page": _vm.getResults }
+      })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-3f2abbc3", module.exports)
+  }
+}
+
+/***/ }),
+/* 99 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(100)
+}
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(102)
+/* template */
+var __vue_template__ = __webpack_require__(103)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -47605,17 +50168,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 55 */
+/* 100 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(56);
+var content = __webpack_require__(101);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("0b84c46c", content, false);
+var update = __webpack_require__(2)("0b84c46c", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -47631,10 +50194,10 @@ if(false) {
 }
 
 /***/ }),
-/* 56 */
+/* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(1)(undefined);
 // imports
 
 
@@ -47645,7 +50208,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 57 */
+/* 102 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -47730,7 +50293,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 58 */
+/* 103 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -47857,19 +50420,19 @@ if (false) {
 }
 
 /***/ }),
-/* 59 */
+/* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(60)
+  __webpack_require__(105)
 }
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(62)
+var __vue_script__ = __webpack_require__(107)
 /* template */
-var __vue_template__ = __webpack_require__(63)
+var __vue_template__ = __webpack_require__(108)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -47909,17 +50472,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 60 */
+/* 105 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(61);
+var content = __webpack_require__(106);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("66a26bdd", content, false);
+var update = __webpack_require__(2)("66a26bdd", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -47935,10 +50498,10 @@ if(false) {
 }
 
 /***/ }),
-/* 61 */
+/* 106 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(1)(undefined);
 // imports
 
 
@@ -47949,7 +50512,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 62 */
+/* 107 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48033,7 +50596,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 63 */
+/* 108 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -48182,19 +50745,19 @@ if (false) {
 }
 
 /***/ }),
-/* 64 */
+/* 109 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(65)
+  __webpack_require__(110)
 }
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(67)
+var __vue_script__ = __webpack_require__(112)
 /* template */
-var __vue_template__ = __webpack_require__(68)
+var __vue_template__ = __webpack_require__(113)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -48234,17 +50797,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 65 */
+/* 110 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(66);
+var content = __webpack_require__(111);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(3)("4279d3ff", content, false);
+var update = __webpack_require__(2)("4279d3ff", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -48260,10 +50823,10 @@ if(false) {
 }
 
 /***/ }),
-/* 66 */
+/* 111 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(2)(undefined);
+exports = module.exports = __webpack_require__(1)(undefined);
 // imports
 
 
@@ -48274,7 +50837,7 @@ exports.push([module.i, "\nimg\n{\n\tmax-width:128px;\n\theight:auto;\n}\ntd\n{\
 
 
 /***/ }),
-/* 67 */
+/* 112 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48354,7 +50917,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 68 */
+/* 113 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -48465,15 +51028,15 @@ if (false) {
 }
 
 /***/ }),
-/* 69 */
+/* 114 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(1)
+var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(70)
+var __vue_script__ = __webpack_require__(115)
 /* template */
-var __vue_template__ = __webpack_require__(71)
+var __vue_template__ = __webpack_require__(116)
 /* template functional */
   var __vue_template_functional__ = false
 /* styles */
@@ -48513,7 +51076,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 70 */
+/* 115 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -48618,7 +51181,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 71 */
+/* 116 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -48822,2581 +51385,10 @@ if (false) {
 }
 
 /***/ }),
-/* 72 */
+/* 117 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 73 */,
-/* 74 */,
-/* 75 */,
-/* 76 */,
-/* 77 */,
-/* 78 */,
-/* 79 */,
-/* 80 */,
-/* 81 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(82)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(84)
-/* template */
-var __vue_template__ = __webpack_require__(85)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/ArtStyleTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1be6e31a", Component.options)
-  } else {
-    hotAPI.reload("data-v-1be6e31a", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 82 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(83);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("2fd25a2c", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1be6e31a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./ArtStyleTable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-1be6e31a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./ArtStyleTable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 83 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 84 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			// Our data object that holds the Laravel paginator data
-			laravelData: {}
-		};
-	},
-
-	props: {
-		show_name: { default: true },
-		show_description: { default: true },
-		page_amount: { default: 10 },
-		show_links: { default: true }
-
-	},
-
-	created: function created() {
-		// Fetch initial results
-		this.getResults();
-	},
-
-
-	methods: {
-		// Our method to GET results from a Laravel endpoint
-		getResults: function getResults(page) {
-			var self = this;
-			if (typeof page === 'undefined') {
-				page = 1;
-			}
-
-			// Using vue-resource as an example
-			axios.get('api/artStyle/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
-				self.laravelData = response.data;
-			});
-		}
-	}
-});
-
-/***/ }),
-/* 85 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("ul", [
-        _c(
-          "table",
-          { staticClass: "table table-bordered table-sm" },
-          [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _vm.show_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.laravelData.data, function(artStyle) {
-              return _c("tr", [
-                _vm.show_name
-                  ? _c("td", [
-                      _c("a", { attrs: { href: "/artStyle/" + artStyle.id } }, [
-                        _vm._v(_vm._s(artStyle.name))
-                      ])
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links
-                  ? _c("td", [
-                      _c("a", { attrs: { href: "/artStyle/" + artStyle.id } }, [
-                        _c("i", {
-                          staticClass: "fa fa-object-ungroup",
-                          attrs: { "aria-hidden": "true" }
-                        }),
-                        _vm._v("Ver\n\t\t\t\t\t")
-                      ]),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "/artStyle/" + artStyle.id + "/edit" }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#138496" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Modificar\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "/artStyle/" + artStyle.id + "/delete"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-trash",
-                            staticStyle: { color: "red" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Eliminar\n\t\t\t\t\t")
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("pagination", {
-        attrs: { data: _vm.laravelData },
-        on: { "pagination-change-page": _vm.getResults }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-1be6e31a", module.exports)
-  }
-}
-
-/***/ }),
-/* 86 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(87)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(89)
-/* template */
-var __vue_template__ = __webpack_require__(90)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/CondecorationTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-74be578e", Component.options)
-  } else {
-    hotAPI.reload("data-v-74be578e", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 87 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(88);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("f5191d06", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-74be578e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./CondecorationTable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-74be578e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./CondecorationTable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 88 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 89 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			// Our data object that holds the Laravel paginator data
-			laravelData: {}
-		};
-	},
-
-	props: {
-		show_name: { default: true },
-		show_date: { default: true },
-		page_amount: { default: 10 },
-		show_links: { default: true }
-
-	},
-
-	created: function created() {
-		// Fetch initial results
-		this.getResults();
-	},
-
-
-	methods: {
-		// Our method to GET results from a Laravel endpoint
-		getResults: function getResults(page) {
-			var self = this;
-			if (typeof page === 'undefined') {
-				page = 1;
-			}
-
-			// Using vue-resource as an example
-			axios.get('api/condecoration/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
-				self.laravelData = response.data;
-			});
-		}
-	}
-});
-
-/***/ }),
-/* 90 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("ul", [
-        _c(
-          "table",
-          { staticClass: "table table-bordered table-sm" },
-          [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _vm.show_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_date ? _c("th", [_vm._v("Fecha")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.laravelData.data, function(condecoration) {
-              return _c("tr", [
-                _vm.show_name
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "/condecoration/" + condecoration.id }
-                        },
-                        [_vm._v(_vm._s(condecoration.name))]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_date
-                  ? _c("td", {
-                      domProps: { textContent: _vm._s(condecoration.technique) }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "/condecoration/" + condecoration.id }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-object-ungroup",
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Ver\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "/condecoration/" + condecoration.id + "/edit"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#138496" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Modificar\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href:
-                              "/condecoration/" + condecoration.id + "/delete"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-trash",
-                            staticStyle: { color: "red" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Eliminar\n\t\t\t\t\t")
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("pagination", {
-        attrs: { data: _vm.laravelData },
-        on: { "pagination-change-page": _vm.getResults }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-74be578e", module.exports)
-  }
-}
-
-/***/ }),
-/* 91 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(92)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(94)
-/* template */
-var __vue_template__ = __webpack_require__(95)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/FurnitureTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-e2fd030e", Component.options)
-  } else {
-    hotAPI.reload("data-v-e2fd030e", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 92 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(93);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("c46fd9ee", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-e2fd030e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./FurnitureTable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-e2fd030e\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./FurnitureTable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 93 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 94 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			// Our data object that holds the Laravel paginator data
-			laravelData: {}
-		};
-	},
-
-	props: {
-		show_name: { default: true },
-		page_amount: { default: 10 },
-		show_links: { default: true }
-
-	},
-
-	created: function created() {
-		// Fetch initial results
-		this.getResults();
-	},
-
-
-	methods: {
-		// Our method to GET results from a Laravel endpoint
-		getResults: function getResults(page) {
-			var self = this;
-			if (typeof page === 'undefined') {
-				page = 1;
-			}
-
-			// Using vue-resource as an example
-			axios.get('api/furniture/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
-				self.laravelData = response.data;
-			});
-		}
-	}
-});
-
-/***/ }),
-/* 95 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("ul", [
-        _c(
-          "table",
-          { staticClass: "table table-bordered table-sm" },
-          [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _vm.show_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.laravelData.data, function(furniture) {
-              return _c("tr", [
-                _vm.show_name
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        { attrs: { href: "/furniture/" + furniture.id } },
-                        [_vm._v(_vm._s(furniture.name))]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        { attrs: { href: "/furniture/" + furniture.id } },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-object-ungroup",
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Ver\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "/furniture/" + furniture.id + "/edit"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#138496" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Modificar\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "/furniture/" + furniture.id + "/delete"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-trash",
-                            staticStyle: { color: "red" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Eliminar\n\t\t\t\t\t")
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("pagination", {
-        attrs: { data: _vm.laravelData },
-        on: { "pagination-change-page": _vm.getResults }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-e2fd030e", module.exports)
-  }
-}
-
-/***/ }),
-/* 96 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(97)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(99)
-/* template */
-var __vue_template__ = __webpack_require__(100)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/InsuranceCarrierTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-3f2abbc3", Component.options)
-  } else {
-    hotAPI.reload("data-v-3f2abbc3", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 97 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(98);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("22b89464", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3f2abbc3\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./InsuranceCarrierTable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3f2abbc3\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./InsuranceCarrierTable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 98 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 99 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			// Our data object that holds the Laravel paginator data
-			laravelData: {}
-		};
-	},
-
-	props: {
-		show_name: { default: true },
-		show_email: { default: true },
-		page_amount: { default: 10 },
-		show_links: { default: true }
-
-	},
-
-	created: function created() {
-		// Fetch initial results
-		this.getResults();
-	},
-
-
-	methods: {
-		// Our method to GET results from a Laravel endpoint
-		getResults: function getResults(page) {
-			var self = this;
-			if (typeof page === 'undefined') {
-				page = 1;
-			}
-
-			// Using vue-resource as an example
-			axios.get('api/insuranceCarrier/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
-				self.laravelData = response.data;
-			});
-		}
-	}
-});
-
-/***/ }),
-/* 100 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("ul", [
-        _c(
-          "table",
-          { staticClass: "table table-bordered table-sm" },
-          [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _vm.show_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_email ? _c("th", [_vm._v("Email")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.laravelData.data, function(insuranceCarrier) {
-              return _c("tr", [
-                _vm.show_name
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "/insuranceCarrier/" + insuranceCarrier.id
-                          }
-                        },
-                        [_vm._v(_vm._s(insuranceCarrier.name))]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_email
-                  ? _c("td", {
-                      domProps: { textContent: _vm._s(insuranceCarrier.email) }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "/insuranceCarrier/" + insuranceCarrier.id
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-object-ungroup",
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Ver\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href:
-                              "/insuranceCarrier/" +
-                              insuranceCarrier.id +
-                              "/edit"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#138496" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Modificar\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href:
-                              "/insuranceCarrier/" +
-                              insuranceCarrier.id +
-                              "/delete"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-trash",
-                            staticStyle: { color: "red" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Eliminar\n\t\t\t\t\t")
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("pagination", {
-        attrs: { data: _vm.laravelData },
-        on: { "pagination-change-page": _vm.getResults }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-3f2abbc3", module.exports)
-  }
-}
-
-/***/ }),
-/* 101 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(102)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(104)
-/* template */
-var __vue_template__ = __webpack_require__(105)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/PublicationTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6f481f82", Component.options)
-  } else {
-    hotAPI.reload("data-v-6f481f82", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 102 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(103);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("22cc0e63", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6f481f82\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./PublicationTable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-6f481f82\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./PublicationTable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 103 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 104 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			// Our data object that holds the Laravel paginator data
-			laravelData: {}
-		};
-	},
-
-	props: {
-		show_title: { default: true },
-		page_amount: { default: 10 },
-		show_links: { default: true }
-
-	},
-
-	created: function created() {
-		// Fetch initial results
-		this.getResults();
-	},
-
-
-	methods: {
-		// Our method to GET results from a Laravel endpoint
-		getResults: function getResults(page) {
-			var self = this;
-			if (typeof page === 'undefined') {
-				page = 1;
-			}
-
-			// Using vue-resource as an example
-			axios.get('api/publication/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
-				self.laravelData = response.data;
-			});
-		}
-	}
-});
-
-/***/ }),
-/* 105 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("ul", [
-        _c(
-          "table",
-          { staticClass: "table table-bordered table-sm" },
-          [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _vm.show_title ? _c("th", [_vm._v("Titulo")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.laravelData.data, function(publication) {
-              return _c("tr", [
-                _vm.show_title
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        { attrs: { href: "/publication/" + publication.id } },
-                        [_vm._v(_vm._s(publication.title))]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        { attrs: { href: "/publication/" + publication.id } },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-object-ungroup",
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Ver\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "/publication/" + publication.id + "/edit"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#138496" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Modificar\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "/publication/" + publication.id + "/delete"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-trash",
-                            staticStyle: { color: "red" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Eliminar\n\t\t\t\t\t")
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("pagination", {
-        attrs: { data: _vm.laravelData },
-        on: { "pagination-change-page": _vm.getResults }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6f481f82", module.exports)
-  }
-}
-
-/***/ }),
-/* 106 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(107)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(109)
-/* template */
-var __vue_template__ = __webpack_require__(110)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/SinclairPersonTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-76030a23", Component.options)
-  } else {
-    hotAPI.reload("data-v-76030a23", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 107 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(108);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("a9d4e560", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-76030a23\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./SinclairPersonTable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-76030a23\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./SinclairPersonTable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 108 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 109 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			// Our data object that holds the Laravel paginator data
-			laravelData: {}
-		};
-	},
-
-	props: {
-		show_first_name: { default: true },
-		show_last_name: { default: true },
-		show_nin: { default: true },
-		page_amount: { default: 10 },
-		show_links: { default: true }
-
-	},
-
-	created: function created() {
-		// Fetch initial results
-		this.getResults();
-	},
-
-
-	methods: {
-		// Our method to GET results from a Laravel endpoint
-		getResults: function getResults(page) {
-			var self = this;
-			if (typeof page === 'undefined') {
-				page = 1;
-			}
-
-			// Using vue-resource as an example
-			axios.get('api/sinclairPerson/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
-				self.laravelData = response.data;
-			});
-		}
-	}
-});
-
-/***/ }),
-/* 110 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("ul", [
-        _c(
-          "table",
-          { staticClass: "table table-bordered table-sm" },
-          [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _vm.show_first_name ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_last_name ? _c("th", [_vm._v("Apellido")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_nin ? _c("th", [_vm._v("Cédula")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.laravelData.data, function(sinclairPerson) {
-              return _c("tr", [
-                _vm.show_first_name
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "/sinclairPerson/" + sinclairPerson.id
-                          }
-                        },
-                        [_vm._v(_vm._s(sinclairPerson.firstName))]
-                      )
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_last_name
-                  ? _c("td", {
-                      domProps: { textContent: _vm._s(sinclairPerson.lastName) }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_nin
-                  ? _c("td", {
-                      domProps: { textContent: _vm._s(sinclairPerson.nin) }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links
-                  ? _c("td", [
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href: "/sinclairPerson/" + sinclairPerson.id
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-object-ungroup",
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Ver\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href:
-                              "/sinclairPerson/" + sinclairPerson.id + "/edit"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#138496" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Modificar\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: {
-                            href:
-                              "/sinclairPerson/" + sinclairPerson.id + "/delete"
-                          }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-trash",
-                            staticStyle: { color: "red" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Eliminar\n\t\t\t\t\t")
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("pagination", {
-        attrs: { data: _vm.laravelData },
-        on: { "pagination-change-page": _vm.getResults }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-76030a23", module.exports)
-  }
-}
-
-/***/ }),
-/* 111 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(112)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(114)
-/* template */
-var __vue_template__ = __webpack_require__(115)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/TagTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-30d78391", Component.options)
-  } else {
-    hotAPI.reload("data-v-30d78391", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 112 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(113);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("cecba3de", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-30d78391\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./TagTable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-30d78391\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./TagTable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 113 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 114 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			// Our data object that holds the Laravel paginator data
-			laravelData: {}
-		};
-	},
-
-	props: {
-		show_tag: { default: true },
-		page_amount: { default: 10 },
-		show_links: { default: true }
-
-	},
-
-	created: function created() {
-		// Fetch initial results
-		this.getResults();
-	},
-
-
-	methods: {
-		// Our method to GET results from a Laravel endpoint
-		getResults: function getResults(page) {
-			var self = this;
-			if (typeof page === 'undefined') {
-				page = 1;
-			}
-
-			// Using vue-resource as an example
-			axios.get('api/tag/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
-				self.laravelData = response.data;
-			});
-		}
-	}
-});
-
-/***/ }),
-/* 115 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("ul", [
-        _c(
-          "table",
-          { staticClass: "table table-bordered table-sm" },
-          [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _vm.show_tag ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.laravelData.data, function(tag) {
-              return _c("tr", [
-                _vm.show_tag ? _c("td", [_vm._v(_vm._s(tag.tag))]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links
-                  ? _c("td", [
-                      _c("a", { attrs: { href: "/tag/" + tag.id } }, [
-                        _c("i", {
-                          staticClass: "fa fa-object-ungroup",
-                          attrs: { "aria-hidden": "true" }
-                        }),
-                        _vm._v("Ver\n\t\t\t\t\t")
-                      ]),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c("a", { attrs: { href: "/tag/" + tag.id + "/edit" } }, [
-                        _c("i", {
-                          staticClass: "fa fa-pencil",
-                          staticStyle: { color: "#138496" },
-                          attrs: { "aria-hidden": "true" }
-                        }),
-                        _vm._v("Modificar\n\t\t\t\t\t")
-                      ]),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        { attrs: { href: "/tag/" + tag.id + "/delete" } },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-trash",
-                            staticStyle: { color: "red" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Eliminar\n\t\t\t\t\t")
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("pagination", {
-        attrs: { data: _vm.laravelData },
-        on: { "pagination-change-page": _vm.getResults }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-30d78391", module.exports)
-  }
-}
-
-/***/ }),
-/* 116 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(117)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(119)
-/* template */
-var __vue_template__ = __webpack_require__(120)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/VisitTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7d01b7c0", Component.options)
-  } else {
-    hotAPI.reload("data-v-7d01b7c0", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 117 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(118);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("45e67855", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7d01b7c0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./VisitTable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7d01b7c0\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./VisitTable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 118 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 119 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			// Our data object that holds the Laravel paginator data
-			laravelData: {}
-		};
-	},
-
-	props: {
-		show_date: { default: true },
-		page_amount: { default: 10 },
-		show_links: { default: true }
-
-	},
-
-	created: function created() {
-		// Fetch initial results
-		this.getResults();
-	},
-
-
-	methods: {
-		// Our method to GET results from a Laravel endpoint
-		getResults: function getResults(page) {
-			var self = this;
-			if (typeof page === 'undefined') {
-				page = 1;
-			}
-
-			// Using vue-resource as an example
-			axios.get('api/visit/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
-				self.laravelData = response.data;
-			});
-		}
-	}
-});
-
-/***/ }),
-/* 120 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("ul", [
-        _c(
-          "table",
-          { staticClass: "table table-bordered table-sm" },
-          [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _vm.show_date ? _c("th", [_vm._v("Fecha")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.laravelData.data, function(visit) {
-              return _c("tr", [
-                _vm.show_date
-                  ? _c("td", [
-                      _c("a", { attrs: { href: "/visit/" + visit.id } }, [
-                        _vm._v(_vm._s(visit.date))
-                      ])
-                    ])
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links
-                  ? _c("td", [
-                      _c("a", { attrs: { href: "/visit/" + visit.id } }, [
-                        _c("i", {
-                          staticClass: "fa fa-object-ungroup",
-                          attrs: { "aria-hidden": "true" }
-                        }),
-                        _vm._v("Ver\n\t\t\t\t\t")
-                      ]),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        { attrs: { href: "/visit/" + visit.id + "/edit" } },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#138496" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Modificar\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        { attrs: { href: "/visit/" + visit.id + "/delete" } },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-trash",
-                            staticStyle: { color: "red" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Eliminar\n\t\t\t\t\t")
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("pagination", {
-        attrs: { data: _vm.laravelData },
-        on: { "pagination-change-page": _vm.getResults }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7d01b7c0", module.exports)
-  }
-}
-
-/***/ }),
-/* 121 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(122)
-}
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(124)
-/* template */
-var __vue_template__ = __webpack_require__(125)
-/* template functional */
-  var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/assets/js/components/VisitorTable.vue"
-if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-681162bd", Component.options)
-  } else {
-    hotAPI.reload("data-v-681162bd", Component.options)
-' + '  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 122 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(123);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(3)("0660eeb0", content, false);
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-681162bd\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./VisitorTable.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-681162bd\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0&bustCache!./VisitorTable.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 123 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(2)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 124 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			// Our data object that holds the Laravel paginator data
-			laravelData: {}
-		};
-	},
-
-	props: {
-		show_firstName: { default: true },
-		show_lastName: { default: true },
-		show_nin: { default: true },
-		page_amount: { default: 10 },
-		show_links: { default: true }
-
-	},
-
-	created: function created() {
-		// Fetch initial results
-		this.getResults();
-	},
-
-
-	methods: {
-		// Our method to GET results from a Laravel endpoint
-		getResults: function getResults(page) {
-			var self = this;
-			if (typeof page === 'undefined') {
-				page = 1;
-			}
-
-			// Using vue-resource as an example
-			axios.get('api/visitor/paginate/' + self.page_amount + '?page=' + page).then(function (response) {
-				self.laravelData = response.data;
-			});
-		}
-	}
-});
-
-/***/ }),
-/* 125 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "container" },
-    [
-      _c("ul", [
-        _c(
-          "table",
-          { staticClass: "table table-bordered table-sm" },
-          [
-            _c("thead", { staticClass: "thead-light" }, [
-              _c("tr", [
-                _vm.show_firstName ? _c("th", [_vm._v("Nombre")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_lastName ? _c("th", [_vm._v("Apellido")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_nin ? _c("th", [_vm._v("Cédula")]) : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links ? _c("th", [_vm._v("Acciones")]) : _vm._e()
-              ])
-            ]),
-            _vm._v(" "),
-            _vm._l(_vm.laravelData.data, function(visitor) {
-              return _c("tr", [
-                _vm.show_firstName
-                  ? _c("td", {
-                      domProps: { textContent: _vm._s(visitor.fisrtName) }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_lastName
-                  ? _c("td", {
-                      domProps: { textContent: _vm._s(visitor.lastName) }
-                    })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_nin
-                  ? _c("td", { domProps: { textContent: _vm._s(visitor.nin) } })
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.show_links
-                  ? _c("td", [
-                      _c("a", { attrs: { href: "/visitor/" + visitor.id } }, [
-                        _c("i", {
-                          staticClass: "fa fa-object-ungroup",
-                          attrs: { "aria-hidden": "true" }
-                        }),
-                        _vm._v("Ver\n\t\t\t\t\t")
-                      ]),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        { attrs: { href: "/visitor/" + visitor.id + "/edit" } },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-pencil",
-                            staticStyle: { color: "#138496" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Modificar\n\t\t\t\t\t")
-                        ]
-                      ),
-                      _vm._v("\n\t\t\t\t\t|\n\t\t\t\t\t"),
-                      _c(
-                        "a",
-                        {
-                          attrs: { href: "/visitor/" + visitor.id + "/delete" }
-                        },
-                        [
-                          _c("i", {
-                            staticClass: "fa fa-trash",
-                            staticStyle: { color: "red" },
-                            attrs: { "aria-hidden": "true" }
-                          }),
-                          _vm._v("Eliminar\n\t\t\t\t\t")
-                        ]
-                      )
-                    ])
-                  : _vm._e()
-              ])
-            })
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("pagination", {
-        attrs: { data: _vm.laravelData },
-        on: { "pagination-change-page": _vm.getResults }
-      })
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-681162bd", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);
