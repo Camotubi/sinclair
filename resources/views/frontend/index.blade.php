@@ -6,26 +6,29 @@
 
 @section('content')
 	<div class="row slideshow">
-		<div id="slide-0" class="carousel slide" data-ride="carousel">
-			<ol class="carousel-indicators">
-				<li data-target="#slide-0" data-slide-to="0" class="active"></li>
-				<li data-target="#slide-0" data-slide-to="1"></li>
-				<li data-target="#slide-0" data-slide-to="2"></li>
-			</ol>
+		<div id="carouselExampleControls" style=" widht:99%; margin:0 auto;"class="carousel slide" data-ride="carousel">
 
 			<div class="carousel-inner" role="listbox">
-				<div class="item active">
-					<img src="/img/Slide-1.png" width="100%" height="50%">
+				<div class="carousel-item active">
+					<img class="d-block img-fluid"  src="/img/Slide-1.png" width="100%" height="50%">
 				</div>
 
-				<div class="item">
-					<img src="/img/Slide-2.jpg" width="100%">
+				<div class="carousel-item">
+					<img class="d-block img-fluid"  src="/img/Slide-2.jpg" width="100%">
 				</div>
 
-				<div class="item">
-					<img src="/img/Slide-3.png" width="100%" height="200px">
+				<div class="carousel-item">
+					<img class="d-block img-fluid"  src="/img/Slide-3.png" width="100%" height="200px">
 				</div>
 			</div>
+			<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
 		</div>
 	</div>
 
