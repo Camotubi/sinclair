@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\ArtPiece;
 use App\Furniture;
 use App\LegalEntity;
-
-class ArtPieceRestorationController extends Controller
+use App\ArtPieceRestoration;
+class RestorationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class ArtPieceRestorationController extends Controller
      */
     public function create($Id)
     {
-        return view('restoration.create'
+        return view('restoration.create');
     }
 
     /**
@@ -83,17 +83,29 @@ class ArtPieceRestorationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        
+    }
+    public function destroyArtPieceRestoration($id)
+    {
+
+			$restoration = ArtPieceRestoration::find($id)->delete();
+			return redirect('/dashboard')->with('success' , 'Restauración no eliminada');
     }
 
-    public function showDeleteArtPieceConfirmation($id)
+    public function destroyFurnitureRestoration($id)
+    {
+			$restoration = FurnitureRestoration::find($id)->delete();
+			return redirect('/dashboard')->with('success' , 'Restauración no eliminada');
+    }
+
+    public function showDeleteArtPieceRestorationConfirmation($id)
 		{
-			$restoration = ;
-			if(!is_null($rent))
+			$restoration = ArtPieceRestoration::find($id);
+			if(!is_null($restoration))
 			{
-				$artPiece = ArtPiece::find($restoration->artPieceId);
-				$legalEntity = LegalEntity::find($restoration->legalEntityId);
-				return view('rent.deleteArtPiece', ['restoration' => $restoration, 'artPiece' => $artPiece,
+				$artPiece = $restoration->artPiece;
+				$legalEntity = $restoration->legalEntity;
+				return view('restoration.deleteArtPiece', ['restoration' => $restoration, 'artPiece' => $artPiece,
 					'legalEntity' => $legalEntity]);
 			}
 			else
@@ -103,14 +115,14 @@ class ArtPieceRestorationController extends Controller
 
 		}
 
-    public function showDeleteFurnitureConfirmation($id)
+    public function showDeleteFurnitureRestorationConfirmation($id)
 		{
-			$restoration = ;
-			if(!is_null($rent))
+			$restoration = FurnitureRestoration::find($id);
+			if(!is_null($restoration))
 			{
-				$furniture = Furniture::find($restoration->furnitureId);
-				$legalEntity = LegalEntity::find($restoration->legalEntityId);
-				return view('rent.deleteFurniture', ['restoration' => $restoration, 'furniture' => $furniture,
+				$furniture = $restoration->furniture;
+				$legalEntity = $restoration->legalEntity;
+				return view('restoration.deleteFurniture', ['restoration' => $restoration, 'furniture' => $furniture,
 					'legalEntity' => $legalEntity]);
 			}
 			else

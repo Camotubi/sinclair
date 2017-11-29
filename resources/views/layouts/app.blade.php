@@ -15,7 +15,7 @@
 	<div id="app" class="container-fluid">
 		<div class="row">
 			@include('components.sidebar1')
-			<main class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<main style="padding:20px;"class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 				@if(session('error'))
 					<div class="alert alert-danger">
 						{{session('error')}}

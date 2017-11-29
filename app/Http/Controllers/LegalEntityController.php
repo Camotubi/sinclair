@@ -139,38 +139,18 @@ class LegalEntityController extends Controller
 		$rents = $legalEntity->rents()->get();
 		foreach($rents as $rent)
 		{
-			$rent->legalEntity()->dissociate();
-			$rent->artPiece()->dissociate();
 			$rent->delete();
 		}
 		$artPieces = $legalEntity->artPieceDonators()->get();
-		foreach($artPieces as $artPiece)
-		{
-			$artPiece->donator()->dissociate();
-			$artPiece->artStyles()->detach();
-			$artPiece->exhibitions()->detach();
-			$insurances = $artPiece->insurances()->get()
-			foreach($insurances as $insurance)
-			{
-				$insurance->artPiece()->dissociate();
-				$insurance->insuranceCarrier()->dissociate();
-				$insurance->delete();
-			}
-			$artPiece->multimedia()->detach();
-			$artPiece->delete();
-		}
 		$furnitures = $legalEntity->furnitureDonators()->get();
 		foreach($furnitures as $furniture)
 		{
 			$furniture->donator()->dissociate();
-			$furniture->furnitureType()->dissociate();
-			$furniture->delete();
 		}
 		$condecorations = $legalEntity->condecorations()->get();
 		foreach($condecorations as $condecoration)
 		{
 			$condecoration->condecorator()->dissociate();
-			$condecoration->delete();
 		}
 		$legalEntity->delete();
 		return redirect('dashboard')->with('success' , 'Entidad Legal eliminada');

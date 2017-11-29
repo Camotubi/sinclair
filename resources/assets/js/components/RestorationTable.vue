@@ -12,7 +12,7 @@
 					</tr>
 				</thead>
 				<tr v-for="restoration in laravelData.data">
-					<td v-if="show_restorerName" ><a :href="'/artPiece/' +restoration.id">{{restoration.name}}</a></td>
+					<td v-if="show_restorerName" ><a :href="'/'+obj_class+'/'+restoration.id">{{restoration.name}}</a></td>
 					<td v-if="show_date" v-text="restoration.pivot.restorationDate"></td>
 					<td v-if="show_description" v-text="restoration.pivot.description"></td>
 					<td v-if="show_links">
@@ -24,7 +24,7 @@
 							<i style="color:#138496" class="fa fa-pencil" aria-hidden="true"></i>Modificar
 						</a>
 						|
-						<a :href="'/artPiece/'+restoration.pivot.id+'/delete'">
+						<a :href="'/'+obj_class+'/restoration/'+restoration.pivot.id+'/delete'">
 							<i style="color:red" class="fa fa-trash" aria-hidden="true"></i>Eliminar
 						</a>
 					</td>
@@ -50,6 +50,7 @@ export default {
 		page_amount:{default:10},
 		show_links:{default:true},
 		obj_id:{default:0},
+		obj_class:{default:'artPiece'},
 
 	},
 
@@ -67,10 +68,10 @@ export default {
 				page = 1;
 			}
 			// Using vue-resource as an example
-			axios.get('/api/artPiece/'+self.obj_id+'/restorations/paginate/'+ self.page_amount +'?page=' + page).then(
-				function(response){
-					self.laravelData = response.data;
-				});
+					axios.get('/api/'+self.obj_class+'/'+self.obj_id+'/restorations/paginate/'+ self.page_amount +'?page=' + page).then(
+						function(response){
+							self.laravelData = response.data;
+						});
 		}
 	}
 }

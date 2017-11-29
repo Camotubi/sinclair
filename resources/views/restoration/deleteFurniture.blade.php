@@ -11,7 +11,7 @@
 		<strong>"{{$furniture->name}}"</strong> hecha por
 		<strong>"{{$legalEntity->name}}"</strong> del sistema?</p>
 </div>
-<form action="/restoration/{{$restoration->id}}" method="post">
+<form action="/furniture/restoration/{{$restoration->id}}/delete" method="post">
 	{{csrf_field()}}
 	<input type="hidden" name="_method" value="DELETE">
 	<input type="submit" class="btn btn-danger" value="Eliminar Restauración" >

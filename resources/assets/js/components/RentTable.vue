@@ -36,7 +36,7 @@ export default {
 		show_technique:{default:true},
 		show_current_location:{default:true},
 		page_amount:{default:10},
-
+		obj_id:{default:0},
 	},
 
 
@@ -54,7 +54,7 @@ export default {
 			}
 
 			// Using vue-resource as an example
-			axios.get('api/artPiece/paginate/'+ self.page_amount +'?page=' + page).then(
+			axios.get('api/artPiece/'+self.obj_id+'/rents/paginate/'+ self.page_amount +'?page=' + page).then(
 				function(response){
 					self.laravelData = response.data;
 				});

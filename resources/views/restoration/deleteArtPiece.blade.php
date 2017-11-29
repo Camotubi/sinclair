@@ -12,9 +12,8 @@
 		<strong>"{{$artPiece->name}}"</strong> hecha por
 		<strong>"{{$legalEntity->name}}"</strong> del sistema?</p>
 </div>
-<form action="/restoration/{{$restoration->id}}" method="post">
+<form action="/artPiece/restoration/{{$restoration->id}}/delete" method="post">
 	{{csrf_field()}}
-	<input type="hidden" name="_method" value="DELETE">
 	<input type="submit" class="btn btn-danger" value="Eliminar Restauración" >
 </form>
 </div>

@@ -122,8 +122,7 @@ class PublicationController extends Controller
 			{
 				$user = $publication->user;
 				$tags = $publication->tags()->get();
-			  return view('publication.show', ['publication' => $publication,
-					'user' => $user, 'tags' => $tags]);
+			  return view('publication.show', ['publication' => $publication,'tags' => $tags]);
 			}
 			else
 			{
@@ -163,7 +162,7 @@ class PublicationController extends Controller
 	    $publication = Publication::find($id);
 			$publication->title = $request-> input('title');
       $publication->body = $request-> input('body');
-      $apublication->save();
+      $publication->save();
 			return redirect('publication/'.$id);
     }
 
