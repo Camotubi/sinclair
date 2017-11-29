@@ -10,6 +10,8 @@ use App\ArtStyle;
 use App\Rent;
 use App\Multimedia;
 use App\LegalEntity;
+use App\Insurance;
+use App\InsuranceCarrier;
 use Illuminate\Support\Facades\DB;
 
 class ArtPieceController extends Controller
@@ -220,6 +222,12 @@ class ArtPieceController extends Controller
 		return redirect('/artPiece/'.$artPiece->id)->with('success' , 'Restauracion registrada');
 
 	}
+	public function apiInsurancePaginate($id,$amount)
+	{
+
+		$insurances= ArtPiece::find($id)->insurances()->paginate($amount);
+		return $insurances;
+	}
 	public function apiImagesPaginate($id,$amount)
 	{
 
@@ -309,6 +317,29 @@ class ArtPieceController extends Controller
 	      $rent->legalEntity()->associate(explode('-',$request->input('legalEntityId'))[0]);
 	      $rent->save();
 				return redirect('dashboard')->with('success' , 'Alquiler registrado');
+
+	}
+	public function addInsurance($id)
+	{
+			$artPiece = ArtPiece::find($id);
+			$insuranceCarriers = InsuranceCarrier::all();
+	    return view('artPiece.add_insurance', ['artPiece' => $artPiece,
+		    'insuranceCarriers' => $insuranceCarriers
+	    ]);
+
+	}
+	public function storeInsurance($id,Request $request)
+	{
+		$insurance = new Insurance;
+		$insurance->name = $request-> input('name');
+		$insurance->cost = $request-> input('cost');
+		$insurance->effectiveDate = $request-> input('effectiveDate');
+		$insurance->terminationDate = $request-> input('terminationDate');
+	      $insurance->artPiece()->associate($id);
+		$insurance->insuranceCarrier()->associate(explode('-',$request->input('insuranceCarrier'))[0]);
+		$insurance->save();
+		return redirect('dashboard')->with('success' , 'Seguro registrado');
+
 
 	}
 }

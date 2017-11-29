@@ -23,7 +23,7 @@ class LoginController extends Controller
 	}
 	else
 	{
-		return 'sin permiso';
+		return redirect('/');
 	}
     }
 }

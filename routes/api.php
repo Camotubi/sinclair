@@ -28,6 +28,7 @@ Route::get('/artStyle/paginate/{amount}','ArtStyleController@apiPaginate');
 Route::get('/user/findUsername/{username}','UserController@findUsername');
 Route::get('/user/findEmail/{email}','UserController@findEmail');
 
+Route::get('/artPiece/{id}/insurance/paginate/{amount}','ArtPieceController@apiInsurancePaginate');
 Route::get('/artPiece/{id}/rents/paginate/{amount}','ArtPieceController@apiRentPaginate');
 Route::get('/artPiece/{id}/images/paginate/{amount}','ArtPieceController@apiImagesPaginate');
 Route::get('/artPiece/{id}/restorations/paginate/{amount}','ArtPieceController@apiRestorationPaginate');

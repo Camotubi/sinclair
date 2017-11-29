@@ -13,15 +13,6 @@
 						<li class="nav-item">
 							<a class="nav-link" href="/artPiece/create">Registrar</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Alquileres</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Seguros</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Restauraciones</a>
-						</li>
 					</ul>
 				</div>
 			</li>
@@ -36,15 +27,6 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="/furniture/create">Registrar</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Alquileres</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Seguros</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Restauraciones</a>
 						</li>
 					</ul>
 				</div>
@@ -217,6 +199,23 @@
 						<li class="nav-item">
 							<a class="nav-link" href="/visitor/create">Registrar</a>
 						</li>
+					</ul>
+				</div>
+
+			</li>
+			<li>
+				<a class="nav-fill" data-toggle="collapse" href="#collapse14" aria-expanded="false" aria-controls="collapseExample">
+					Opciones
+				</a>
+				<div id ="collapse14" class ="collapse">
+					<ul class="nav nav-pills flex-column">
+						@isset($user)
+						@if($user->isAdmin())
+						<li class="nav-item">
+							<a class="nav-link" href="/user/create">Crer usuario</a>
+						</li>
+					@endif
+				@endisset
 					</ul>
 				</div>
 

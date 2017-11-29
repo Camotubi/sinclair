@@ -52,7 +52,7 @@ Route::get('/login',function() {
 Route::get('/logout',function()
 {
 	Auth::logout();
-	return view('/');
+	return redirect('/');
 });
 Route::post('/login','Auth\LoginController@authenticate');
 //		Dashboard
@@ -69,6 +69,7 @@ Route::post('/furniture/restoration/{id}/delete','RestorationController@destroyF
 Route::get('/artPiece/restoration/{id}/delete','RestorationController@showDeleteArtPieceRestorationConfirmation');
 Route::get('/furniture/restoration/{id}/delete','RestorationController@showDeleteFurnitureRestorationConfirmation');
 Route::get('/artPiece/{id}/addInsurance' ,'ArtPieceController@addInsurance');
+Route::post('/artPiece/{id}/addInsurance' ,'ArtPieceController@storeInsurance');
 Route::get('/artPiece/{id}/addImage' ,'ArtPieceController@addImage');
 Route::get('/artPiece/{id}/addRent' ,'ArtPieceController@addRent');
 Route::post('/artPiece/{id}/addRent' ,'ArtPieceController@storeRent');
