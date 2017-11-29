@@ -42,16 +42,23 @@ footer 	{	background-color: #303030;
 			font-family: Century Gothic;
 			position: bottom fixed;
 		}
-
+		#footer_img{
+			float: left;
+			margin-right: 15px;
+		}
+		#footer_legal{
+			float: left;
+			margin-top: 35px;
+		}
 footer a{	color: #FFF;
 		}
-footer h6{	color: #FFF;
-		}
+/*footer h6{	color: #FFF;
+				}*/
 footer .glyphicon
 		{	color: #FFF;
 		}
 
 img.gallery{
 	width:auto;
-	height:395px;	
+	height:395px;
 }

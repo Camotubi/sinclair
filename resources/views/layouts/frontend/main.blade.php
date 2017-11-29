@@ -32,7 +32,8 @@
 			@yield('content')
 			<footer>
 				<div class="container-fluid">
-					<h6 class="small">COPYRIGHT © 2017 UTP TODOS LOS DERECHOS RESERVADOS</h6>
+					<img src="/img/utp_logo.png" alt="" height="50px" id="footer_img">
+					<h6 class="small" id="footer_legal">COPYRIGHT © 2017 UTP TODOS LOS DERECHOS RESERVADOS</h6>
 				</div>
 			</footer>
 
