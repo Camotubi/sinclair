@@ -13,7 +13,7 @@ class CondecorationController extends Controller
 	{
 		if(config('app.enableGuards'))
 		{
-			$this->middleware('auth'['only' => ['create','store','edit','update','destroy']]);
+			//$this->middleware('auth'['only' => ['create','store','edit','update','destroy']]);
 		}
 	}
 	/**
@@ -140,5 +140,12 @@ class CondecorationController extends Controller
 			return redirect('dashboard')->with('error' , 'Condecoración no encontrada');
 		}
 
+	}
+
+	public function apiPaginate($amount)
+	{
+
+		$condecorations = Condecoration::paginate($amount);
+		return $condecorations;
 	}
 }

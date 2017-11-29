@@ -9,19 +9,19 @@
 
 					</tr>
 				</thead>
-				<tr v-for="artStyle in laravelData.data">
+				<tr v-for="furniture in laravelData.data">
 
-					<td v-if="show_name" ><a :href="'/artStyle/' +artStyle.id">{{artStyle.name}}</a></td>
+					<td v-if="show_name" ><a :href="'/furniture/' +furniture.id">{{furniture.name}}</a></td>
 					<td v-if="show_links">
-						<a :href="'/artStyle/'+artStyle.id">
+						<a :href="'/furniture/'+furniture.id">
 							<i class="fa fa-object-ungroup" aria-hidden="true"></i>Ver
 						</a>
 						|
-						<a :href="'/artStyle/'+artStyle.id+'/edit'">
+						<a :href="'/furniture/'+furniture.id+'/edit'">
 							<i style="color:#138496" class="fa fa-pencil" aria-hidden="true"></i>Modificar
 						</a>
 						|
-						<a :href="'/artStyle/'+artStyle.id+'/delete'">
+						<a :href="'/furniture/'+furniture.id+'/delete'">
 							<i style="color:red" class="fa fa-trash" aria-hidden="true"></i>Eliminar
 						</a>
 					</td>
@@ -42,7 +42,6 @@ export default {
 	},
 	props:{
 		show_name:{default:true},
-		show_description:{default:true},
 		page_amount:{default:10},
 		show_links:{default:true},
 
@@ -63,7 +62,7 @@ export default {
 			}
 
 			// Using vue-resource as an example
-			axios.get('api/artStyle/paginate/'+ self.page_amount +'?page=' + page).then(
+			axios.get('api/furniture/paginate/'+ self.page_amount +'?page=' + page).then(
 				function(response){
 					self.laravelData = response.data;
 				});

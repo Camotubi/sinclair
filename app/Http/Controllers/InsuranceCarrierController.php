@@ -140,4 +140,11 @@ class InsuranceCarrierController extends Controller
 		}
 
 	}
+
+	public function apiPaginate($amount)
+	{
+
+		$insuranceCarriers = insuranceCarrier::paginate($amount);
+		return $insuranceCarriers;
+	}
 }

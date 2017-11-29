@@ -21,6 +21,8 @@ Vue.component('art-piece-table', require('./components/ArtPieceTable.vue'));
 Vue.component('exhibition-table', require('./components/ExhibitionTable.vue'));
 Vue.component('art-style-table', require('./components/ArtStyleTable.vue'));
 Vue.component('condecoration-table', require('./components/CondecorationTable.vue'));
+Vue.component('furniture-table', require('./components/FurnitureTable.vue'));
+Vue.component('insurance-carrier-table', require('./components/InsuranceCarrierTable.vue'));
 Vue.component('legal-entity-table', require('./components/LegalEntityTable.vue'));
 Vue.component('restorations-table', require('./components/RestorationTable.vue'));
 Vue.component('images-table', require('./components/ImageTable.vue'));
