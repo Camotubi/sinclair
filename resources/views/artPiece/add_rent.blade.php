@@ -18,10 +18,11 @@
 							<input class="form-control" type="text" value="{{$artPiece->name}}" disabled >
 						</div>
 						<div class="form-group col-md-4">
+							<label for="legalEntityId">Entidad Legal:</label>
 							<input type="text" class="form-control" name="legalEntityId" value="" list="legalEntities">
 								<datalist id="legalEntities">
 									@foreach($legalEntities as $legalEntity)
-										<option value ="{{$legalEntity->id}}-{{$legalEntity->name}}"> 
+										<option value ="{{$legalEntity->id}}-{{$legalEntity->name}}">
 									@endforeach
 								</datalist>
 						</div>
