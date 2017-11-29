@@ -49,7 +49,7 @@ class VisitController extends Controller
       $visit = new Visit;
       $visit->date = $request-> input('date');
       $visit->save();
-      $visit->visitor()->associate($request->input ('visitorId'));
+      $visit->visitors()->associate($request->input ('visitorId'));
 			return redirect('dashboard')->with('success' , 'Visita registrada');
   }
 
@@ -116,7 +116,7 @@ class VisitController extends Controller
   public function destroy($id)
   {
 	  $visit = Visit::find($id);
-		$visit->visitor()->dissociate();
+		$visit->visitors()->dissociate();
 		$visit->delete();
 		return redirect('dashboard')->with('success' , 'Visita eliminada');
   }

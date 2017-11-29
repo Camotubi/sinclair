@@ -182,6 +182,13 @@ class ArtPieceController extends Controller
 			$rent->legalEntity()->dissociate();
 			$rent->delete();
 		}
+		$insurances = $artPiece->insurances()->get()
+		foreach($insurances as $insurance)
+		{
+			$insurance->artPiece()->dissociate();
+			$insurance->insuranceCarrier()->dissociate();
+			$insurance->delete();
+		}
 		$artPiece->multimedia()->detach();
 		$artPiece->delete();
 		return redirect('dashboard')->with('success' , 'Obra eliminada');

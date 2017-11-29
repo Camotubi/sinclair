@@ -116,6 +116,11 @@ class VisitorController extends Controller
   public function destroy($id)
   {
 	  $visitor = Visitor::find($id);
+		$visits = $visitor->visits()->get();
+		foreach ($visits as $visit) {
+			$visit->visitors()->dissociate();
+			$visit->delete();
+		}
 		$visitor->delete();
 		return redirect('dashboard')->with('success' , 'Visitante eliminado');
   }

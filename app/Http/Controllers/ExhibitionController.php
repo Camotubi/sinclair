@@ -184,6 +184,8 @@ class ExhibitionController extends Controller
   public function destroy($id)
   {
 	  $exhibition = Exhibition::find($id);
+		$exhibition->artPieces()->detach();
+		$exhibition->legalEntities()->detach();
 		$exhibition->delete();
 		return redirect('dashboard')->with('success' , 'Exhibición eliminada');
   }

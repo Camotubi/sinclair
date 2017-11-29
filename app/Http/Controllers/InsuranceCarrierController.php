@@ -118,6 +118,11 @@ class InsuranceCarrierController extends Controller
   public function destroy($id)
   {
 	  $insuranceCarrier = InsuranceCarrier::find($id);
+		$insurances = $insuranceCarrier->insurances()->get();
+		foreach ($insurances as $insurance) {
+			$insurance->artPiece()->dissociate();
+			$insurance->delete();
+		}
 		$insuranceCarrier->delete();
 		return redirect('dashboard')->with('success' , 'Aseguradora eliminada');
   }

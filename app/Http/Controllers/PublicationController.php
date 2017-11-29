@@ -174,6 +174,7 @@ class PublicationController extends Controller
     {
 	    $publication = Publication::find($id);
 			$publication->user()->dissociate();
+			$publication->tags()->detach();
 			$publication->delete();
 			return redirect('dashboard')->with('success' , 'Publicación eliminada');
     }

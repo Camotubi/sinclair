@@ -115,6 +115,7 @@ class ArtStyleController extends Controller
   public function destroy($id)
   {
 	  $artStyle = ArtStyle::find($id);
+		$artStyle->artPieces()->detach();
 		$artStyle->delete();
 		return redirect('dashboard')->with('success' , 'Estilo eliminado');
   }

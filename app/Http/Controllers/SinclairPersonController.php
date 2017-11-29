@@ -76,7 +76,7 @@ class SinclairPersonController extends Controller
 	  {
 		$relationshipTypesId[$key] = explode('-',$string)[0];
 	  }
-		$sinclairPerson->relationshipType()->attach($relationshipTypesId);
+		$sinclairPerson->relationshipTypes()->attach($relationshipTypesId);
 		return redirect('dashboard')->with('success' , 'Persona registrada');
   }
 
@@ -148,7 +148,7 @@ class SinclairPersonController extends Controller
   public function destroy($id)
   {
 	  $sinclairPerson = SinclairPerson::find($id);
-		$sinclairPerson->relationshipType()->detach();
+		$sinclairPerson->relationshipTypes()->detach();
 		$sinclairPerson->delete();
 		return redirect('dashboard')->with('success' , 'Persona eliminada');
   }
