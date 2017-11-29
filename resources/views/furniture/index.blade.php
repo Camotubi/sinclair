@@ -5,10 +5,7 @@ Inmobiliario
 @endsection
 
 @section('content')
-@foreach( $furnitures as $furniture )
-  <a href="/furniture/{{@$furniture->id}}">
-    <h4>{{ @$furniture->name }}</h4>
-  </a>
-  @endforeach
-{{$furnitures->links()}}
+<div class="container">
+  <furniture-table :show_name="true"></furniture-table>
+</div>
 @endsection

@@ -139,4 +139,11 @@ public function showDeleteConfirmation($id)
 	}
 
 }
+
+public function apiPaginate($amount)
+{
+
+	$artStyles = artStyle::paginate($amount);
+	return $artStyles;
+}
 }

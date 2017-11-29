@@ -147,4 +147,11 @@ class FurnitureController extends Controller
 		}
 
 	}
+
+	public function apiPaginate($amount)
+	{
+
+		$furnitures = Furniture::paginate($amount);
+		return $furnitures;
+	}
 }

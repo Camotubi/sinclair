@@ -5,10 +5,7 @@ Condecoración
 @endsection
 
 @section('content')
-@foreach( $condecorations as $condecoration )
-  <a href="/condecoration/{{@$condecoration->id}}">
-    <h4>{{ @$condecoration->name }}</h4>
-  </a>
-  @endforeach
-{{$condecorations->links()}}
+<div class="container">
+  <condecoration-table :show_name="true"></condecoration-table>
+</div>
 @endsection
