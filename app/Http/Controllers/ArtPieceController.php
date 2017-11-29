@@ -89,10 +89,13 @@ class ArtPieceController extends Controller
 		$artStylesId   = array();
 	  foreach($artStylesString as $key=>$string)
 	  {
-		$artStylesId[$key] = explode('-',$string)[0];
+		  $var =explode('-',$string)[0];
+		  if(is_numeric($var))
+			$artStylesId[$key] = explode('-',$string)[0];
 	  }
 		$artPiece->donator()->associate($request->input ('donatorId'));
-		$artPiece->artStyles()->attach($artStylesId);
+	  	if(!empty($artPiecesId))
+			$artPiece->artStyles()->attach($artStylesId);
 		return redirect('dashboard')->with('success' , 'Obra registrada');
 	}
 
@@ -178,15 +181,11 @@ class ArtPieceController extends Controller
 		$rents = $artPiece->rents()->get();
 		foreach($rents as $rent)
 		{
-			$rent->artPiece()->dissociate();
-			$rent->legalEntity()->dissociate();
 			$rent->delete();
 		}
-		$insurances = $artPiece->insurances()->get()
+		$insurances = $artPiece->insurances()->get();
 		foreach($insurances as $insurance)
 		{
-			$insurance->artPiece()->dissociate();
-			$insurance->insuranceCarrier()->dissociate();
 			$insurance->delete();
 		}
 		$artPiece->multimedia()->detach();

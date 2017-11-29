@@ -187,7 +187,7 @@ class ExhibitionController extends Controller
 		$exhibition->artPieces()->detach();
 		$exhibition->legalEntities()->detach();
 		$exhibition->delete();
-		return redirect('dashboard')->with('success' , 'Exhibición eliminada');
+		return redirect('/dashboard')->with('success' , 'Exhibición eliminada');
   }
 
 	public function showDeleteConfirmation($id)
@@ -199,7 +199,7 @@ class ExhibitionController extends Controller
 		}
 		else
 		{
-			return redirect('dashboard')->with('error' , 'Exhibición no encontrada');
+			return redirect('/dashboard')->with('error' , 'Exhibición no encontrada');
 		}
 
 	}
