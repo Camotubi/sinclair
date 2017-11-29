@@ -141,10 +141,10 @@
 
 		</li>
 		<li>
-			<a class="nav-fill" data-toggle="collapse" href="#collapse8" aria-expanded="false" aria-controls="collapseExample">
+			<a class="nav-fill" data-toggle="collapse" href="#collapse9" aria-expanded="false" aria-controls="collapseExample">
 				Publicaciones
 			</a>
-			<div id ="collapse8" class ="collapse">
+			<div id ="collapse9" class ="collapse">
 				<ul class="nav nav-pills flex-column">
 					<li class="nav-item">
 						<a class="nav-link" href="/publication">Ver</a>
@@ -157,10 +157,10 @@
 
 		</li>
 		<li>
-			<a class="nav-fill" data-toggle="collapse" href="#collapse9" aria-expanded="false" aria-controls="collapseExample">
+			<a class="nav-fill" data-toggle="collapse" href="#collapse10" aria-expanded="false" aria-controls="collapseExample">
 				Personas Relacionadas a Sinclair
 			</a>
-			<div id ="collapse9" class ="collapse">
+			<div id ="collapse10" class ="collapse">
 				<ul class="nav nav-pills flex-column">
 					<li class="nav-item">
 						<a class="nav-link" href="/sinclairPerson">Ver</a>
@@ -173,10 +173,10 @@
 
 		</li>
 		<li>
-			<a class="nav-fill" data-toggle="collapse" href="#collapse10" aria-expanded="false" aria-controls="collapseExample">
+			<a class="nav-fill" data-toggle="collapse" href="#collapse11" aria-expanded="false" aria-controls="collapseExample">
 				Etiquetas
 			</a>
-			<div id ="collapse10" class ="collapse">
+			<div id ="collapse11" class ="collapse">
 				<ul class="nav nav-pills flex-column">
 					<li class="nav-item">
 						<a class="nav-link" href="/tag">Ver</a>
@@ -189,10 +189,10 @@
 
 		</li>
 		<li>
-			<a class="nav-fill" data-toggle="collapse" href="#collapse11" aria-expanded="false" aria-controls="collapseExample">
+			<a class="nav-fill" data-toggle="collapse" href="#collapse12" aria-expanded="false" aria-controls="collapseExample">
 				Visitas
 			</a>
-			<div id ="collapse11" class ="collapse">
+			<div id ="collapse12" class ="collapse">
 				<ul class="nav nav-pills flex-column">
 					<li class="nav-item">
 						<a class="nav-link" href="/visit">Ver</a>
@@ -205,10 +205,10 @@
 
 		</li>
 		<li>
-			<a class="nav-fill" data-toggle="collapse" href="#collapse12" aria-expanded="false" aria-controls="collapseExample">
+			<a class="nav-fill" data-toggle="collapse" href="#collapse13" aria-expanded="false" aria-controls="collapseExample">
 				Visitantes
 			</a>
-			<div id ="collapse12" class ="collapse">
+			<div id ="collapse13" class ="collapse">
 				<ul class="nav nav-pills flex-column">
 					<li class="nav-item">
 						<a class="nav-link" href="/visitor">Ver</a>
