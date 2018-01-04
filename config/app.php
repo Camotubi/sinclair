@@ -229,7 +229,7 @@ return [
     ],
 
 
-    'enableGuards' => false,
+    'enableGuards' => true,
 
 
     'userType' => [
